@@ -1,4 +1,6 @@
 import './globals.css'
+import { StyledEngineProvider, CssBaseline } from '@/components/mui-material';
+
 
 export const metadata = {
   title: 'Create Next App',
@@ -10,9 +12,13 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+
   return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
+    <StyledEngineProvider injectFirst>
+      <CssBaseline />
+      <html lang="en">
+        <body>{children}</body>
+      </html>
+    </StyledEngineProvider>
   )
 }
