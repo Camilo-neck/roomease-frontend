@@ -27,7 +27,7 @@ export default function Home() {
             Get started by editing&nbsp;
             <code className={styles.code}>src/pages/index.tsx</code>
           </p>
-          <p>{user.name}</p>
+          <p>User: <code className={styles.code}>{user.name}</code></p>
           <Link href='/auth/login'>
           <Button
           variant='outlined'
