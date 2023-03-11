@@ -16,6 +16,9 @@ export default function Home() {
         <Button
         variant='outlined'
         className='text-[#D0BCFF] hover:bg-[#D0BCFF]/5 focus:bg-[#D0BCFF]/10 rounded-full border focus:border-[#D0BCFF] hover:border-[#938F99] border-[#938F99]'>Botón</Button>
+         <Button
+        variant='outlined'
+        className=''>Botón peye</Button>
         <Button
         variant='outlined'
         className='text-[#CDE5FF] hover:bg-[#CDE5FF]/5 focus:bg-[#CDE5FF]/10 rounded-full border focus:border-[#CDE5FF] hover:border-[#6F797A] border-[#6F797A]'>Botón</Button>
