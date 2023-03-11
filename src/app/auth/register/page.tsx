@@ -42,7 +42,7 @@ const Register = () => {
 				text-tertiary-99 shadow-none hover:shadow-md rounded-lg'>
 					Crear Cuenta
 				</Button>
-				<p className="text-neutral-30 text-md mt-5">¿Ya tienes una cuenta? <Link href='/auth/login' className="text-tertiary-50">Crear</Link></p>
+				<p className="text-neutral-30 text-md mt-5">¿Ya tienes una cuenta? <Link href='/auth/login' className="text-tertiary-50">Inicia sesión</Link></p>
 			</div>
 		</div>
 	);
