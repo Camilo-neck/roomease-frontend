@@ -50,7 +50,6 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
         <div className={styles.description}>
-
           {!user.name ? (
             <>
               <Link href='/auth/login'>
