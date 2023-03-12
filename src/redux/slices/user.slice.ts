@@ -15,6 +15,11 @@ export const UserSlice = createSlice({
 			state._id = action.payload.id;
 			state.name = action.payload.name;
 			state.email = action.payload.email;
+		},
+		deleteUser: (state) => {
+			state._id = null;
+			state.name = null;
+			state.email = null;
 		}
 	},
 	extraReducers: {
@@ -30,6 +35,6 @@ export const UserSlice = createSlice({
 	}
 });
 
-export const { setUser } = UserSlice.actions;
+export const { setUser, deleteUser } = UserSlice.actions;
 export const selectUser = (state: any) => state.user;
 export default UserSlice.reducer;
