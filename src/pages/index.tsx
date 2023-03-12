@@ -1,18 +1,45 @@
+// Next
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
+
+// Styles
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 
+// Material UI
 import { Button } from '@mui/material'
-import { useSelector } from 'react-redux'
+
+// Redux
+import { useSelector, useDispatch } from 'react-redux'
 import { selectUser } from '@/redux/slices/user.slice'
+import { logoutUser } from '@/controllers/auth.controllers'
+import { useEffect } from 'react'
+import { getCookie } from '@/lib/cookie'
+import jwt from 'jsonwebtoken'
+import { fetchUserInfo } from '@/redux/thunks/user.thunk'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
   const user = useSelector(selectUser)
-  
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    // Fetch the user
+    async function f() {
+      const cookie = getCookie('auth-token')
+      if (cookie) {
+        const decoded: any = jwt.decode(cookie)
+        if (decoded) {
+          const { _id } = decoded
+          dispatch(fetchUserInfo(_id, cookie))
+        }
+      }
+    }
+    f()
+  }, [])
+
   return (
     <>
       <Head>
@@ -28,23 +55,32 @@ export default function Home() {
             <code className={styles.code}>src/pages/index.tsx</code>
           </p>
           <p>{user.name}</p>
-          <Link href='/auth/login'>
-          <Button
-          variant='outlined'
-          className='text-[#D0BCFF] hover:bg-[#D0BCFF]/5 focus:bg-[#D0BCFF]/10 rounded-full border focus:border-[#D0BCFF] hover:border-[#938F99] border-[#938F99]'>
-            Login
-          </Button>
-        </Link>
-        {/* <Button
-        variant='outlined'
-        className=''>Botón peye</Button> */}
-        <Link href='/auth/register'>
-          <Button
-          variant='outlined'
-          className='text-[#CDE5FF] hover:bg-[#CDE5FF]/5 focus:bg-[#CDE5FF]/10 rounded-full border focus:border-[#CDE5FF] hover:border-[#6F797A] border-[#6F797A]'>
-            Register
-          </Button>
-        </Link>
+
+          {!user.name ? (
+            <>
+              <Link href='/auth/login'>
+                <Button
+                  variant='outlined'
+                  className='text-[#D0BCFF] hover:bg-[#D0BCFF]/5 focus:bg-[#D0BCFF]/10 rounded-full border focus:border-[#D0BCFF] hover:border-[#938F99] border-[#938F99]'>
+                  Login
+                </Button>
+              </Link>
+              <Link href='/auth/register'>
+                <Button
+                  variant='outlined'
+                  className='text-[#CDE5FF] hover:bg-[#CDE5FF]/5 focus:bg-[#CDE5FF]/10 rounded-full border focus:border-[#CDE5FF] hover:border-[#6F797A] border-[#6F797A]'>
+                  Register
+                </Button>
+              </Link>
+            </>
+          ) :
+            <Button
+              variant='outlined'
+              onClick={() => dispatch(logoutUser())}
+              className='text-error-30 hover:bg-error-30/5 focus:bg-error-30/10 rounded-full border focus:border-neutral-30 hover:border-error-20 border-neutral-30'>
+              Logout
+            </Button>
+          }
           <div>
             <a
               href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"

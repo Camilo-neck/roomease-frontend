@@ -10,6 +10,7 @@ export const store = () => configureStore({
 		// Add your reducers here
 		user: userReducer,
 	},
+	devTools: true,
 });
 
 export type AppStore = ReturnType<typeof store>;
