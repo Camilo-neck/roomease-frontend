@@ -26,7 +26,7 @@ const Login = () => {
 	const onSubmit = async (data: any) => {
 		console.log(data);
 		dispatch(loginUser(data));
-		router.push('/app');
+		router.push('/app/houses');
 		reset();
 	};
 

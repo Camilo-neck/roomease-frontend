@@ -22,7 +22,7 @@ import { useRouter } from 'next/navigation'
 
 const inter = Inter({ subsets: ['latin'] })
 
-const App = () => {
+const Houses = () => {
   const user = useSelector(selectUser)
   const dispatch = useDispatch();
   const router = useRouter();
@@ -111,4 +111,4 @@ const App = () => {
   )
 };
 
-export default App;
+export default Houses;
