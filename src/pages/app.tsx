@@ -2,7 +2,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation';
 
 // Styles
 import { Inter } from 'next/font/google'
@@ -19,11 +18,12 @@ import { useEffect } from 'react'
 import { getCookie } from '@/lib/cookie'
 import jwt from 'jsonwebtoken'
 import { fetchUserInfo } from '@/redux/thunks/user.thunk'
+import { useRouter } from 'next/navigation'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home() {
-  const user = useSelector(selectUser);
+const App = () => {
+  const user = useSelector(selectUser)
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -79,7 +79,7 @@ export default function Home() {
               </p>
               <Button
                 variant='outlined'
-                onClick={() => dispatch(logoutUser())}
+                onClick={() => {dispatch(logoutUser());;router.push('/');}}
                 className='text-error-30 hover:bg-error-30/5 focus:bg-error-30/10 rounded-full border focus:border-neutral-30 hover:border-error-20 border-neutral-30'>
                 Logout
               </Button>
@@ -109,4 +109,6 @@ export default function Home() {
       </main>
     </>
   )
-}
+};
+
+export default App;
