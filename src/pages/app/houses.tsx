@@ -3,12 +3,21 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 
+// React
+import { useState } from 'react'
+
 // Styles
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 
 // Material UI
-import { Button } from '@mui/material'
+import { Button, ToggleButton, ToggleButtonGroup, IconButton } from '@mui/material'
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import AccountBoxOutlinedIcon from '@mui/icons-material/AccountBoxOutlined';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import ListRoundedIcon from '@mui/icons-material/ListRounded';
+import AddHomeRoundedIcon from '@mui/icons-material/AddHomeRounded';
+import GridViewRoundedIcon from '@mui/icons-material/GridViewRounded';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux'
@@ -22,25 +31,58 @@ import { useRouter } from 'next/navigation'
 
 const inter = Inter({ subsets: ['latin'] })
 
-const Houses = () => {
-  const user = useSelector(selectUser)
-  const dispatch = useDispatch();
-  const router = useRouter();
+const houses = [
+  {
+    name: 'Casa de la playa',
+    description: 'Casa de la playa de la familia',
+  },
+  {
+    name: 'Casa de la playa',
+    description: 'Casa de la playa de la familia',
+  },
+  {
+    name: 'Casa de la playa',
+    description: 'Casa de la playa de la familia',
+  },
+  {
+    name: 'Casa de la playa',
+    description: 'Casa de la playa de la familia',
+  },
+  {
+    name: 'Casa de la playa',
+    description: 'Casa de la playa de la familia',
+  },
+]
 
-  useEffect(() => {
-    // Fetch the user
-    async function f() {
-      const cookie = getCookie('auth-token')
-      if (cookie) {
-        const decoded: any = jwt.decode(cookie)
-        if (decoded) {
-          const { _id } = decoded
-          dispatch(fetchUserInfo(_id, cookie))
+const GridHouseCard = ({ name, description }: { name: string; description: string }) => {
+  return (
+    <div className="flex flex-col w-[20vw] h-[20vh] bg-primary-40/5 rounded-lg p-3">
+      <p className="font-semibold text-xl">{name}</p>
+      <p className="text-sm">{description}</p>
+    </div>
+  )
+}
+
+  const Houses = () => {
+    const user = useSelector(selectUser)
+    const dispatch = useDispatch();
+    const [view, setView] = useState('grid')
+
+    useEffect(() => {
+      // Fetch the user
+      async function f() {
+        const cookie = getCookie('auth-token')
+        if (cookie) {
+          const decoded: any = jwt.decode(cookie)
+          if (decoded) {
+            const { _id } = decoded
+            dispatch(fetchUserInfo(_id, cookie))
+          }
         }
       }
-    }
-    f()
-  }, [])
+      f()
+    }, [])
+
 
   return (
     <>
@@ -50,61 +92,85 @@ const Houses = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <div className={styles.description}>
-          {!user.name ? (
-            <>
-              <Link href='/auth/login'>
-                <Button
-                  variant='outlined'
-                  className='text-[#D0BCFF] hover:bg-[#D0BCFF]/5 focus:bg-[#D0BCFF]/10 rounded-full border focus:border-[#D0BCFF] hover:border-[#938F99] border-[#938F99]'>
-                  Login
-                </Button>
-              </Link>
-              <Link href='/auth/register'>
-                <Button
-                  variant='outlined'
-                  className='text-[#CDE5FF] hover:bg-[#CDE5FF]/5 focus:bg-[#CDE5FF]/10 rounded-full border focus:border-[#CDE5FF] hover:border-[#6F797A] border-[#6F797A]'>
-                  Register
-                </Button>
-              </Link>
-            </>
-          ) :
-            <>
-              <p>
-                Nombre: <span className={styles.code}>{user.name}</span>
-              </p>
-              <p>
-                Email: <span className={styles.code}>{user.email}</span>
-              </p>
-              <Button
-                variant='outlined'
-                onClick={() => {dispatch(logoutUser());;router.push('/');}}
-                className='text-error-30 hover:bg-error-30/5 focus:bg-error-30/10 rounded-full border focus:border-neutral-30 hover:border-error-20 border-neutral-30'>
-                Logout
-              </Button>
-            </>
-          }
-          <div>
+      <main className="bg-[#FAFDFD] h-screen">
+        <div className='bg-primary-40/5 h-screen flex flex-col items-center'>
+          <div className="w-full min-w-full items-center flex flex-row p-2">
+            <p className="font-bold text-xl text-primary-20 flex-grow">Roomease</p>
+            <div className="flex flex-row gap-3 mr-5">
+              <IconButton>
+                <AccountBoxOutlinedIcon className="text-primary-20" />
+              </IconButton>
+              <IconButton>
+                <HomeOutlinedIcon className="text-primary-20" />
+              </IconButton>
+              <IconButton>
+                <SettingsOutlinedIcon className="text-primary-20" />
+              </IconButton>
+            </div>
           </div>
-        </div>
+          <hr className='border border-neutral_variant-80 w-full' />
+          <div className="flex w-[80vw] h-screen items-center justify-center">
+            <div className='flex flex-col w-full h-[80vh] p-3 gap-8'>
+              <div className="flex flex-row h-fit w-full">
+                <div className="flex flex-grow items-center">
+                  <Image src="/houses_icon.png" alt='homes icon' width={45} height={45} />
+                  <p className="font-semibold text-3xl">Mis casas</p>
+                </div>
+                <IconButton
+                  className='bg-primary-40 hover:bg-primary-40/90 active:bg-primary-40 focus:bg-primary-40
+                text-white hover:text-primary-95 transition-colors ease-linear duration-200 h-fit'
+                >
+                  <AddHomeRoundedIcon />
+                </IconButton>
+              </div>
+              <div className="flex flex-col gap-3">
+                <div className="flex flex-col w-full items-end">
+                  <ToggleButtonGroup
+                    className='self-end'
+                    value={view}
+                    onChange={(e, newAlignment) => setView(newAlignment)}
+                    exclusive
+                  >
+                    <ToggleButton
+                      value="list"
+                    >
+                      <ListRoundedIcon />
+                    </ToggleButton>
 
-        <div className={styles.center}>
-          <Image
-            src="/auth-coliving-people.png"
-            alt="Next.js Logo"
-            width={420}
-            height={100}
-            priority
-          />
-          <div className={styles.thirteen}>
-            <p className='text-2xl font-bold font-mono'>RE</p>
+                    <ToggleButton
+                      value="grid"
+                    >
+                      <GridViewRoundedIcon />
+                    </ToggleButton>
+                  </ToggleButtonGroup>
+                </div>
+
+                <div className={`flex ${ view === "grid" ? "flex-row flex-wrap" : "flex-col" } gap-10`}>
+                  {
+                    view === 'grid' ?
+                      houses.map((house, index) => (
+                        <GridHouseCard
+                          key={index}
+                          name={house.name}
+                          description={house.description}
+                        />
+                      ))
+                      :
+                      <>
+                        <div className="flex flex-col w-full h-full bg-primary-40/5 rounded-lg p-3">
+                          <p className="font-semibold text-xl">Casa de la playa</p>
+                          <p className="text-sm">Casa de la playa de la familia</p>
+                        </div>
+                        <div className="flex flex-col w-full h-full bg-primary-40/5 rounded-lg p-3">
+                          <p className="font-semibold text-xl">Casa de la playa</p>
+                          <p className="text-sm">Casa de la playa de la familia</p>
+                        </div>
+                      </>
+                  }
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div className={styles.center}>
-          <p className='text-xl font-semibold font-mono'>
-            Lo mejor para convivir con tus Roomies y llevar una vida más sana y feliz.
-          </p>
         </div>
       </main>
     </>
