@@ -16,6 +16,7 @@ const ListHouseCard = ({
 				width={300}
 				height={250}
 				className="rounded-t-lg"
+				priority
 			/>
 			<div className="flex flex-col gap-1 p-5 w-full">
 				<p className="font-semibold text-2xl">{name}</p>
