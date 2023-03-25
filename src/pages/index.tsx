@@ -2,6 +2,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation';
 
 // Styles
 import { Inter } from 'next/font/google'
@@ -22,8 +23,9 @@ import { fetchUserInfo } from '@/redux/thunks/user.thunk'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
-  const user = useSelector(selectUser)
-  const dispatch = useDispatch()
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   useEffect(() => {
     // Fetch the user
