@@ -34,23 +34,23 @@ const inter = Inter({ subsets: ['latin'] })
 const houses = [
   {
     name: 'Casa de la playa',
-    description: 'Casa de la playa de la familia',
+    description: 'Casa de la playa de la familia ',
   },
   {
     name: 'Casa de la playa',
-    description: 'Casa de la playa de la familia',
+    description: 'Casa de la playa de la familia ',
   },
   {
     name: 'Casa de la playa',
-    description: 'Casa de la playa de la familia',
+    description: 'Casa de la playa de la familia ',
   },
   {
     name: 'Casa de la playa',
-    description: 'Casa de la playa de la familia',
+    description: 'Casa de la playa de la familia ',
   },
   {
     name: 'Casa de la playa',
-    description: 'Casa de la playa de la familia',
+    description: 'Casa de la playa de la familia ',
   },
 ]
 
@@ -80,6 +80,44 @@ const GridHouseCard = ({ name, description }: { name: string; description: strin
           variant='outlined' 
           className='bg-tertiary-80/30 hover:bg-tertiary-80/50 active:bg-tertiary-80/70 border-tertiary-20 
           hover:border-tertiary-20 text-tertiary-20 rounded-full'>
+            Abrir
+          </Button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const ListHouseCard = ({ name, description }: { name: string; description: string }) => {
+  return (
+    <div className="flex flex-row bg-white shadow-lg rounded-lg">
+      <Image src="/house_placeholder.jpg" alt="house placeholder" width={300} height={250} className="rounded-t-lg" />
+      <div className='flex flex-col gap-1 p-5 w-full'>
+        <p className="font-semibold text-2xl">{name}</p>
+        <Rating className='flex-grow' name="read-only" value={4} size='medium' readOnly />
+        <p className='max-h-24 line-clamp-3'>
+          {description+description+description+description+description+description+description+description+description+description+description+description+description+description+description+description+description+description+description+description+description+description+description+description+description+description+description+description+description+description}
+        </p>
+        <div className='flex flex-row w-full'>
+          <div className='flex flex-col gap-1 flex-grow'>
+            <p className='font-semibold'>Integrantes:</p>
+            <AvatarGroup max={3} sx={{
+              '& .MuiAvatar-root': {
+                width: 35,
+                height: 35,
+                fontSize: '14px',
+              },
+            }} className='flex-grow flex justify-end text-sm'>
+              <Avatar alt="Remy Sharp" src="/avatar_placeholder.webp" />
+              <Avatar alt="Travis Howard" src="/avatar_placeholder.webp" />
+              <Avatar alt="Cindy Baker" src="/avatar_placeholder.webp" />
+              <Avatar alt="Cindy Baker" src="/avatar_placeholder.webp" />
+            </AvatarGroup>
+          </div>
+          <Button size='small'
+            variant='outlined'
+            className='bg-tertiary-80/30 hover:bg-tertiary-80/50 active:bg-tertiary-80/70 border-tertiary-20
+          hover:border-tertiary-20 text-tertiary-20 rounded-full h-fit self-end'>
             Abrir
           </Button>
         </div>
@@ -169,29 +207,31 @@ const GridHouseCard = ({ name, description }: { name: string; description: strin
                     </ToggleButton>
                   </ToggleButtonGroup>
                 </div>
-
-                <div className={`flex w-full ${ view === "grid" ? "flex-row flex-wrap" : "flex-col" } gap-14 `}>
-                  {
-                    view === 'grid' ?
-                      houses.map((house, index) => (
-                        <GridHouseCard
-                          key={index}
-                          name={house.name}
-                          description={house.description}
-                        />
-                      ))
-                      :
-                      <>
-                        <div className="flex flex-col w-full h-full bg-primary-40/5 rounded-lg p-3">
-                          <p className="font-semibold text-xl">Casa de la playa</p>
-                          <p className="text-sm">Casa de la playa de la familia</p>
-                        </div>
-                        <div className="flex flex-col w-full h-full bg-primary-40/5 rounded-lg p-3">
-                          <p className="font-semibold text-xl">Casa de la playa</p>
-                          <p className="text-sm">Casa de la playa de la familia</p>
-                        </div>
-                      </>
-                  }
+                
+                <div className="w-full h-[68vh] overflow-y-auto rounded-lg">
+                  <div 
+                  className={`flex w-full
+                  ${ view === "grid" ? "flex-row flex-wrap" : "flex-col pr-5" } 
+                  gap-14 max-h-full`}>
+                    {
+                      view === 'grid' ?
+                        houses.map((house, index) => (
+                          <GridHouseCard
+                            key={index}
+                            name={house.name}
+                            description={house.description}
+                          />
+                        ))
+                        :
+                        houses.map((house, index) => (
+                          <ListHouseCard
+                            key={index}
+                            name={house.name}
+                            description={house.description}
+                          />
+                        ))
+                    }
+                  </div>
                 </div>
               </div>
             </div>
