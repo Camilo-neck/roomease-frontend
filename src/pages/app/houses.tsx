@@ -19,6 +19,10 @@ import ListRoundedIcon from '@mui/icons-material/ListRounded';
 import AddHomeRoundedIcon from '@mui/icons-material/AddHomeRounded';
 import GridViewRoundedIcon from '@mui/icons-material/GridViewRounded';
 
+// Components
+import GridHouseCard from '@/components/gridHouseCard'
+import ListHouseCard from '@/components/listHouseCard'
+
 // Redux
 import { useSelector, useDispatch } from 'react-redux'
 import { selectUser } from '@/redux/slices/user.slice'
@@ -54,97 +58,26 @@ const houses = [
   },
 ]
 
-const GridHouseCard = ({ name, description }: { name: string; description: string }) => {
-  return (
-    <div className="flex flex-col bg-white shadow-lg rounded-lg">
-      <Image src="/house_placeholder.jpg" alt="house placeholder" width={300} height={250} className="rounded-t-lg" />
-      <div className='flex flex-col gap-2 p-5'>
-        <div className='flex flex-row w-full items-center'>
-          <p className="font-semibold text-lg flex-grow">{name}</p>
-          <AvatarGroup max={3} sx={{
-            '& .MuiAvatar-root': {
-              width: 24,
-              height: 24,
-              fontSize: '14px',
-            },
-          }} className='flex-grow flex justify-end w-6 h-6 text-sm'>
-            <Avatar alt="Remy Sharp" className='w-6 h-6' src="/avatar_placeholder.webp" />
-            <Avatar alt="Travis Howard" className='w-6 h-6' src="/avatar_placeholder.webp" />
-            <Avatar alt="Cindy Baker" className='w-6 h-6' src="/avatar_placeholder.webp" />
-            <Avatar alt="Cindy Baker" className='w-6 h-6' src="/avatar_placeholder.webp" />
-          </AvatarGroup>
-        </div>
-        <div className='flex flex-row w-full items-center'>
-          <Rating className='flex-grow' name="read-only" value={4} size='small' readOnly />
-          <Button size='small' 
-          variant='outlined' 
-          className='bg-tertiary-80/30 hover:bg-tertiary-80/50 active:bg-tertiary-80/70 border-tertiary-20 
-          hover:border-tertiary-20 text-tertiary-20 rounded-full'>
-            Abrir
-          </Button>
-        </div>
-      </div>
-    </div>
-  )
-}
 
-const ListHouseCard = ({ name, description }: { name: string; description: string }) => {
-  return (
-    <div className="flex flex-row bg-white shadow-lg rounded-lg">
-      <Image src="/house_placeholder.jpg" alt="house placeholder" width={300} height={250} className="rounded-t-lg" />
-      <div className='flex flex-col gap-1 p-5 w-full'>
-        <p className="font-semibold text-2xl">{name}</p>
-        <Rating className='flex-grow' name="read-only" value={4} size='medium' readOnly />
-        <p className='max-h-24 line-clamp-3'>
-          {description+description+description+description+description+description+description+description+description+description+description+description+description+description+description+description+description+description+description+description+description+description+description+description+description+description+description+description+description+description}
-        </p>
-        <div className='flex flex-row w-full'>
-          <div className='flex flex-col gap-1 flex-grow'>
-            <p className='font-semibold'>Integrantes:</p>
-            <AvatarGroup max={3} sx={{
-              '& .MuiAvatar-root': {
-                width: 35,
-                height: 35,
-                fontSize: '14px',
-              },
-            }} className='flex-grow flex justify-end text-sm'>
-              <Avatar alt="Remy Sharp" src="/avatar_placeholder.webp" />
-              <Avatar alt="Travis Howard" src="/avatar_placeholder.webp" />
-              <Avatar alt="Cindy Baker" src="/avatar_placeholder.webp" />
-              <Avatar alt="Cindy Baker" src="/avatar_placeholder.webp" />
-            </AvatarGroup>
-          </div>
-          <Button size='small'
-            variant='outlined'
-            className='bg-tertiary-80/30 hover:bg-tertiary-80/50 active:bg-tertiary-80/70 border-tertiary-20
-          hover:border-tertiary-20 text-tertiary-20 rounded-full h-fit self-end'>
-            Abrir
-          </Button>
-        </div>
-      </div>
-    </div>
-  )
-}
+const Houses = () => {
+  const user = useSelector(selectUser)
+  const dispatch = useDispatch();
+  const [view, setView] = useState('grid')
 
-  const Houses = () => {
-    const user = useSelector(selectUser)
-    const dispatch = useDispatch();
-    const [view, setView] = useState('grid')
-
-    useEffect(() => {
-      // Fetch the user
-      async function f() {
-        const cookie = getCookie('auth-token')
-        if (cookie) {
-          const decoded: any = jwt.decode(cookie)
-          if (decoded) {
-            const { _id } = decoded
-            dispatch(fetchUserInfo(_id, cookie))
-          }
+  useEffect(() => {
+    // Fetch the user
+    async function f() {
+      const cookie = getCookie('auth-token')
+      if (cookie) {
+        const decoded: any = jwt.decode(cookie)
+        if (decoded) {
+          const { _id } = decoded
+          dispatch(fetchUserInfo(_id, cookie))
         }
       }
-      f()
-    }, [])
+    }
+    f()
+  }, [])
 
 
   return (
@@ -207,11 +140,11 @@ const ListHouseCard = ({ name, description }: { name: string; description: strin
                     </ToggleButton>
                   </ToggleButtonGroup>
                 </div>
-                
+
                 <div className="w-full h-[68vh] overflow-y-auto rounded-lg">
-                  <div 
-                  className={`flex w-full
-                  ${ view === "grid" ? "flex-row flex-wrap" : "flex-col pr-5" } 
+                  <div
+                    className={`flex w-full
+                  ${view === "grid" ? "flex-row flex-wrap" : "flex-col pr-5"} 
                   gap-14 max-h-full`}>
                     {
                       view === 'grid' ?
