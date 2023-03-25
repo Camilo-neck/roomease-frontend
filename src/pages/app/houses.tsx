@@ -11,7 +11,7 @@ import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 
 // Material UI
-import { Button, ToggleButton, ToggleButtonGroup, IconButton } from '@mui/material'
+import { Button, ToggleButton, ToggleButtonGroup, IconButton, AvatarGroup, Avatar, Rating } from '@mui/material'
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import AccountBoxOutlinedIcon from '@mui/icons-material/AccountBoxOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
@@ -56,9 +56,34 @@ const houses = [
 
 const GridHouseCard = ({ name, description }: { name: string; description: string }) => {
   return (
-    <div className="flex flex-col w-[20vw] h-[20vh] bg-primary-40/5 rounded-lg p-3">
-      <p className="font-semibold text-xl">{name}</p>
-      <p className="text-sm">{description}</p>
+    <div className="flex flex-col bg-white shadow-lg rounded-lg">
+      <Image src="/house_placeholder.jpg" alt="house placeholder" width={300} height={250} className="rounded-t-lg" />
+      <div className='flex flex-col gap-2 p-5'>
+        <div className='flex flex-row w-full items-center'>
+          <p className="font-semibold text-lg flex-grow">{name}</p>
+          <AvatarGroup max={3} sx={{
+            '& .MuiAvatar-root': {
+              width: 24,
+              height: 24,
+              fontSize: '14px',
+            },
+          }} className='flex-grow flex justify-end w-6 h-6 text-sm'>
+            <Avatar alt="Remy Sharp" className='w-6 h-6' src="/avatar_placeholder.webp" />
+            <Avatar alt="Travis Howard" className='w-6 h-6' src="/avatar_placeholder.webp" />
+            <Avatar alt="Cindy Baker" className='w-6 h-6' src="/avatar_placeholder.webp" />
+            <Avatar alt="Cindy Baker" className='w-6 h-6' src="/avatar_placeholder.webp" />
+          </AvatarGroup>
+        </div>
+        <div className='flex flex-row w-full items-center'>
+          <Rating className='flex-grow' name="read-only" value={4} size='small' readOnly />
+          <Button size='small' 
+          variant='outlined' 
+          className='bg-tertiary-80/30 hover:bg-tertiary-80/50 active:bg-tertiary-80/70 border-tertiary-20 
+          hover:border-tertiary-20 text-tertiary-20 rounded-full'>
+            Abrir
+          </Button>
+        </div>
+      </div>
     </div>
   )
 }
@@ -117,13 +142,13 @@ const GridHouseCard = ({ name, description }: { name: string; description: strin
                   <p className="font-semibold text-3xl">Mis casas</p>
                 </div>
                 <IconButton
-                  className='bg-primary-40 hover:bg-primary-40/90 active:bg-primary-40 focus:bg-primary-40
+                  className='bg-tertiary-60 hover:bg-tertiary-60/90 active:bg-tertiary-60 focus:bg-tertiary-60
                 text-white hover:text-primary-95 transition-colors ease-linear duration-200 h-fit'
                 >
                   <AddHomeRoundedIcon />
                 </IconButton>
               </div>
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-3 items-center w-full">
                 <div className="flex flex-col w-full items-end">
                   <ToggleButtonGroup
                     className='self-end'
@@ -145,7 +170,7 @@ const GridHouseCard = ({ name, description }: { name: string; description: strin
                   </ToggleButtonGroup>
                 </div>
 
-                <div className={`flex ${ view === "grid" ? "flex-row flex-wrap" : "flex-col" } gap-10`}>
+                <div className={`flex w-full ${ view === "grid" ? "flex-row flex-wrap" : "flex-col" } gap-14 `}>
                   {
                     view === 'grid' ?
                       houses.map((house, index) => (
