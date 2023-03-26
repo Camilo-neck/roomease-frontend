@@ -50,7 +50,7 @@ const Register = () => {
 								<DatePicker
 								{...field}
 								inputRef={ref}
-								label="Date"
+								label="Fecha de nacimiento"
 								className='w-96'
 								slotProps={{
 									textField: {
