@@ -114,7 +114,7 @@ const Houses = () => {
                 </div>
                 <IconButton
                   className='bg-tertiary-60 hover:bg-tertiary-60/90 active:bg-tertiary-60 focus:bg-tertiary-60
-                text-white hover:text-primary-95 transition-colors ease-linear duration-200 h-fit'
+                text-white hover:text-tertiary-95 transition-colors ease-linear duration-200 h-fit'
                 >
                   <AddHomeRoundedIcon />
                 </IconButton>

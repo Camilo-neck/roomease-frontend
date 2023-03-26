@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 
 export const loginUser = (user: {email: string; password: string}): any => async (dispatch: (arg0: { payload: any; type: string; }) => void) => {
 	try {
-		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
 			method: 'POST',
 			headers: {
 				'Accept': '*/*',
@@ -38,7 +38,7 @@ export const loginUser = (user: {email: string; password: string}): any => async
 
 export async function registerUser(user: any) {
 	try {
-		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/register`, {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/register`, {
 			method: 'POST',
 			headers: {
 				'Accept': '*/*',
