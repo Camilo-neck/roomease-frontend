@@ -38,9 +38,8 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import StarBorder from '@mui/icons-material/StarBorder';
 import PersonIcon from '@mui/icons-material/Person';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import CircleIcon from '@mui/icons-material/Circle';
 import Avatar from '@mui/material/Avatar';
-import Stack from '@mui/material/Stack';
+import ButtonGroup from '@mui/material/ButtonGroup';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux'
@@ -93,7 +92,7 @@ const getUsers = () => {
 
 const MediaCard= ({ name, description, address, picture}: { name: string; description: string, address: string, picture: string }) => {
     return (
-        <Card sx={{ maxWidth: 345 }}>
+        <Card className='shadow-lg rounded-lg' sx={{ maxWidth: 345 }}>
           <CardMedia
             sx={{ height: 150 }}
             image={picture}
@@ -178,18 +177,18 @@ const NestedList = () => {
                 <ListItemIcon>
                     <PersonIcon />
                 </ListItemIcon>
-                <ListItemText className='font-semibold' primary="Miembros" />
+                <ListItemText primary="Miembros" />
                 {open1 ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={open1} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
                     {
                     users.members.map((user, id) => (
-                        <ListItemButton key={id} sx={{ pl: 4, paddingTop:-4 }}>
+                        <ListItemButton key={id} sx={{ pl: 4}}>
                             <ListItemIcon>
                                 <Avatar {...stringAvatar(user.name + ' ' + user.lastName)} />
                             </ListItemIcon>
-                            <ListItemText primary={user.name + ' ' + user.lastName}   />
+                            <ListItemText primary={user.name + ' ' + user.lastName} />
                         </ListItemButton>
                     ))
                     }
@@ -222,7 +221,7 @@ const NestedList = () => {
 
 const PeopleCard = () => {
     return (
-      <Card sx={{ maxWidth: 345}}>
+      <Card className='shadow-lg rounded-lg'>
         <CardContent>
             <NestedList />
         </CardContent>
@@ -283,14 +282,16 @@ useEffect(() => {
             {/*Main*/}
             <div className='w-full h-full grid grid-cols-6'>
                 {/* Sidebar */}
-                <div className='bg-primary-30 col-span-1'>
-                    {/* House card */}
-                    <div className='p-5 items-center'>
-                        <MediaCard name={house.name} address ={house.address} description = {house.description} picture = {house.picture} />
-                    </div>
-                    {/* House members */}
-                    <div className='p-5'>
-                        <PeopleCard />
+                <div className='bg-primary-95 col-span-1'>
+                    <div className='bg-primary-40/10 h-full'>
+                        {/* House card */}
+                        <div className='p-5 items-center'>
+                            <MediaCard name={house.name} address ={house.address} description = {house.description} picture = {house.picture} />
+                        </div>
+                        {/* House members */}
+                        <div className='p-5 pt-0'>
+                            <PeopleCard />
+                        </div>
                     </div>
                 </div>
                 {/* Content */}

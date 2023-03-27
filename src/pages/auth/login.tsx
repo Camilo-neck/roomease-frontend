@@ -1,4 +1,5 @@
 import { useForm } from 'react-hook-form'
+import Head from 'next/head'
 import { Button, TextField } from '@mui/material';
 import Link from 'next/link';
 import { useRef } from 'react';
@@ -31,6 +32,10 @@ const Login = () => {
 	};
 
 	return (
+		<>
+		<Head>
+			<title>Iniciar sesión</title>
+		</Head>
 		<AuthLayout>
 			<div className="flex flex-col items-center w-full px-8">
 				<p className="text-neutral-10 text-2xl font-extrabold">Iniciar sesión</p>
@@ -55,6 +60,7 @@ const Login = () => {
 				<p className="text-neutral-30 text-md mt-5">¿No tienes una cuenta? <Link href='/auth/register' className="text-tertiary-50">Regístrate</Link></p>
 			</div>
 		</AuthLayout>
+		</>
 	);
 };
 
