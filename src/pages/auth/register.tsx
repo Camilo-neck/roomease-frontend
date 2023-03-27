@@ -26,52 +26,66 @@ const Register = () => {
 	const onSubmit = (data: any) => {
 		console.log(data);
 		console.log(new Date(data.date));
-		// registerUser(data)
-		// router.push('/auth/login');
-		// reset();
+		const tmp_data = Object.assign({}, data);
+		tmp_data.birth_date = new Date(data.birth_date);
+		tmp_data.tags = tmp_data.tags.split(',').map((tag: string) => tag.trim());
+		console.log(tmp_data)
+		registerUser(tmp_data)
+		router.push('/auth/login');
+		reset();
 	};
 
-	console.log(watch("birthdate"))
 	return (
 		<AuthLayout>
 			<div className="flex flex-col items-center w-full px-8">
 					<p className="text-neutral-10 text-2xl font-extrabold">Crear cuenta</p>
 					<form id='loginForm' ref={formRef} className="flex flex-col self-center items-center w-full my-5 px-24 gap-5" onSubmit={handleSubmit(onSubmit)}>
-						<TextField error={errors.name ? true : false} helperText={errors.fullname ? `${errors.fullname?.message}` : ''} className='w-96' type='text' label="Nombre Completo" variant='standard' {...register('name', { required: "Debe ingresar su nombre completo" })} />
-						<TextField error={errors.email ? true : false} helperText={errors.email ? `${errors.email?.message}` : ''} className='w-96' type='email' label="Correo" variant='standard' {...register('email', { required: "Debe ingresar su correo" })} />
-						<TextField error={errors.phone ? true : false} 
-							helperText={errors.phone ? `${errors.phone?.message}` : ''} 
-							className='w-96' type='tel' label="Número Telefónico" variant='standard' 
-							{...register('phone', { required: "Debe ingresar su número telefónico" })} />
-						<Controller
-							control={control}
-							name="date"
-							render={({ field: { ref, onBlur, name, ...field }, fieldState }) => (
-								<DatePicker
-								{...field}
-								inputRef={ref}
-								label="Fecha de nacimiento"
-								className='w-96'
-								slotProps={{
-									textField: {
-										variant: 'standard',
-									},
-								}}
-								slots={{
-									textField: (inputProps: JSX.IntrinsicAttributes & TextFieldProps) => (
-									<TextField
-									{...inputProps}
-									onBlur={onBlur}
-									name={name}
-									error={!!fieldState.error}
-									helperText={fieldState.error?.message}
+						<TextField error={errors.name ? true : false} 
+							helperText={errors.fullname ? `${errors.fullname?.message}` : ''} className='w-96' type='text' 
+							label="Nombre Completo" variant='standard' 
+							{...register('name', { required: "Debe ingresar su nombre completo" })} />
+						<TextField error={errors.email ? true : false} 
+							helperText={errors.email ? `${errors.email?.message}` : ''} className='w-96' type='email' 
+							label="Correo" variant='standard' 
+							{...register('email', { required: "Debe ingresar su correo" })} />
+						<TextField error={errors.tags ? true : false}
+						helperText='Debe ingresar etiquetas separada por comas'
+						className='w-96' type='text' label="Etiquetas" variant='standard'
+						{...register('tags', {required: true, pattern: /^([a-z0-9\s]+,)*([a-z0-9\s]+){1}$/i})}  />
+						<div className='flex flex-row gap-2 w-96'>
+							<Controller
+								control={control}
+								name="birth_date"
+								render={({ field: { ref, onBlur, name, ...field }, fieldState }) => (
+									<DatePicker
+									{...field}
+									inputRef={ref}
+									label="Date"
+									slotProps={{
+										textField: {
+											variant: 'standard',
+										},
+									}}
+									slots={{
+										textField: (inputProps: JSX.IntrinsicAttributes & TextFieldProps) => (
+										<TextField
+										{...inputProps}
+										onBlur={onBlur}
+										name={name}
+										error={!!fieldState.error}
+										helperText={fieldState.error?.message}
+										/>
+										)
+									}}
+									
 									/>
-									)
-								}}
-								
+								)}
 								/>
-							)}
-							/>
+							<TextField error={errors.phone ? true : false} 
+								helperText={errors.phone ? `${errors.phone?.message}` : ''} 
+								fullWidth type='tel' label="Número Telefónico" variant='standard' 
+								{...register('phone', { required: "Debe ingresar su número telefónico" })} />
+							</div>
 						<TextField type={'text'} label='Descripción' variant='standard' className='w-96' 
 						{...register('description', { required: "Debe ingresar su descripción" })} 
 						maxRows={4} minRows={2} multiline
