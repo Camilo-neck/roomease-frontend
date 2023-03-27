@@ -36,6 +36,10 @@ import SendIcon from '@mui/icons-material/Send';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import StarBorder from '@mui/icons-material/StarBorder';
+import PersonIcon from '@mui/icons-material/Person';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import Avatar from '@mui/material/Avatar';
+import ButtonGroup from '@mui/material/ButtonGroup';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux'
@@ -88,7 +92,7 @@ const getUsers = () => {
 
 const MediaCard= ({ name, description, address, picture}: { name: string; description: string, address: string, picture: string }) => {
     return (
-        <Card sx={{ maxWidth: 345 }}>
+        <Card className='shadow-lg rounded-lg' sx={{ maxWidth: 345 }}>
           <CardMedia
             sx={{ height: 150 }}
             image={picture}
@@ -113,6 +117,39 @@ const MediaCard= ({ name, description, address, picture}: { name: string; descri
     );
 }
 
+function stringToColor(string: string) {
+  let hash = 0;
+  let i;
+
+  /* eslint-disable no-bitwise */
+  for (i = 0; i < string.length; i += 1) {
+    hash = string.charCodeAt(i) + ((hash << 5) - hash);
+  }
+
+  let color = '#';
+
+  for (i = 0; i < 3; i += 1) {
+    const value = (hash >> (i * 8)) & 0xff;
+    color += `00${value.toString(16)}`.slice(-2);
+  }
+  /* eslint-enable no-bitwise */
+
+  return color;
+}
+
+function stringAvatar(name: string) {
+  return {
+    sx: {
+      bgcolor: stringToColor(name),
+      width: 24,
+        height: 24,
+        fontSize:10
+    },
+    children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`
+  };
+}
+
+
 const NestedList = () => {
     const [open1, setOpen1] = React.useState(true);
     const [open2, setOpen2] = React.useState(true);
@@ -126,68 +163,65 @@ const NestedList = () => {
       };
   
     return (
-        <div className='rounded-sm'>
-            <List
-                sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
-                component="nav"
-                aria-labelledby="nested-list-subheader"
-                subheader={
-                <ListSubheader className='text-center font-bold text-base p-3' component="div" id="nested-list-subheader">
-                    Integrantes
-                </ListSubheader>
-                }
-            >
-                <ListItemButton className='members' onClick={handleClick1}>
-                    <ListItemIcon>
-                        <InboxIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Miembros" />
-                    {open1 ? <ExpandLess /> : <ExpandMore />}
-                </ListItemButton>
-                <Collapse in={open1} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding>
-                        {
-                        users.members.map((user, id) => (
-                            <ListItemButton key={id} sx={{ pl: 4 }}>
+        <List
+            sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+            component="nav"
+            aria-labelledby="nested-list-subheader"
+            subheader={
+            <ListSubheader className='text-center font-bold text-base p-3' component="div" id="nested-list-subheader">
+                Integrantes
+            </ListSubheader>
+            }
+        >
+            <ListItemButton className='font-bold' onClick={handleClick1}>
+                <ListItemIcon>
+                    <PersonIcon />
+                </ListItemIcon>
+                <ListItemText primary="Miembros" />
+                {open1 ? <ExpandLess /> : <ExpandMore />}
+            </ListItemButton>
+            <Collapse in={open1} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                    {
+                    users.members.map((user, id) => (
+                        <ListItemButton key={id} sx={{ pl: 4}}>
                             <ListItemIcon>
-                                <StarBorder />
+                                <Avatar {...stringAvatar(user.name + ' ' + user.lastName)} />
+                            </ListItemIcon>
+                            <ListItemText primary={user.name + ' ' + user.lastName} />
+                        </ListItemButton>
+                    ))
+                    }
+                </List>
+            </Collapse>
+            <ListItemButton onClick={handleClick2}>
+                <ListItemIcon>
+                    <PersonAddIcon />
+                </ListItemIcon>
+                <ListItemText primary="Pendientes" />
+                {open2 ? <ExpandLess /> : <ExpandMore />}
+            </ListItemButton>
+            <Collapse in={open2} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                    {
+                    users.pending.map((user, id) => (
+                        <ListItemButton key={id} sx={{ pl: 4 }}>
+                            <ListItemIcon>
+                                <Avatar {...stringAvatar(user.name + ' ' + user.lastName)} />
                             </ListItemIcon>
                             <ListItemText primary={user.name + ' ' + user.lastName}   />
-                            </ListItemButton>
-                        ))
-                        }
-                    </List>
-                </Collapse>
-                <ListItemButton onClick={handleClick2}>
-                    <ListItemIcon>
-                        <InboxIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Pendientes" />
-                    {open2 ? <ExpandLess /> : <ExpandMore />}
-                </ListItemButton>
-                <Collapse in={open2} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding>
-                        {
-                        users.pending.map((user, id) => (
-                            <ListItemButton key={id} sx={{ pl: 4 }}>
-                            <ListItemIcon>
-                                <StarBorder />
-                            </ListItemIcon>
-                            <ListItemText primary={user.name + ' ' + user.lastName}   />
-                            </ListItemButton>
-                        ))
-                        }
-                    </List>
-                </Collapse>
-            </List>
-        </div>
-      
+                        </ListItemButton>
+                    ))
+                    }
+                </List>
+            </Collapse>
+        </List>
     );
 }
 
 const PeopleCard = () => {
     return (
-      <Card sx={{ maxWidth: 345}}>
+      <Card className='shadow-lg rounded-lg'>
         <CardContent>
             <NestedList />
         </CardContent>
@@ -248,14 +282,16 @@ useEffect(() => {
             {/*Main*/}
             <div className='w-full h-full grid grid-cols-6'>
                 {/* Sidebar */}
-                <div className='bg-primary-30 col-span-1'>
-                    {/* House card */}
-                    <div className='p-5 items-center'>
-                        <MediaCard name={house.name} address ={house.address} description = {house.description} picture = {house.picture} />
-                    </div>
-                    {/* House members */}
-                    <div className='p-5'>
-                        <PeopleCard />
+                <div className='bg-primary-95 col-span-1'>
+                    <div className='bg-primary-40/10 h-full'>
+                        {/* House card */}
+                        <div className='p-5 items-center'>
+                            <MediaCard name={house.name} address ={house.address} description = {house.description} picture = {house.picture} />
+                        </div>
+                        {/* House members */}
+                        <div className='p-5 pt-0'>
+                            <PeopleCard />
+                        </div>
                     </div>
                 </div>
                 {/* Content */}
