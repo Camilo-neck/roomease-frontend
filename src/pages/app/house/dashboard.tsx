@@ -12,7 +12,7 @@ import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 
 // Material UI
-import { Button, ToggleButton, ToggleButtonGroup, IconButton } from '@mui/material'
+import { Button, ToggleButton, ToggleButtonGroup, IconButton, ListItem } from '@mui/material'
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import AccountBoxOutlinedIcon from '@mui/icons-material/AccountBoxOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
@@ -40,6 +40,9 @@ import PersonIcon from '@mui/icons-material/Person';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import Avatar from '@mui/material/Avatar';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import DeleteIcon from '@mui/icons-material/Delete';
+import CheckIcon from '@mui/icons-material/Check';
+import ClearSharpIcon from '@mui/icons-material/ClearSharp';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux'
@@ -84,6 +87,12 @@ const getUsers = () => {
                 name: 'Pedro',
                 lastName: 'Perez',
                 owner: false
+            },
+            {
+                id:4,
+                name: 'Ana',
+                lastName: 'Rodriguez',
+                owner: false
             }
         ]
     }
@@ -97,12 +106,10 @@ const MediaCard= ({ name, description, address, picture}: { name: string; descri
             sx={{ height: 150 }}
             image={picture}
           />
-          <CardContent >
-            <div>
-                <Typography className='text-center leading-5 font-semibold text-lg' gutterBottom component="div">
-                    {name}
-                </Typography>
-            </div>
+          <CardContent > 
+            <Typography className='text-center leading-5 font-semibold text-lg' gutterBottom component="div">
+                {name}
+            </Typography>
             <Typography className='text-sm text-center line-clamp-1' gutterBottom component="div"  color="text.secondary">
               {address}
             </Typography>
@@ -149,6 +156,22 @@ function stringAvatar(name: string) {
   };
 }
 
+const DualButton = () => {
+  return (
+    <ButtonGroup className='flex gap-0' size='small'>
+        <Button>
+            <Typography className='text-[0.6rem]'>
+                Aceptar
+            </Typography>
+        </Button>
+      <Button>
+            <Typography className='text-[0.6rem]'>
+                Rechazar
+            </Typography>
+      </Button>
+    </ButtonGroup>
+  );
+}
 
 const NestedList = () => {
     const [open1, setOpen1] = React.useState(true);
@@ -164,16 +187,14 @@ const NestedList = () => {
   
     return (
         <List
-            sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
-            component="nav"
             aria-labelledby="nested-list-subheader"
             subheader={
-            <ListSubheader className='text-center font-bold text-base p-3' component="div" id="nested-list-subheader">
+            <ListSubheader className='text-center font-bold text-base p-2' component="div" id="nested-list-subheader">
                 Integrantes
             </ListSubheader>
             }
         >
-            <ListItemButton className='font-bold' onClick={handleClick1}>
+            <ListItemButton className='p-1' onClick={handleClick1}>
                 <ListItemIcon>
                     <PersonIcon />
                 </ListItemIcon>
@@ -184,17 +205,21 @@ const NestedList = () => {
                 <List component="div" disablePadding>
                     {
                     users.members.map((user, id) => (
-                        <ListItemButton key={id} sx={{ pl: 4}}>
+                        <ListItem className='p-1 pl-5' key={id}>
                             <ListItemIcon>
                                 <Avatar {...stringAvatar(user.name + ' ' + user.lastName)} />
                             </ListItemIcon>
-                            <ListItemText primary={user.name + ' ' + user.lastName} />
-                        </ListItemButton>
+                            <ListItemText >
+                                <Typography className='text-xs'>
+                                    {user.name + ' ' + user.lastName}
+                                </Typography>
+                            </ListItemText>
+                        </ListItem>
                     ))
                     }
                 </List>
             </Collapse>
-            <ListItemButton onClick={handleClick2}>
+            <ListItemButton className='p-1' onClick={handleClick2}>
                 <ListItemIcon>
                     <PersonAddIcon />
                 </ListItemIcon>
@@ -205,12 +230,31 @@ const NestedList = () => {
                 <List component="div" disablePadding>
                     {
                     users.pending.map((user, id) => (
-                        <ListItemButton key={id} sx={{ pl: 4 }}>
-                            <ListItemIcon>
-                                <Avatar {...stringAvatar(user.name + ' ' + user.lastName)} />
-                            </ListItemIcon>
-                            <ListItemText primary={user.name + ' ' + user.lastName}   />
-                        </ListItemButton>
+                        <>
+                            <div className='flex flex-col'>
+                                <ListItem className='p-1 pl-5' key={id}
+                                    secondaryAction={
+                                        <>
+                                        <IconButton aria-label="delete">
+                                            <CheckIcon />
+                                        </IconButton>
+                                        <IconButton edge="end" aria-label="delete">
+                                            <ClearSharpIcon />
+                                        </IconButton>
+                                        </>
+                                    }
+                                >
+                                    <ListItemIcon >
+                                        <Avatar {...stringAvatar(user.name + ' ' + user.lastName)} />
+                                    </ListItemIcon>
+                                    <ListItemText >
+                                        <Typography className='text-xs'>
+                                            {user.name + ' ' + user.lastName}
+                                        </Typography>
+                                    </ListItemText>
+                                </ListItem>
+                            </div>
+                        </>
                     ))
                     }
                 </List>
