@@ -235,11 +235,11 @@ const NestedList = () => {
                                 <ListItem className='p-1 pl-5' key={id}
                                     secondaryAction={
                                         <>
-                                        <IconButton aria-label="delete">
-                                            <CheckIcon />
+                                        <IconButton size='small' aria-label="delete">
+                                            <CheckIcon htmlColor='green' fontSize='small'/>
                                         </IconButton>
-                                        <IconButton edge="end" aria-label="delete">
-                                            <ClearSharpIcon />
+                                        <IconButton size='small' edge="end" aria-label="delete">
+                                            <ClearSharpIcon htmlColor='red' fontSize='small'/>
                                         </IconButton>
                                         </>
                                     }
