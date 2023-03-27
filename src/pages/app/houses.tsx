@@ -32,6 +32,7 @@ import { getCookie } from '@/lib/cookie'
 import jwt from 'jsonwebtoken'
 import { fetchUserInfo } from '@/redux/thunks/user.thunk'
 import { useRouter } from 'next/navigation'
+import { fetchHouses } from '@/controllers/houses.controllers'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -63,6 +64,7 @@ const Houses = () => {
   const user = useSelector(selectUser)
   const dispatch = useDispatch();
   const [view, setView] = useState('grid')
+  const [ houses, setHouses ] = useState<any[]>([])
 
   useEffect(() => {
     // Fetch the user
@@ -73,6 +75,7 @@ const Houses = () => {
         if (decoded) {
           const { _id } = decoded
           dispatch(fetchUserInfo(_id, cookie))
+          setHouses(await fetchHouses(_id, cookie))
         }
       }
     }
