@@ -11,7 +11,17 @@ import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 
 // Material UI
-import { Button, ToggleButton, ToggleButtonGroup, IconButton, AvatarGroup, Avatar, Rating } from '@mui/material'
+import { 
+	Button, 
+	ToggleButton, 
+	ToggleButtonGroup, 
+	IconButton, 
+	AvatarGroup, 
+	Avatar, 
+	Rating,
+	Menu,
+	MenuItem
+} from '@mui/material'
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import AccountBoxOutlinedIcon from '@mui/icons-material/AccountBoxOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
@@ -22,6 +32,7 @@ import GridViewRoundedIcon from '@mui/icons-material/GridViewRounded';
 // Components
 import GridHouseCard from '@/components/gridHouseCard'
 import ListHouseCard from '@/components/listHouseCard'
+import CreateHouseModal from '@/components/createHouseModal'
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux'
@@ -32,7 +43,7 @@ import { getCookie } from '@/lib/cookie'
 import jwt from 'jsonwebtoken'
 import { fetchUserInfo } from '@/redux/thunks/user.thunk'
 import { useRouter } from 'next/navigation'
-import { fetchHouses } from '@/controllers/houses.controllers'
+import { fetchHouses, createHouse } from '@/controllers/houses.controllers'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -65,6 +76,8 @@ const Houses = () => {
   const dispatch = useDispatch();
   const [view, setView] = useState('grid')
   const [ houses, setHouses ] = useState<any[]>([])
+  const [ addPopoverAnchorEl, setAddPopoverAnchorEl ] = useState<HTMLButtonElement | null>(null)
+  const [ createHouseModalOpen, setCreateHouseModalOpen ] = useState<boolean>(false)
 
   useEffect(() => {
     // Fetch the user
@@ -82,6 +95,30 @@ const Houses = () => {
     f()
   }, [])
 
+  const openCreateHouseModal = () => {
+	setCreateHouseModalOpen(true)
+  }
+
+  const closeCreateHouseModal = () => {
+	setCreateHouseModalOpen(false)
+  }
+
+  const onCreateHouseModalSubmit = async (data: any) => {
+	await createHouse(data)
+	setHouses((prev) => [...prev, data])
+  }
+
+  const handleAddPopoverClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+	setAddPopoverAnchorEl(event.currentTarget)
+	}
+
+	const handleAddPopoverClose = () => {
+		setAddPopoverAnchorEl(null)
+	}
+
+	const addPopoverOpen = Boolean(addPopoverAnchorEl);
+	const addPopoverId = addPopoverOpen ? 'add-popover' : undefined;
+
 
   return (
     <>
@@ -92,6 +129,7 @@ const Houses = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="bg-[#FAFDFD] h-screen">
+		<CreateHouseModal onSubmit={onCreateHouseModalSubmit} onClose={closeCreateHouseModal} isOpen={createHouseModalOpen} />
         <div className='bg-primary-40/5 h-screen flex flex-col items-center'>
           <div className="w-full min-w-full items-center flex flex-row p-2">
             <p className="font-bold text-xl text-primary-20 flex-grow">Roomease</p>
@@ -116,11 +154,34 @@ const Houses = () => {
                   <p className="font-semibold text-3xl">Mis casas</p>
                 </div>
                 <IconButton
-                  className='bg-tertiary-60 hover:bg-tertiary-60/90 active:bg-tertiary-60 focus:bg-tertiary-60
-                text-white hover:text-tertiary-95 transition-colors ease-linear duration-200 h-fit'
+					aria-described-by={addPopoverId}
+					onClick={handleAddPopoverClick}
+                  className="bg-tertiary-60 hover:bg-tertiary-60/90 active:bg-tertiary-60 focus:bg-tertiary-60
+                text-white hover:text-tertiary-95 transition-colors ease-linear duration-200 h-fit"
                 >
                   <AddHomeRoundedIcon />
                 </IconButton>
+				<Menu
+					id={addPopoverId}
+					open={addPopoverOpen}
+					anchorEl={addPopoverAnchorEl}
+					onClose={handleAddPopoverClose}
+					anchorOrigin={{
+						vertical: 'bottom',
+						horizontal: 'center',
+					}}
+					transformOrigin={{
+						vertical: 'top',
+						horizontal: 'center',
+					}}
+				>
+						<MenuItem onClick={openCreateHouseModal} className="text-primary-20 hover:text-primary-30 focus:text-primary-30">
+							Crear casa
+						</MenuItem>
+						<MenuItem className="text-primary-20 hover:text-primary-30 focus:text-primary-30">
+							Unirse a casa
+						</MenuItem>
+				</Menu>
               </div>
               <div className="flex flex-col gap-3 items-center w-full">
                 <div className="flex flex-col w-full items-end">
