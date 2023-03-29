@@ -11,7 +11,7 @@ export const loginUser = (user: {email: string; password: string}): any => async
 			headers: {
 				'Accept': '*/*',
 				'Content-Type': 'application/json',
-				//allow cookies
+				//allow cookies (not working)
 				'Access-Control-Allow-Credentials': 'true',
 				'Access-Control-Allow-Origin': 'http://localhost:3000',
 			},
