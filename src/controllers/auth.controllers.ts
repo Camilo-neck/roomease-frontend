@@ -7,9 +7,13 @@ export const loginUser = (user: {email: string; password: string}): any => async
 	try {
 		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
 			method: 'POST',
+			
 			headers: {
 				'Accept': '*/*',
 				'Content-Type': 'application/json',
+				//allow cookies
+				'Access-Control-Allow-Credentials': 'true',
+				'Access-Control-Allow-Origin': 'http://localhost:3000',
 			},
 			body: JSON.stringify(user),
 		});
@@ -17,8 +21,12 @@ export const loginUser = (user: {email: string; password: string}): any => async
 		console.log({ _id, name, email })
 		dispatch(setUser({ _id, name, email }));
 
-		let token = response.headers.get('auth-token');
-		console.log(token);
+		const cookies = response.headers.get("set-cookie");
+		console.log(cookies)
+
+		//get auth-token from cookies
+		const token = cookies?.split("auth-token=")[1].split(";")[0];
+		console.log(token)
 		
 		if (token) {
 			console.log('a')
