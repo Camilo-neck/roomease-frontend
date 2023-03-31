@@ -4,14 +4,16 @@ import { Avatar, AvatarGroup, Button, Rating } from "@mui/material";
 const ListHouseCard = ({
 	name,
 	description,
+	img
 }: {
 	name: string;
 	description: string;
+	img: string;
 }) => {
 	return (
 		<div className="flex flex-row bg-white shadow-lg rounded-lg">
 			<Image
-				src="/house_placeholder.jpg"
+				src={img ? img : "/house_placeholder.jpg"}
 				alt="house placeholder"
 				width={300}
 				height={250}

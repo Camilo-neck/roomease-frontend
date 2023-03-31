@@ -217,6 +217,7 @@ const Houses = () => {
                             key={index}
                             name={house.name}
                             description={house.description}
+                            img={house.house_picture}
                           />
                         ))
                         :
@@ -225,6 +226,7 @@ const Houses = () => {
                             key={index}
                             name={house.name}
                             description={house.description}
+                            img={house.house_picture}
                           />
                         ))
                     }

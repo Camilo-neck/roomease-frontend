@@ -17,7 +17,7 @@ export const fetchHouses = async (uid: string, token: string) => {
 	return houses ? houses : [];
 }
 
-export const createHouse = async (house: House) => {
+export const createHouse = async (house: any) => {
 	const token = getCookie('auth-token');
 	const { _id } = jwt.decode(token) as { _id: string };
 	
@@ -33,7 +33,11 @@ export const createHouse = async (house: House) => {
 		})
 		.then((res) => res.json());
 
-		console.log(response);
+		if (!response.ok) {
+			throw new Error(response.message);
+		}
+
+		return response;
 	} catch(err) {
 		console.log(err);
 	}

@@ -4,18 +4,20 @@ import { Avatar, AvatarGroup, Button, Rating } from "@mui/material";
 const GridHouseCard = ({
     name,
     description,
+    img,
 }: {
     name: string;
     description: string;
+    img: string;
 }) => {
     return (
         <div className="flex flex-col bg-white shadow-lg rounded-lg">
             <Image
-                src="/house_placeholder.jpg"
+                src={img ? img : "/house_placeholder.jpg"}
                 alt="house placeholder"
                 width={300}
                 height={250}
-                className="rounded-t-lg"
+                className="rounded-t-lg max-h-36"
                 priority
             />
             <div className="flex flex-col gap-2 p-5">
