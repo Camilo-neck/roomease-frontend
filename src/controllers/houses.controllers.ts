@@ -94,3 +94,64 @@ export const joinHouse = async (house_code: string) => {
   }
 };
 
+export const acceptPendingUser = async (houseId: string, userId: string) => {
+  const token = getCookie("auth-token");
+
+  const payload = {
+    userId,
+    accept: true,
+  };
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/house/handleJoin/${houseId}`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "*/*",
+          "Content-Type": "application/json",
+          "auth-token": token,
+        },
+        body: JSON.stringify(payload),
+      }
+    ).then((res) => res.json());
+
+    if (!response.ok) {
+      throw new Error(response.message);
+    }
+
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export const rejectPendingUser = async (houseId: string, userId: string) => {
+  const token = getCookie("auth-token");
+
+  const payload = {
+    userId,
+    accept: false,
+  };
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/house/handleJoin/${houseId}`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "*/*",
+          "Content-Type": "application/json",
+          "auth-token": token,
+        },
+        body: JSON.stringify(payload),
+      }
+    ).then((res) => res.json());
+
+    if (!response.ok) {
+      throw new Error(response.message);
+    }
+
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+}
