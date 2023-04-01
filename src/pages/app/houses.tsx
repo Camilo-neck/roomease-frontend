@@ -45,6 +45,7 @@ import { fetchUserInfo } from '@/redux/thunks/user.thunk'
 import { useRouter } from 'next/navigation'
 import { fetchHouses, createHouse, joinHouse } from '@/controllers/houses.controllers'
 import JoinHouseModal from '@/components/joinHouseModal'
+import AppNavbar from '@/components/appNavbar'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -97,8 +98,9 @@ const Houses = () => {
   }
   
   const onJoinHouseModalSubmit = async (data: any) => {
-    await joinHouse(data)
-    setHouses((prev) => [...prev, data])
+    console.log(data)
+    await joinHouse(data.houseCode)
+    setHouses(await fetchHouses(user._id, getCookie('auth-token')))
   }
 
   const handleAddPopoverClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -125,20 +127,7 @@ const Houses = () => {
 		  <CreateHouseModal onSubmit={onCreateHouseModalSubmit} onClose={closeCreateHouseModal} isOpen={createHouseModalOpen} />
       <JoinHouseModal onSubmit={onJoinHouseModalSubmit} onClose={closeJoinHouseModal} isOpen={joinHouseModalOpen} />
         <div className='bg-primary-40/5 h-screen flex flex-col items-center'>
-          <div className="w-full min-w-full items-center flex flex-row p-2">
-            <p className="font-bold text-xl text-primary-20 flex-grow">Roomease</p>
-            <div className="flex flex-row gap-3 mr-5">
-              <IconButton>
-                <AccountBoxOutlinedIcon className="text-primary-20" />
-              </IconButton>
-              <IconButton>
-                <HomeOutlinedIcon className="text-primary-20" />
-              </IconButton>
-              <IconButton>
-                <SettingsOutlinedIcon className="text-primary-20" />
-              </IconButton>
-            </div>
-          </div>
+          <AppNavbar />
           <hr className='border border-neutral_variant-80 w-full' />
           <div className="flex w-[80vw] h-screen items-center justify-center">
             <div className='flex flex-col w-full h-[80vh] p-3 gap-8'>
@@ -208,19 +197,21 @@ const Houses = () => {
                       view === 'grid' ?
                         houses.map((house, index) => (
                           <GridHouseCard
-                            key={index}
+                            key={house._id}
                             name={house.name}
                             description={house.description}
                             img={house.house_picture}
+                            id={house._id}
                           />
                         ))
                         :
                         houses.map((house, index) => (
                           <ListHouseCard
-                            key={index}
+                            key={house._id}
                             name={house.name}
                             description={house.description}
                             img={house.house_picture}
+                            id={house._id}
                           />
                         ))
                     }

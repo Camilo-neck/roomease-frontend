@@ -34,7 +34,6 @@ export default function JoinHouseModal({
     onClose: () => void;
     onSubmit: (data: any) => void;
 }) {
-	const user = useSelector(selectUser)
     const {
         register,
         reset,
@@ -43,11 +42,6 @@ export default function JoinHouseModal({
         formState: { errors },
     } = useForm({ defaultValues: initialState });
     const formRef = useRef<HTMLFormElement | null>(null);
-    const [open, setOpen] = useState(false);
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
 
     const handleClose = () => {
         reset(initialState);
@@ -55,11 +49,7 @@ export default function JoinHouseModal({
     };
 
     const handleOnSubmit = async (data: any) => {
-        const tmpData = Object.assign({}, data);
-        tmpData.tags = tmpData.tags.split(",").map((tag: string) => tag.trim());
-
-        console.log(tmpData);
-        onSubmit(tmpData);
+        onSubmit(data);
         handleClose();
     };
 
@@ -83,7 +73,7 @@ export default function JoinHouseModal({
                         margin="dense"
                         id="name"
                         label="Código de la casa"
-                        type="number"
+                        type="text"
                         fullWidth
                         {...register("houseCode", { required: true })}
                     />

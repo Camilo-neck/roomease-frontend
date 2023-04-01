@@ -15,7 +15,7 @@ const MediaCard= ({ name, description, address, picture}: { name: string; descri
         <Card className='shadow-lg rounded-lg' sx={{ maxWidth: 345 }}>
           <CardMedia
             sx={{ height: 150 }}
-            image={picture}
+            image={picture ? picture : "/house_placeholder.jpg"}
           />
           <CardContent > 
             <Typography className='text-center leading-5 font-semibold text-lg' gutterBottom component="div">

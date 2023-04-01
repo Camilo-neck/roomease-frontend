@@ -1,14 +1,17 @@
 import Image from "next/image";
 import { Avatar, AvatarGroup, Button, Rating } from "@mui/material";
+import Link from "next/link";
 
 const GridHouseCard = ({
     name,
     description,
     img,
+    id,
 }: {
     name: string;
     description: string;
     img: string;
+    id: string;
 }) => {
     return (
         <div className="flex flex-col bg-white shadow-lg rounded-lg">
@@ -64,14 +67,16 @@ const GridHouseCard = ({
                         size="small"
                         readOnly
                     />
-                    <Button
-                        size="small"
-                        variant="outlined"
-                        className="bg-tertiary-80/30 hover:bg-tertiary-80/50 active:bg-tertiary-80/70 border-tertiary-20 
-						hover:border-tertiary-20 text-tertiary-20 rounded-full"
-                    >
-                        Abrir
-                    </Button>
+                    <Link href={`/app/house/${id}`}>
+                        <Button
+                            size="small"
+                            variant="outlined"
+                            className="bg-tertiary-80/30 hover:bg-tertiary-80/50 active:bg-tertiary-80/70 border-tertiary-20 
+                            hover:border-tertiary-20 text-tertiary-20 rounded-full"
+                        >
+                            Abrir
+                        </Button>
+                    </Link>
                 </div>
             </div>
         </div>
