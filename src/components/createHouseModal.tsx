@@ -197,7 +197,7 @@ export default function CreateHouseModal({
 								className="rounded-full"
 								startIcon={<AddPhotoAlternateRoundedIcon />}
 							>
-								{image ? "Cambiar imágen" : "Carga la imágen de tu casa"}
+								{image ? "Cambiar imagen" : "Carga la imagen de tu casa"}
 							</Button>
 						</label>
 						{

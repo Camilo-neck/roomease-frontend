@@ -6,6 +6,9 @@ const nextConfig = {
       'localhost',
       'firebasestorage.googleapis.com',
       'lh3.googleusercontent.com',
+      'www.bing.com',
+      'www.google.com',
+      'images.adsttc.com'
     ]
   },
 }

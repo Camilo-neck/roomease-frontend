@@ -42,3 +42,29 @@ export const createHouse = async (house: any) => {
 		console.log(err);
 	}
 }
+
+export const joinHouse = async (joinRequest: any) => {
+	const token = getCookie('auth-token');
+	const { _id } = jwt.decode(token) as { _id: string };
+	
+	try {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/house/join?userId=${_id}`, {
+			method: 'POST',
+			headers: {
+				'Accept': '*/*',
+				'Content-Type': 'application/json',
+				'auth-token': token,
+			},
+			body: JSON.stringify({ ...joinRequest }),
+		})
+		.then((res) => res.json());
+
+		if (!response.ok) {
+			throw new Error(response.message);
+		}
+
+		return response;
+	} catch(err) {
+		console.log(err);
+	}
+}

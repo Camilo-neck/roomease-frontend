@@ -1,7 +1,6 @@
 // Next
 import Head from 'next/head'
 import Image from 'next/image'
-import Link from 'next/link'
 
 // React
 import * as React from 'react';
@@ -9,7 +8,6 @@ import { useState } from 'react'
 
 // Styles
 import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
 
 // Material UI
 import { Button, ToggleButton, ToggleButtonGroup, IconButton, ListItem } from '@mui/material'
@@ -19,40 +17,16 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import ListRoundedIcon from '@mui/icons-material/ListRounded';
 import AddHomeRoundedIcon from '@mui/icons-material/AddHomeRounded';
 import GridViewRoundedIcon from '@mui/icons-material/GridViewRounded';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import CardActions from '@mui/material/CardActions';
-import ListSubheader from '@mui/material/ListSubheader';
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Collapse from '@mui/material/Collapse';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import DraftsIcon from '@mui/icons-material/Drafts';
-import SendIcon from '@mui/icons-material/Send';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import StarBorder from '@mui/icons-material/StarBorder';
-import PersonIcon from '@mui/icons-material/Person';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import Avatar from '@mui/material/Avatar';
-import ButtonGroup from '@mui/material/ButtonGroup';
-import DeleteIcon from '@mui/icons-material/Delete';
-import CheckIcon from '@mui/icons-material/Check';
-import ClearSharpIcon from '@mui/icons-material/ClearSharp';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux'
 import { selectUser } from '@/redux/slices/user.slice'
-import { logoutUser } from '@/controllers/auth.controllers'
 import { useEffect } from 'react'
 import { getCookie } from '@/lib/cookie'
 import jwt from 'jsonwebtoken'
 import { fetchUserInfo } from '@/redux/thunks/user.thunk'
-import { useRouter } from 'next/navigation'
+import MediaCard from '@/components/mediaCard';
+import PeopleCard from '@/components/peopleCard';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -62,218 +36,6 @@ const house = {
     address: 'Calle 1 # 2 - 3',
     picture: 'https://www.experimenta.es/wp-content/uploads/2015/04/casa-playa-carmen-yupana-02-4.jpg',
     members: ['1','2','3']
-}
-
-const getUsers = () => {
-    const users = 
-    {
-        'members':[
-        {
-            id:1,
-            name: 'Juan',
-            lastName: 'Perez',
-            owner: true
-        },
-        {
-            id:2,
-            name: 'Maria',
-            lastName: 'Perez',
-            owner: false
-        }
-        ],
-        'pending':[
-            {
-                id:3,
-                name: 'Pedro',
-                lastName: 'Perez',
-                owner: false
-            },
-            {
-                id:4,
-                name: 'Ana',
-                lastName: 'Rodriguez',
-                owner: false
-            }
-        ]
-    }
-    return users;
-}
-
-const MediaCard= ({ name, description, address, picture}: { name: string; description: string, address: string, picture: string }) => {
-    return (
-        <Card className='shadow-lg rounded-lg' sx={{ maxWidth: 345 }}>
-          <CardMedia
-            sx={{ height: 150 }}
-            image={picture}
-          />
-          <CardContent > 
-            <Typography className='text-center leading-5 font-semibold text-lg' gutterBottom component="div">
-                {name}
-            </Typography>
-            <Typography className='text-sm text-center line-clamp-1' gutterBottom component="div"  color="text.secondary">
-              {address}
-            </Typography>
-            <Typography className='line-clamp-3 leading-5 text-sm'>
-              {description}
-            </Typography>
-          </CardContent>
-          <CardActions className='items-center p-1'>
-            <Button className='w-full self-auto' size="small">Editar</Button>
-          </CardActions>
-        </Card>
-    );
-}
-
-function stringToColor(string: string) {
-  let hash = 0;
-  let i;
-
-  /* eslint-disable no-bitwise */
-  for (i = 0; i < string.length; i += 1) {
-    hash = string.charCodeAt(i) + ((hash << 5) - hash);
-  }
-
-  let color = '#';
-
-  for (i = 0; i < 3; i += 1) {
-    const value = (hash >> (i * 8)) & 0xff;
-    color += `00${value.toString(16)}`.slice(-2);
-  }
-  /* eslint-enable no-bitwise */
-
-  return color;
-}
-
-function stringAvatar(name: string) {
-  return {
-    sx: {
-      bgcolor: stringToColor(name),
-      width: 24,
-        height: 24,
-        fontSize:10
-    },
-    children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`
-  };
-}
-
-const DualButton = () => {
-  return (
-    <ButtonGroup className='flex gap-0' size='small'>
-        <Button>
-            <Typography className='text-[0.6rem]'>
-                Aceptar
-            </Typography>
-        </Button>
-      <Button>
-            <Typography className='text-[0.6rem]'>
-                Rechazar
-            </Typography>
-      </Button>
-    </ButtonGroup>
-  );
-}
-
-const NestedList = () => {
-    const [open1, setOpen1] = React.useState(true);
-    const [open2, setOpen2] = React.useState(true);
-    const users = getUsers();
-  
-    const handleClick1 = () => {
-      setOpen1(!open1);
-    };
-    const handleClick2 = () => {
-        setOpen2(!open2);
-      };
-  
-    return (
-        <List
-            aria-labelledby="nested-list-subheader"
-            subheader={
-            <ListSubheader className='text-center font-bold text-base p-2' component="div" id="nested-list-subheader">
-                Integrantes
-            </ListSubheader>
-            }
-        >
-            <ListItemButton className='p-1' onClick={handleClick1}>
-                <ListItemIcon>
-                    <PersonIcon />
-                </ListItemIcon>
-                <ListItemText primary="Miembros" />
-                {open1 ? <ExpandLess /> : <ExpandMore />}
-            </ListItemButton>
-            <Collapse in={open1} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
-                    {
-                    users.members.map((user, id) => (
-                        <ListItem className='p-1 pl-5' key={id}>
-                            <ListItemIcon>
-                                <Avatar {...stringAvatar(user.name + ' ' + user.lastName)} />
-                            </ListItemIcon>
-                            <ListItemText >
-                                <Typography className='text-xs'>
-                                    {user.name + ' ' + user.lastName}
-                                </Typography>
-                            </ListItemText>
-                        </ListItem>
-                    ))
-                    }
-                </List>
-            </Collapse>
-            <ListItemButton className='p-1' onClick={handleClick2}>
-                <ListItemIcon>
-                    <PersonAddIcon />
-                </ListItemIcon>
-                <ListItemText primary="Pendientes" />
-                {open2 ? <ExpandLess /> : <ExpandMore />}
-            </ListItemButton>
-            <Collapse in={open2} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
-                    {
-                    users.pending.map((user, id) => (
-                        <>
-                            <div className='flex flex-col'>
-                                <ListItem className='p-1 pl-5' key={id}
-                                    secondaryAction={
-                                        <>
-                                        <IconButton size='small' aria-label="delete">
-                                            <CheckIcon htmlColor='green' fontSize='small'/>
-                                        </IconButton>
-                                        <IconButton size='small' edge="end" aria-label="delete">
-                                            <ClearSharpIcon htmlColor='red' fontSize='small'/>
-                                        </IconButton>
-                                        </>
-                                    }
-                                >
-                                    <ListItemIcon >
-                                        <Avatar {...stringAvatar(user.name + ' ' + user.lastName)} />
-                                    </ListItemIcon>
-                                    <ListItemText >
-                                        <Typography className='text-xs'>
-                                            {user.name + ' ' + user.lastName}
-                                        </Typography>
-                                    </ListItemText>
-                                </ListItem>
-                            </div>
-                        </>
-                    ))
-                    }
-                </List>
-            </Collapse>
-        </List>
-    );
-}
-
-const PeopleCard = () => {
-    return (
-      <Card className='shadow-lg rounded-lg'>
-        <CardContent>
-            <NestedList />
-        </CardContent>
-        <CardActions className='items-center p-1'>
-          <Button className='w-full self-auto' size="small">Ver más</Button>
-        </CardActions>
-      </Card>
-    );
 }
 
 const Dashboard = () => {

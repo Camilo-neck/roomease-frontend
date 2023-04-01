@@ -43,33 +43,10 @@ import { getCookie } from '@/lib/cookie'
 import jwt from 'jsonwebtoken'
 import { fetchUserInfo } from '@/redux/thunks/user.thunk'
 import { useRouter } from 'next/navigation'
-import { fetchHouses, createHouse } from '@/controllers/houses.controllers'
+import { fetchHouses, createHouse, joinHouse } from '@/controllers/houses.controllers'
+import JoinHouseModal from '@/components/joinHouseModal'
 
 const inter = Inter({ subsets: ['latin'] })
-
-const houses = [
-  {
-    name: 'Casa de la playa',
-    description: 'Casa de la playa de la familia ',
-  },
-  {
-    name: 'Casa de la playa',
-    description: 'Casa de la playa de la familia ',
-  },
-  {
-    name: 'Casa de la playa',
-    description: 'Casa de la playa de la familia ',
-  },
-  {
-    name: 'Casa de la playa',
-    description: 'Casa de la playa de la familia ',
-  },
-  {
-    name: 'Casa de la playa',
-    description: 'Casa de la playa de la familia ',
-  },
-]
-
 
 const Houses = () => {
   const user = useSelector(selectUser)
@@ -78,6 +55,7 @@ const Houses = () => {
   const [ houses, setHouses ] = useState<any[]>([])
   const [ addPopoverAnchorEl, setAddPopoverAnchorEl ] = useState<HTMLButtonElement | null>(null)
   const [ createHouseModalOpen, setCreateHouseModalOpen ] = useState<boolean>(false)
+  const [ joinHouseModalOpen, setJoinHouseModalOpen ] = useState<boolean>(false)
 
   useEffect(() => {
     // Fetch the user
@@ -95,21 +73,36 @@ const Houses = () => {
     f()
   }, [])
 
+  // Create House Modal
   const openCreateHouseModal = () => {
-	setCreateHouseModalOpen(true)
+	  setCreateHouseModalOpen(true)
   }
 
   const closeCreateHouseModal = () => {
-	setCreateHouseModalOpen(false)
+	  setCreateHouseModalOpen(false)
   }
 
   const onCreateHouseModalSubmit = async (data: any) => {
-	await createHouse(data)
-	setHouses((prev) => [...prev, data])
+    await createHouse(data)
+    setHouses((prev) => [...prev, data])
+  }
+
+  // Join House Modal
+  const openJoinHouseModal = () => {
+    setJoinHouseModalOpen(true)
+  }
+  
+  const closeJoinHouseModal = () => {
+    setJoinHouseModalOpen(false)
+  }
+  
+  const onJoinHouseModalSubmit = async (data: any) => {
+    await joinHouse(data)
+    setHouses((prev) => [...prev, data])
   }
 
   const handleAddPopoverClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-	setAddPopoverAnchorEl(event.currentTarget)
+	  setAddPopoverAnchorEl(event.currentTarget)
 	}
 
 	const handleAddPopoverClose = () => {
@@ -129,7 +122,8 @@ const Houses = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="bg-[#FAFDFD] h-screen">
-		<CreateHouseModal onSubmit={onCreateHouseModalSubmit} onClose={closeCreateHouseModal} isOpen={createHouseModalOpen} />
+		  <CreateHouseModal onSubmit={onCreateHouseModalSubmit} onClose={closeCreateHouseModal} isOpen={createHouseModalOpen} />
+      <JoinHouseModal onSubmit={onJoinHouseModalSubmit} onClose={closeJoinHouseModal} isOpen={joinHouseModalOpen} />
         <div className='bg-primary-40/5 h-screen flex flex-col items-center'>
           <div className="w-full min-w-full items-center flex flex-row p-2">
             <p className="font-bold text-xl text-primary-20 flex-grow">Roomease</p>
@@ -178,7 +172,7 @@ const Houses = () => {
 						<MenuItem onClick={openCreateHouseModal} className="text-primary-20 hover:text-primary-30 focus:text-primary-30">
 							Crear casa
 						</MenuItem>
-						<MenuItem className="text-primary-20 hover:text-primary-30 focus:text-primary-30">
+						<MenuItem onClick={openJoinHouseModal} className="text-primary-20 hover:text-primary-30 focus:text-primary-30">
 							Unirse a casa
 						</MenuItem>
 				</Menu>
