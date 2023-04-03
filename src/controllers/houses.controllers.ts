@@ -31,8 +31,9 @@ export const getHouse = async (houseId: string, token: string) => {
         "auth-token": token,
       },
     }
-  ).then((res) => res.json())
-  .catch((err) => console.log(err));
+  )
+    .then((res) => res.json())
+    .catch((err) => console.log(err));
 
   console.log(house);
 
@@ -72,7 +73,10 @@ export const joinHouse = async (house_code: string) => {
   console.log(house_code);
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/house/join/${house_code.replace('#', '_')}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/house/join/${house_code.replace(
+        "#",
+        "_"
+      )}`,
       {
         method: "GET",
         headers: {
@@ -123,7 +127,7 @@ export const acceptPendingUser = async (houseId: string, userId: string) => {
   } catch (err) {
     console.log(err);
   }
-}
+};
 
 export const rejectPendingUser = async (houseId: string, userId: string) => {
   const token = getCookie("auth-token");
@@ -154,4 +158,4 @@ export const rejectPendingUser = async (houseId: string, userId: string) => {
   } catch (err) {
     console.log(err);
   }
-}
+};

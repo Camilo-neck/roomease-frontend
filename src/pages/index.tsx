@@ -1,26 +1,26 @@
 // Next
-import Head from 'next/head'
-import Image from 'next/image'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation';
+import Head from "next/head";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 // Styles
-import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
+import { Inter } from "next/font/google";
+import styles from "@/styles/Home.module.css";
 
 // Material UI
-import { Button } from '@mui/material'
+import { Button } from "@mui/material";
 
 // Redux
-import { useSelector, useDispatch } from 'react-redux'
-import { selectUser } from '@/redux/slices/user.slice'
-import { logoutUser } from '@/controllers/auth.controllers'
-import { useEffect } from 'react'
-import { getCookie } from '@/lib/cookie'
-import jwt from 'jsonwebtoken'
-import { fetchUserInfo } from '@/redux/thunks/user.thunk'
+import { useSelector, useDispatch } from "react-redux";
+import { selectUser } from "@/redux/slices/user.slice";
+import { logoutUser } from "@/controllers/auth.controllers";
+import { useEffect } from "react";
+import { getCookie } from "@/lib/cookie";
+import jwt from "jsonwebtoken";
+import { fetchUserInfo } from "@/redux/thunks/user.thunk";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const user = useSelector(selectUser);
@@ -30,17 +30,17 @@ export default function Home() {
   useEffect(() => {
     // Fetch the user
     async function f() {
-      const cookie = getCookie('auth-token')
+      const cookie = getCookie("auth-token");
       if (cookie) {
-        const decoded: any = jwt.decode(cookie)
+        const decoded: any = jwt.decode(cookie);
         if (decoded) {
-          const { _id } = decoded
-          dispatch(fetchUserInfo(_id, cookie))
+          const { _id } = decoded;
+          dispatch(fetchUserInfo(_id, cookie));
         }
       }
     }
-    f()
-  }, [])
+    f();
+  }, []);
 
   return (
     <>
@@ -54,22 +54,24 @@ export default function Home() {
         <div className={styles.description}>
           {!user.name ? (
             <>
-              <Link href='/auth/login'>
+              <Link href="/auth/login">
                 <Button
-                  variant='outlined'
-                  className='text-[#D0BCFF] hover:bg-[#D0BCFF]/5 focus:bg-[#D0BCFF]/10 rounded-full border focus:border-[#D0BCFF] hover:border-[#938F99] border-[#938F99]'>
+                  variant="outlined"
+                  className="text-[#D0BCFF] hover:bg-[#D0BCFF]/5 focus:bg-[#D0BCFF]/10 rounded-full border focus:border-[#D0BCFF] hover:border-[#938F99] border-[#938F99]"
+                >
                   Login
                 </Button>
               </Link>
-              <Link href='/auth/register'>
+              <Link href="/auth/register">
                 <Button
-                  variant='outlined'
-                  className='text-[#CDE5FF] hover:bg-[#CDE5FF]/5 focus:bg-[#CDE5FF]/10 rounded-full border focus:border-[#CDE5FF] hover:border-[#6F797A] border-[#6F797A]'>
+                  variant="outlined"
+                  className="text-[#CDE5FF] hover:bg-[#CDE5FF]/5 focus:bg-[#CDE5FF]/10 rounded-full border focus:border-[#CDE5FF] hover:border-[#6F797A] border-[#6F797A]"
+                >
                   Register
                 </Button>
               </Link>
             </>
-          ) :
+          ) : (
             <>
               <p>
                 Nombre: <span className={styles.code}>{user.name}</span>
@@ -78,15 +80,15 @@ export default function Home() {
                 Email: <span className={styles.code}>{user.email}</span>
               </p>
               <Button
-                variant='outlined'
+                variant="outlined"
                 onClick={() => dispatch(logoutUser())}
-                className='text-error-30 hover:bg-error-30/5 focus:bg-error-30/10 rounded-full border focus:border-neutral-30 hover:border-error-20 border-neutral-30'>
+                className="text-error-30 hover:bg-error-30/5 focus:bg-error-30/10 rounded-full border focus:border-neutral-30 hover:border-error-20 border-neutral-30"
+              >
                 Logout
               </Button>
             </>
-          }
-          <div>
-          </div>
+          )}
+          <div></div>
         </div>
 
         <div className={styles.center}>
@@ -98,15 +100,16 @@ export default function Home() {
             priority
           />
           <div className={styles.thirteen}>
-            <p className='text-2xl font-bold font-mono'>RE</p>
+            <p className="text-2xl font-bold font-mono">RE</p>
           </div>
         </div>
         <div className={styles.center}>
-          <p className='text-xl font-semibold font-mono'>
-            Lo mejor para convivir con tus Roomies y llevar una vida más sana y feliz.
+          <p className="text-xl font-semibold font-mono">
+            Lo mejor para convivir con tus Roomies y llevar una vida más sana y
+            feliz.
           </p>
         </div>
       </main>
     </>
-  )
+  );
 }

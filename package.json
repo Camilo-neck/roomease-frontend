@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "npm run format && next dev",
+    "dev": "npm run format:tsx && npm run format:ts && next dev",
     "build": "next build",
     "start": "next lint && next build && next start",
-    "format": "prettier --write \"src/**/*.ts\" && eslint src --ext .ts --ext .tsx --fix",
+    "format:tsx": "prettier --write \"src/**/*.tsx\" && eslint src  --ext .tsx --fix",
+    "format:ts": "prettier --write \"src/**/*.ts\" && eslint src  --ext .ts --fix",
     "lint": "next lint"
   },
   "dependencies": {
