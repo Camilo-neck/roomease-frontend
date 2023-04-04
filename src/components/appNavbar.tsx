@@ -12,7 +12,7 @@ const AppNavbar = ({ sidebarWidth }: { sidebarWidth?: number }) => {
         width: { md: `calc(100% - ${sidebarWidth}px)` },
         ml: { md: `${sidebarWidth}px` },
       }}
-      className={`min-w-full md:min-w-min items-center flex flex-row p-2`}
+      className={`${sidebarWidth ? 'min-w-full md:min-w-min' : 'w-full min-w-full'} items-center flex flex-row p-2`}
     >
       <p className="font-bold text-xl text-primary-20 flex-grow">Roomease</p>
       <div className="flex flex-row gap-3 mr-5">
