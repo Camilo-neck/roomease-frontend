@@ -17,6 +17,9 @@ import {
   ToggleButtonGroup,
   IconButton,
   ListItem,
+  Drawer,
+  Box,
+  useMediaQuery,
 } from "@mui/material";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
@@ -54,14 +57,22 @@ const house = {
   members: ["1", "2", "3"],
 };
 
+const sidebarWidth = 280;
+
 const House = ({
   house,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const user = useSelector(selectUser);
+  const isMobile = useMediaQuery("(max-width: 768px)");
   const dispatch = useDispatch();
   const [view, setView] = useState("grid");
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const [container, setContainer] = useState<undefined | HTMLElement>(
+    undefined
+  );
 
   useEffect(() => {
+    setContainer(window ? () => document.body : undefined);
     // Fetch the user
     async function f() {
       const cookie = getCookie("auth-token");
@@ -87,34 +98,101 @@ const House = ({
       <main className="bg-[#FAFDFD] h-screen">
         <div className="bg-primary-40/5 h-screen flex flex-col items-center">
           {/* Upper bar*/}
-          <AppNavbar />
+          <AppNavbar sidebarWidth={isMobile ? 0 : sidebarWidth} />
           <hr className="border border-neutral_variant-80 w-full" />
           {/*Main*/}
-          <div className="w-full h-full grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+          <div className="flex flex-row w-full h-full">
             {/* Sidebar */}
-            <div className="bg-primary-95 col-span-1">
-              <div className="bg-primary-40/10 h-full">
-                {/* House card */}
-                <div className="p-5 items-center">
-                  <MediaCard
-                    name={house.name}
-                    address={house.address}
-                    description={house.description}
-                    picture={house.house_picture}
-                  />
+            <nav className={`md:w-[270px] md:flex-shrink-0`}>
+              <Drawer
+                sx={{
+                  "& .MuiDrawer-paper": {
+                    boxSizing: "border-box",
+                    width: sidebarWidth,
+                  },
+                }}
+                variant="permanent"
+                className="bg-primary-95 hidden md:block"
+              >
+                <div className="bg-primary-40/10 h-full">
+                  {/* House card */}
+                  <div className="p-5 items-center">
+                    <MediaCard
+                      name={house.name}
+                      address={house.address}
+                      description={house.description}
+                      picture={house.house_picture}
+                    />
+                  </div>
+                  {/* House members */}
+                  <div className="p-5 pt-0">
+                    <PeopleCard
+                      users={house.users}
+                      pending_users={house.pending_users}
+                      house_id={house._id}
+                    />
+                  </div>
                 </div>
-                {/* House members */}
-                <div className="p-5 pt-0">
-                  <PeopleCard
-                    users={house.users}
-                    pending_users={house.pending_users}
-                    house_id={house._id}
-                  />
+              </Drawer>
+              <Drawer
+                sx={{
+                  "& .MuiDrawer-paper": {
+                    boxSizing: "border-box",
+                    width: sidebarWidth,
+                  },
+                }}
+                anchor="left"
+                open={mobileSidebarOpen}
+                onClose={() => setMobileSidebarOpen(false)}
+                container={container}
+                ModalProps={{
+                  keepMounted: true, // Better open performance on mobile.
+                }}
+                className="bg-primary-95 block md:hidden"
+              >
+                <div className="bg-primary-40/10 h-full">
+                  <Button
+                    onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
+                    className="block md:hidden"
+                  >
+                    Toggle
+                  </Button>
+                  {/* House card */}
+                  <div className="p-5 items-center">
+                    <MediaCard
+                      name={house.name}
+                      address={house.address}
+                      description={house.description}
+                      picture={house.house_picture}
+                    />
+                  </div>
+                  {/* House members */}
+                  <div className="p-5 pt-0">
+                    <PeopleCard
+                      users={house.users}
+                      pending_users={house.pending_users}
+                      house_id={house._id}
+                    />
+                  </div>
                 </div>
-              </div>
-            </div>
+              </Drawer>
+            </nav>
             {/* Content */}
-            <div className="col-span-2 md:col-span-3 lg:col-span-4 xl:col-span-5">
+            <Box
+              sx={{
+                flexGrow: 1,
+                p: 3,
+                width: { md: `calc(100% - ${sidebarWidth}px)` },
+              }}
+              component="main"
+              className="h-full"
+            >
+              <Button
+                onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
+                className="block md:hidden"
+              >
+                Toggle
+              </Button>
               <div className="flex flex-col justify-center items-center w-full h-full">
                 <Image
                   src={"/construction-warning-xd.webp"}
@@ -123,7 +201,7 @@ const House = ({
                   height={500}
                 />
               </div>
-            </div>
+            </Box>
           </div>
         </div>
       </main>

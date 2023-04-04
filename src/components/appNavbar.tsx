@@ -1,13 +1,19 @@
 import Link from "next/link";
 
-import { IconButton } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
-const AppNavbar = () => {
+const AppNavbar = ({ sidebarWidth }: { sidebarWidth?: number }) => {
   return (
-    <div className="w-full min-w-full items-center flex flex-row p-2">
+    <Box
+      sx={{
+        width: { md: `calc(100% - ${sidebarWidth}px)` },
+        ml: { md: `${sidebarWidth}px` },
+      }}
+      className={`min-w-full md:min-w-min items-center flex flex-row p-2`}
+    >
       <p className="font-bold text-xl text-primary-20 flex-grow">Roomease</p>
       <div className="flex flex-row gap-3 mr-5">
         <IconButton>
@@ -22,7 +28,7 @@ const AppNavbar = () => {
           <SettingsOutlinedIcon className="text-primary-20" />
         </IconButton>
       </div>
-    </div>
+    </Box>
   );
 };
 
