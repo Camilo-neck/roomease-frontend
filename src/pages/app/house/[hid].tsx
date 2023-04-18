@@ -47,18 +47,6 @@ import AppNavbar from "@/components/appNavbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const house = {
-  name: "Casa de la playa",
-  description:
-    "Casa de la playa de la familia de Juan Perez en la que viven Maria Perez y Juan Perez y que tiene una piscina y un jardin",
-  address: "Calle 1 # 2 - 3",
-  picture:
-    "https://www.experimenta.es/wp-content/uploads/2015/04/casa-playa-carmen-yupana-02-4.jpg",
-  members: ["1", "2", "3"],
-};
-
-const sidebarWidth = 280;
-
 const House = ({
   house,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
