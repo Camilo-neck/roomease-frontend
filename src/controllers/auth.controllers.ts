@@ -16,19 +16,13 @@ export const loginUser =
         body: JSON.stringify(user),
       });
       const { _id, name, email } = await response.json();
-      console.log({ _id, name, email });
       dispatch(setUser({ _id, name, email }));
 
       let token = response.headers.get("auth-token");
-      console.log(token);
 
       if (token) {
-        console.log("a");
         const unEncryptedToken: any = jwt.decode(token);
         const expiryDate = new Date(unEncryptedToken.exp * 1000);
-        console.log(unEncryptedToken);
-        // const { id, exp } = JSON.parse(unEncryptedToken);
-        // console.log(id, exp);
         setCookie(
           "auth-token",
           token,

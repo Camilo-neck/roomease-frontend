@@ -35,8 +35,6 @@ export const getHouse = async (houseId: string, token: string) => {
     .then((res) => res.json())
     .catch((err) => console.log(err));
 
-  console.log(house);
-
   return house ? house : [];
 };
 
