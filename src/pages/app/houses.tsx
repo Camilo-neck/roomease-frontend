@@ -36,11 +36,17 @@ import {
 } from "@/controllers/houses.controllers";
 import JoinHouseModal from "@/components/joinHouseModal";
 import AppNavbar from "@/components/appNavbar";
-import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import {
+  GetServerSideProps,
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+} from "next";
 import { HouseI } from "@/lib/interfaces";
 import { useAuth } from "@/hooks/useAuth";
 
-const Houses = ({ startHouses }: InferGetServerSidePropsType<typeof getServerSideProps> ) => {
+const Houses = ({
+  startHouses,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   useAuth();
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
@@ -75,7 +81,7 @@ const Houses = ({ startHouses }: InferGetServerSidePropsType<typeof getServerSid
     setJoinHouseModalOpen(false);
   };
 
-  const onJoinHouseModalSubmit = async (data: {houseCode: string}) => {
+  const onJoinHouseModalSubmit = async (data: { houseCode: string }) => {
     await joinHouse(data.houseCode);
     setHouses(await fetchHouses(user._id, getCookie("auth-token")));
   };
@@ -219,19 +225,23 @@ const Houses = ({ startHouses }: InferGetServerSidePropsType<typeof getServerSid
   );
 };
 
-export const getServerSideProps: GetServerSideProps<{ startHouses: HouseI[], message?: string }> = async (
-  ctx: GetServerSidePropsContext
-) => {
-  const cookie = ctx.req.cookies['auth-token'];
+export const getServerSideProps: GetServerSideProps<{
+  startHouses: HouseI[];
+  message?: string;
+}> = async (ctx: GetServerSidePropsContext) => {
+  const cookie = ctx.req.cookies["auth-token"];
   if (!cookie) {
     return {
       redirect: {
-        destination: '/login',
+        destination: "/login",
         permanent: false,
       },
-    }
+    };
   }
-  ctx.res.setHeader('Cache-Control', 'public, s-maxage=30, stale-while-revalidate=59');
+  ctx.res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=30, stale-while-revalidate=59"
+  );
   const startHouses = await fetchHouses(ctx.query._id as string, cookie);
   if (startHouses.message) {
     return {
@@ -239,14 +249,13 @@ export const getServerSideProps: GetServerSideProps<{ startHouses: HouseI[], mes
         startHouses: [],
         message: startHouses.message,
       },
-    }
+    };
   }
   return {
     props: {
       startHouses,
     },
-  }
-
-}
+  };
+};
 
 export default Houses;

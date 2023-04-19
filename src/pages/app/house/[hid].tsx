@@ -10,12 +10,7 @@ import { useState } from "react";
 import { Inter } from "next/font/google";
 
 // Material UI
-import {
-  Button,
-  Drawer,
-  Box,
-  useMediaQuery,
-} from "@mui/material";
+import { Button, Drawer, Box, useMediaQuery } from "@mui/material";
 
 // Redux
 import { useSelector, useDispatch } from "react-redux";

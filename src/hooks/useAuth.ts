@@ -4,22 +4,22 @@ import jwt from "jsonwebtoken";
 import { useCookies } from "./useCookie";
 
 export const useAuth = () => {
-	const { user, addUser } = useUser();
-	const { getCookie } = useCookies();
+  const { user, addUser } = useUser();
+  const { getCookie } = useCookies();
 
-	useEffect(() => {
-		async function f() {
-			const cookie = getCookie("auth-token");
-			if (cookie) {
-				const decoded: any = jwt.decode(cookie);
-				if (decoded) {
-					const { _id } = decoded;
-					addUser(_id, cookie);
-				}
-			}
-		}
-		f();
-	}, []);
+  useEffect(() => {
+    async function f() {
+      const cookie = getCookie("auth-token");
+      if (cookie) {
+        const decoded: any = jwt.decode(cookie);
+        if (decoded) {
+          const { _id } = decoded;
+          addUser(_id, cookie);
+        }
+      }
+    }
+    f();
+  }, []);
 
-	return { user };
+  return { user };
 };

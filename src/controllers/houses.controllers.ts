@@ -14,7 +14,6 @@ export const fetchHouses = async (uid: string, token: string) => {
     }
   ).then((res) => res.json());
 
-
   return houses ? houses : [];
 };
 
