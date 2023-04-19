@@ -31,12 +31,10 @@ const Register = () => {
   const router = useRouter();
 
   const onSubmit = (data: any) => {
-    console.log(data);
     console.log(new Date(data.date));
     const tmp_data = Object.assign({}, data);
     tmp_data.birth_date = new Date(data.birth_date);
     tmp_data.tags = tmp_data.tags.split(",").map((tag: string) => tag.trim());
-    console.log(tmp_data);
     registerUser(tmp_data);
     router.push("/auth/login");
     reset();

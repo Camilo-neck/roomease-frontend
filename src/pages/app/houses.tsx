@@ -1,30 +1,21 @@
 // Next
 import Head from "next/head";
 import Image from "next/image";
-import Link from "next/link";
 
 // React
 import { useState } from "react";
 
 // Styles
 import { Inter } from "next/font/google";
-import styles from "@/styles/Home.module.css";
 
 // Material UI
 import {
-  Button,
   ToggleButton,
   ToggleButtonGroup,
   IconButton,
-  AvatarGroup,
-  Avatar,
-  Rating,
   Menu,
   MenuItem,
 } from "@mui/material";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import ListRoundedIcon from "@mui/icons-material/ListRounded";
 import AddHomeRoundedIcon from "@mui/icons-material/AddHomeRounded";
 import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";
@@ -37,12 +28,7 @@ import CreateHouseModal from "@/components/createHouseModal";
 // Redux
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "@/redux/slices/user.slice";
-import { logoutUser } from "@/controllers/auth.controllers";
-import { useEffect } from "react";
 import { getCookie } from "@/lib/cookie";
-import jwt from "jsonwebtoken";
-import { fetchUserInfo } from "@/redux/thunks/user.thunk";
-import { useRouter } from "next/navigation";
 import {
   fetchHouses,
   createHouse,
@@ -50,35 +36,21 @@ import {
 } from "@/controllers/houses.controllers";
 import JoinHouseModal from "@/components/joinHouseModal";
 import AppNavbar from "@/components/appNavbar";
+import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import { HouseI } from "@/lib/interfaces";
+import { useAuth } from "@/hooks/useAuth";
 
-const inter = Inter({ subsets: ["latin"] });
-
-const Houses = () => {
+const Houses = ({ startHouses }: InferGetServerSidePropsType<typeof getServerSideProps> ) => {
+  useAuth();
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
   const [view, setView] = useState("grid");
-  const [houses, setHouses] = useState<any[]>([]);
+  const [houses, setHouses] = useState<HouseI[]>(startHouses);
   const [addPopoverAnchorEl, setAddPopoverAnchorEl] =
     useState<HTMLButtonElement | null>(null);
   const [createHouseModalOpen, setCreateHouseModalOpen] =
     useState<boolean>(false);
   const [joinHouseModalOpen, setJoinHouseModalOpen] = useState<boolean>(false);
-
-  useEffect(() => {
-    // Fetch the user
-    async function f() {
-      const cookie = getCookie("auth-token");
-      if (cookie) {
-        const decoded: any = jwt.decode(cookie);
-        if (decoded) {
-          const { _id } = decoded;
-          dispatch(fetchUserInfo(_id, cookie));
-          setHouses(await fetchHouses(_id, cookie));
-        }
-      }
-    }
-    f();
-  }, []);
 
   // Create House Modal
   const openCreateHouseModal = () => {
@@ -89,7 +61,7 @@ const Houses = () => {
     setCreateHouseModalOpen(false);
   };
 
-  const onCreateHouseModalSubmit = async (data: any) => {
+  const onCreateHouseModalSubmit = async (data: HouseI) => {
     await createHouse(data);
     setHouses((prev) => [...prev, data]);
   };
@@ -103,8 +75,7 @@ const Houses = () => {
     setJoinHouseModalOpen(false);
   };
 
-  const onJoinHouseModalSubmit = async (data: any) => {
-    console.log(data);
+  const onJoinHouseModalSubmit = async (data: {houseCode: string}) => {
     await joinHouse(data.houseCode);
     setHouses(await fetchHouses(user._id, getCookie("auth-token")));
   };
@@ -157,7 +128,7 @@ const Houses = () => {
                   <p className="font-semibold text-3xl">Mis casas</p>
                 </div>
                 <IconButton
-                  aria-described-by={addPopoverId}
+                  aria-describedby={addPopoverId}
                   onClick={handleAddPopoverClick}
                   className="bg-tertiary-60 hover:bg-tertiary-60/90 active:bg-tertiary-60 focus:bg-tertiary-60
                 text-white hover:text-tertiary-95 transition-colors ease-linear duration-200 h-fit"
@@ -224,15 +195,17 @@ const Houses = () => {
                             description={house.description}
                             img={house.house_picture}
                             id={house._id}
+                            users={house.users}
                           />
                         ))
-                      : houses.map((house, index) => (
+                      : houses.map((house) => (
                           <ListHouseCard
                             key={house._id}
                             name={house.name}
                             description={house.description}
                             img={house.house_picture}
                             id={house._id}
+                            users={house.users}
                           />
                         ))}
                   </div>
@@ -245,5 +218,35 @@ const Houses = () => {
     </>
   );
 };
+
+export const getServerSideProps: GetServerSideProps<{ startHouses: HouseI[], message?: string }> = async (
+  ctx: GetServerSidePropsContext
+) => {
+  const cookie = ctx.req.cookies['auth-token'];
+  if (!cookie) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
+  ctx.res.setHeader('Cache-Control', 'public, s-maxage=30, stale-while-revalidate=59');
+  const startHouses = await fetchHouses(ctx.query._id as string, cookie);
+  if (startHouses.message) {
+    return {
+      props: {
+        startHouses: [],
+        message: startHouses.message,
+      },
+    }
+  }
+  return {
+    props: {
+      startHouses,
+    },
+  }
+
+}
 
 export default Houses;

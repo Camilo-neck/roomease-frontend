@@ -1,7 +1,6 @@
 // Next
 import Head from "next/head";
 import Image from "next/image";
-import { useRouter } from "next/router";
 
 // React
 import * as React from "react";
@@ -13,28 +12,15 @@ import { Inter } from "next/font/google";
 // Material UI
 import {
   Button,
-  ToggleButton,
-  ToggleButtonGroup,
-  IconButton,
-  ListItem,
   Drawer,
   Box,
   useMediaQuery,
 } from "@mui/material";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import ListRoundedIcon from "@mui/icons-material/ListRounded";
-import AddHomeRoundedIcon from "@mui/icons-material/AddHomeRounded";
-import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";
 
 // Redux
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "@/redux/slices/user.slice";
 import { useEffect } from "react";
-import jwt from "jsonwebtoken";
-import { getCookie } from "@/lib/cookie";
-import { fetchUserInfo } from "@/redux/thunks/user.thunk";
 import MediaCard from "@/components/mediaCard";
 import PeopleCard from "@/components/peopleCard";
 import { getHouse } from "@/controllers/houses.controllers";
@@ -44,12 +30,14 @@ import {
   InferGetServerSidePropsType,
 } from "next";
 import AppNavbar from "@/components/appNavbar";
+import { useAuth } from "@/hooks/useAuth";
 
-const inter = Inter({ subsets: ["latin"] });
+const sidebarWidth = 290;
 
 const House = ({
   house,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  useAuth();
   const user = useSelector(selectUser);
   const isMobile = useMediaQuery("(max-width: 768px)");
   const dispatch = useDispatch();
@@ -61,18 +49,6 @@ const House = ({
 
   useEffect(() => {
     setContainer(window ? () => document.body : undefined);
-    // Fetch the user
-    async function f() {
-      const cookie = getCookie("auth-token");
-      if (cookie) {
-        const decoded: any = jwt.decode(cookie);
-        if (decoded) {
-          const { _id } = decoded;
-          dispatch(fetchUserInfo(_id, cookie));
-        }
-      }
-    }
-    f();
   }, []);
 
   return (
@@ -204,7 +180,7 @@ export const getServerSideProps: GetServerSideProps<{ house: any }> = async (
   if (!cookie) {
     return {
       redirect: {
-        destination: "/login",
+        destination: "/auth/login",
         permanent: false,
       },
     };

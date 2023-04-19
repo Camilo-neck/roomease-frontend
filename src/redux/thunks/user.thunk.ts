@@ -12,8 +12,6 @@ export const fetchUserInfo =
         "auth-token": token,
       },
     });
-    console.log("Res:");
-    console.log(res);
     const { _id, name, email } = await res.json();
     dispatch(setUser({ _id, name, email }));
   };

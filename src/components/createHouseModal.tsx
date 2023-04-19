@@ -72,7 +72,6 @@ export default function CreateHouseModal({
     const tmpData = Object.assign({}, data);
     tmpData.tags = tmpData.tags.split(",").map((tag: string) => tag.trim());
 
-    console.log(tmpData);
     onSubmit(tmpData);
     handleClose();
   };

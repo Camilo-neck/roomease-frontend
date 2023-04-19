@@ -14,13 +14,11 @@ export const fetchHouses = async (uid: string, token: string) => {
     }
   ).then((res) => res.json());
 
-  console.log(houses);
 
   return houses ? houses : [];
 };
 
 export const getHouse = async (houseId: string, token: string) => {
-  console.log(houseId);
   const house = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/house/${houseId}`,
     {
@@ -68,7 +66,6 @@ export const createHouse = async (house: any) => {
 
 export const joinHouse = async (house_code: string) => {
   const token = getCookie("auth-token");
-  console.log(house_code);
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/house/join/${house_code.replace(
@@ -84,7 +81,6 @@ export const joinHouse = async (house_code: string) => {
         },
       }
     ).then((res) => res.json());
-    console.log(response);
 
     if (!response.ok) {
       throw new Error(response.message);
