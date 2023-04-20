@@ -7,14 +7,14 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 function App({ Component, pageProps }: AppProps) {
-  return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <StyledEngineProvider injectFirst>
-        <CssBaseline />
-        <Component {...pageProps} />
-      </StyledEngineProvider>
-    </LocalizationProvider>
-  );
+	return (
+		<LocalizationProvider dateAdapter={AdapterDayjs}>
+			<StyledEngineProvider injectFirst>
+				<CssBaseline />
+				<Component {...pageProps} />
+			</StyledEngineProvider>
+		</LocalizationProvider>
+	);
 }
 
 export default wrapper.withRedux(App);
