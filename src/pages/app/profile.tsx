@@ -4,10 +4,6 @@ import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsT
 
 // React
 import { useState } from "react";
-import { stringAvatar } from "../../utils/stringAvatar";
-
-// Styles
-import { Inter } from "next/font/google";
 
 // Material UI
 import {
@@ -15,8 +11,6 @@ import {
 	Card,
 	Paper,
 	Stack,
-	Typography,
-	Divider,
 } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 
@@ -31,6 +25,7 @@ import { getAge } from "@/utils/getAge";
 import jwt from "jsonwebtoken";
 import { fetchUserData } from "@/controllers/user.controllers";
 import { UserI } from "@/lib/interfaces";
+import ProfileCard from "@/components/profileCard";
 
 const Profile = ({ userData }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	useAuth();
@@ -54,62 +49,18 @@ const Profile = ({ userData }: InferGetServerSidePropsType<typeof getServerSideP
 							<Grid className="h-full" container spacing={2}>
 								<Grid container className="flex justify-between h-full" item xs={3}>
 									<Stack justifyContent={"space-between"} className="w-full">
+										<ProfileCard
+											name={userInfo.name}
+											email={userInfo.email}
+											description={userInfo.description}
+											birthDate={userInfo.birth_date}
+											phone={userInfo.phone}
+											tags={userInfo.tags}
+										></ProfileCard>
 										<Card className="w-full h-[49%] rounded-md">
-											<Stack alignItems={"center"} className="w-full h-full" style={{ position: "relative" }}>
-												<div className="bg-sky-500 w-full h-[25%]"></div>
-												<Avatar
-													{...stringAvatar(userInfo.name, 96, 30)}
-													style={{
-														position: "absolute",
-														top: "25%",
-														left: "50%",
-														transform: "translate(-50%, -50%)",
-														border: "4px solid white",
-													}}
-												></Avatar>
-												<div className="h-[15%]"></div>
-												<span className="font-semibold text-xl pb-1">{userInfo.name}</span>
-												<span className="text-sm">
-													<span className="font-semibold">Correo:</span>
-													{userInfo.email}
-												</span>
-												<span className="text-sm">
-													<span className="font-semibold">Edad:</span>
-													{getAge(userInfo.birth_date)}
-												</span>
-												<span className="text-sm">
-													<span className="font-semibold">Teléfono:</span>
-													{userInfo.phone}
-												</span>
-												<Divider className="w-[90%] pt-3" />
-												<div className="w-[90%] pt-2">
-													<Typography className="line-clamp-2 leading-5 text-sm">{userInfo.description}</Typography>
-												</div>
-												<Divider className="w-[90%] pt-3" />
-												<div className="w-[90%] pt-2">
-													<Stack className="w-full" justifyContent={"center"} direction="row" spacing={2}>
-														{userInfo.tags.map((tag: string) => (
-															<Paper
-																className="text-xs p-1"
-																style={{ backgroundColor: stringToColor(tag, true) }}
-																key={tag}
-															>
-																{tag}
-															</Paper>
-														))}
-													</Stack>
-												</div>
-											</Stack>
-										</Card>
-										<Card className="w-full h-[49%] rounded-md">
-											<div className="flex items-center justify-center h-[90%] w-[90%]">Progreso</div>
+										<div className="flex items-center justify-center h-[90%] w-[90%]">Mis tareas</div>
 										</Card>
 									</Stack>
-								</Grid>
-								<Grid item xs={9}>
-									<Card className="h-full rounded-md">
-										<div className="flex items-center justify-center h-[90%] w-[90%]">Mis tareas</div>
-									</Card>
 								</Grid>
 							</Grid>
 						</div>

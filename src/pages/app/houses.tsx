@@ -1,22 +1,14 @@
 // Next
 import Head from "next/head";
-import Image from "next/image";
 
 // React
 import { useEffect, useState } from "react";
 
 // Styles
-import { Inter } from "next/font/google";
 
 // Material UI
-import { ToggleButton, ToggleButtonGroup, IconButton, Menu, MenuItem } from "@mui/material";
-import ListRoundedIcon from "@mui/icons-material/ListRounded";
-import AddHomeRoundedIcon from "@mui/icons-material/AddHomeRounded";
-import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";
 
 // Components
-import GridHouseCard from "@/components/gridHouseCard";
-import ListHouseCard from "@/components/listHouseCard";
 import CreateHouseModal from "@/components/createHouseModal";
 
 // Redux
@@ -29,9 +21,9 @@ import AppNavbar from "@/components/appNavbar";
 import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { HouseI } from "@/lib/interfaces";
 import { useAuth } from "@/hooks/useAuth";
-import HousesGrid from "@/components/HousesGrid";
 import HousesHeader from "@/components/housesHeader";
 import LayoutGroupButtons from "@/components/layoutGroupButtons";
+import HousesGrid from "@/components/HousesGrid";
 
 import jwt from 'jsonwebtoken';
 

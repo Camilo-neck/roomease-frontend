@@ -6,9 +6,6 @@ import Image from "next/image";
 import * as React from "react";
 import { useState } from "react";
 
-// Styles
-import { Inter } from "next/font/google";
-
 // Material UI
 import { Button, Drawer, Box, useMediaQuery } from "@mui/material";
 

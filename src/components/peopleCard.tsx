@@ -2,7 +2,7 @@
 import * as React from "react";
 
 // Material UI
-import { Button, ToggleButton, ToggleButtonGroup, IconButton, ListItem } from "@mui/material";
+import { Button, IconButton, ListItem } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -21,7 +21,7 @@ import Avatar from "@mui/material/Avatar";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearSharpIcon from "@mui/icons-material/ClearSharp";
 import { acceptPendingUser, rejectPendingUser } from "@/controllers/houses.controllers";
-import { stringAvatar } from "../utils/stringAvatar";
+import { stringAvatar } from "@/utils/stringAvatar";
 
 const NestedList = ({ users, pending_users, house_id }: { users: any[]; house_id: string; pending_users?: any[] }) => {
 	const [open1, setOpen1] = React.useState(true);
