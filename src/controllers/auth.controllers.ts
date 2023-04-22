@@ -15,7 +15,17 @@ export const loginUser =
 				},
 				body: JSON.stringify(user),
 			});
-			const { _id, name, email } = await response.json();
+			const data = await response.json();
+			console.log(data)
+			if (data.message) {
+				if (data.message === "Wrong password") {
+					throw new Error("Contraseña incorrecta");
+				}
+				if (data.message === "Wrong Email") {
+					throw new Error("Email incorrecto");
+				}
+			};
+			const { _id, name, email } = data;
 			dispatch(setUser({ _id, name, email }));
 
 			let token = response.headers.get("auth-token");

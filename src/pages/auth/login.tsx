@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import Head from "next/head";
 import { Button, TextField } from "@mui/material";
 import Link from "next/link";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { loginUser } from "@/controllers/auth.controllers";
 import { useDispatch } from "react-redux";
@@ -30,11 +30,21 @@ const Login = () => {
 	const router = useRouter();
 	const dispatch = useDispatch();
 
+	const [ loginErrorMessage, setLoginErrorMessage ] = useState<string | null>(null);
+
 	const onSubmit = async (data: any) => {
 		console.log(data);
-		await dispatch(loginUser(data));
-		router.push("/app/houses");
+		const res = await dispatch(loginUser(data));
 		reset();
+		// if res is an error, show error
+		if (res instanceof Error) {
+			console.log("error");
+			setLoginErrorMessage(res.message);
+			return;
+		}
+		// if res is not an error, redirect to houses
+		setLoginErrorMessage(null);
+		router.push("/app/houses");
 	};
 
 	return (
@@ -88,6 +98,9 @@ const Login = () => {
 							Iniciar Sesión
 						</Button>
 					</form>
+					{loginErrorMessage && (
+						<p className="text-sm text-error-60 text-center mt-1">{loginErrorMessage}</p>
+					)}
 					<p className="text-neutral-30 text-md mt-5">
 						¿No tienes una cuenta?{" "}
 						<Link href="/auth/register" className="text-tertiary-50">
