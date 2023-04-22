@@ -32,23 +32,24 @@ const ProfileCard = ({ name, email, description, birthDate, phone, tags }: Profi
 				<div className="h-[15%]"></div>
 				<span className="font-semibold text-xl pb-1">{name}</span>
 				<span className="text-sm">
-					<span className="font-semibold">Correo:</span>
+					<span className="font-semibold">Correo: </span>
 					{email}
 				</span>
 				<span className="text-sm">
-					<span className="font-semibold">Edad:</span>
+					<span className="font-semibold">Edad: </span>
 					{getAge(birthDate)}
 				</span>
 				<span className="text-sm">
-					<span className="font-semibold">Teléfono:</span>
+					<span className="font-semibold">Teléfono: </span>
 					{phone}
 				</span>
 				<Divider className="w-[90%] pt-3" />
 				<div className="w-[90%] pt-2">
-					<Typography className="line-clamp-2 leading-5 text-sm">{description}</Typography>
+					<Typography className="line-clamp-2 leading-5 text-sm text-center">{description}</Typography>
 				</div>
 				<Divider className="w-[90%] pt-3" />
 				<div className="w-[90%] pt-2">
+					
 					<Stack className="w-full" justifyContent={"center"} direction="row" spacing={2}>
 						{tags.map((tag, id) => (
 							<Paper className="text-xs p-1" style={{ backgroundColor: stringToColor(tag, true) }} key={id}>
