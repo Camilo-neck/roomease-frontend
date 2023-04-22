@@ -22,6 +22,7 @@ import { getHouse } from "@/controllers/houses.controllers";
 import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import AppNavbar from "@/components/appNavbar";
 import { useAuth } from "@/hooks/useAuth";
+import { HouseI } from "@/lib/interfaces";
 
 const sidebarWidth = 290;
 
@@ -141,7 +142,7 @@ const House = ({ house }: InferGetServerSidePropsType<typeof getServerSideProps>
 	);
 };
 
-export const getServerSideProps: GetServerSideProps<{ house: any }> = async (ctx: GetServerSidePropsContext) => {
+export const getServerSideProps: GetServerSideProps<{ house: HouseI }> = async (ctx: GetServerSidePropsContext) => {
 	const cookie = ctx.req.cookies["auth-token"];
 	if (!cookie) {
 		return {

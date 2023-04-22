@@ -3,7 +3,7 @@ import Head from "next/head";
 import Image from "next/image";
 
 // React
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // Styles
 import { Inter } from "next/font/google";
@@ -33,6 +33,8 @@ import HousesGrid from "@/components/HousesGrid";
 import HousesHeader from "@/components/housesHeader";
 import LayoutGroupButtons from "@/components/layoutGroupButtons";
 
+import jwt from 'jsonwebtoken';
+
 const Houses = ({ startHouses }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	useAuth();
 	const user = useSelector(selectUser);
@@ -42,6 +44,10 @@ const Houses = ({ startHouses }: InferGetServerSidePropsType<typeof getServerSid
 	const [addPopoverAnchorEl, setAddPopoverAnchorEl] = useState<HTMLButtonElement | null>(null);
 	const [createHouseModalOpen, setCreateHouseModalOpen] = useState<boolean>(false);
 	const [joinHouseModalOpen, setJoinHouseModalOpen] = useState<boolean>(false);
+
+	useEffect(() => {
+		console.log(startHouses);
+	}, []);
 
 	// Create House Modal
 	const openCreateHouseModal = () => {
@@ -137,7 +143,9 @@ export const getServerSideProps: GetServerSideProps<{
 		};
 	}
 	ctx.res.setHeader("Cache-Control", "public, s-maxage=30, stale-while-revalidate=59");
-	const startHouses = await fetchHouses(ctx.query._id as string, cookie);
+	const decodedToken = jwt.decode(cookie) as { _id: string };
+	const uid = decodedToken?._id;
+	const startHouses = await fetchHouses(uid, cookie);
 	if (startHouses.message) {
 		return {
 			props: {
