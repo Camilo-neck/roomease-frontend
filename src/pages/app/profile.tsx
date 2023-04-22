@@ -3,37 +3,24 @@ import Head from "next/head";
 
 // React
 import { useState } from "react";
-import { stringAvatar } from "../../utils/stringAvatar";
 
 // Material UI
 import {
-	ToggleButton,
-	ToggleButtonGroup,
-	IconButton,
-	Menu,
-	MenuItem,
 	Grid,
 	Card,
-	CardContent,
-	Paper,
 	Stack,
-	Typography,
-	Divider,
 } from "@mui/material";
-import Avatar from "@mui/material/Avatar";
 
 // Components
 import ProfileCard from "@/components/profileCard";
 
 // Redux
 import { useSelector, useDispatch } from "react-redux";
-import { fetchHouses, createHouse, joinHouse } from "@/controllers/houses.controllers";
+import { fetchHouses} from "@/controllers/houses.controllers";
 import AppNavbar from "@/components/appNavbar";
 import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { HouseI } from "@/lib/interfaces";
 import { useAuth } from "@/hooks/useAuth";
-import { stringToColor } from "@/utils/stringToColor";
-import { getAge } from "@/utils/getAge";
 
 const getUserData = () => {
 	const userData = {
