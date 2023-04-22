@@ -10,7 +10,7 @@ interface ProfileCardProps {
 	name: string;
 	email: string;
 	description: string;
-	birthDate: string;
+	birthDate: Date;
 	phone: string;
 	tags: string[];
 }
