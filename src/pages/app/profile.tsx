@@ -19,8 +19,6 @@ import AppNavbar from "@/components/appNavbar";
 
 // Redux
 import { useAuth } from "@/hooks/useAuth";
-import { stringToColor } from "@/utils/stringToColor";
-import { getAge } from "@/utils/getAge";
 
 import jwt from "jsonwebtoken";
 import { fetchUserData } from "@/controllers/user.controllers";

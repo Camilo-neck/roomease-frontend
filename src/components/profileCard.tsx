@@ -2,9 +2,8 @@
 import { Card, Paper, Stack, Typography, Divider, Avatar } from "@mui/material";
 
 // Utils
-import { stringToColor } from "@/utils/stringToColor";
 import { getAge } from "@/utils/getAge";
-import { stringAvatar } from "@/utils/stringAvatar";
+import { stringAvatar, stringToColor } from "@/utils/avatar.utils";
 
 interface ProfileCardProps {
 	name: string;
