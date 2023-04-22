@@ -3,23 +3,15 @@ import { useState, useRef } from "react";
 
 // Material UI
 import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
-import CircularProgress from "@mui/material/CircularProgress";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-// MUI Icons
-import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
-import CloseIcon from "@mui/icons-material/Close";
-
 // Redux
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
-import { selectUser } from "@/redux/slices/user.slice";
 
 const initialState = {
 	houseCode: "",

@@ -16,7 +16,10 @@ export function stringToColor(string: string, rgba: boolean = false) {
 	/* eslint-enable no-bitwise */
 
 	if (rgba) {
-		return `rgba(${parseInt(color.slice(1, 3), 16)}, ${parseInt(color.slice(3, 5), 16)}, ${parseInt(color.slice(5, 7), 16)}, 0.3)`;
+		return `rgba(${parseInt(color.slice(1, 3), 16)}, ${parseInt(color.slice(3, 5), 16)}, ${parseInt(
+			color.slice(5, 7),
+			16,
+		)}, 0.3)`;
 	}
 	return color;
 }
