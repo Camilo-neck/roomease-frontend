@@ -21,72 +21,7 @@ import Avatar from "@mui/material/Avatar";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearSharpIcon from "@mui/icons-material/ClearSharp";
 import { acceptPendingUser, rejectPendingUser } from "@/controllers/houses.controllers";
-
-const getUsers = () => {
-	const users = {
-		members: [
-			{
-				id: 1,
-				name: "Juan",
-				lastName: "Perez",
-				owner: true,
-			},
-			{
-				id: 2,
-				name: "Maria",
-				lastName: "Perez",
-				owner: false,
-			},
-		],
-		pending: [
-			{
-				id: 3,
-				name: "Pedro",
-				lastName: "Perez",
-				owner: false,
-			},
-			{
-				id: 4,
-				name: "Ana",
-				lastName: "Rodriguez",
-				owner: false,
-			},
-		],
-	};
-	return users;
-};
-
-function stringToColor(string: string) {
-	let hash = 0;
-	let i;
-
-	/* eslint-disable no-bitwise */
-	for (i = 0; i < string.length; i += 1) {
-		hash = string.charCodeAt(i) + ((hash << 5) - hash);
-	}
-
-	let color = "#";
-
-	for (i = 0; i < 3; i += 1) {
-		const value = (hash >> (i * 8)) & 0xff;
-		color += `00${value.toString(16)}`.slice(-2);
-	}
-	/* eslint-enable no-bitwise */
-
-	return color;
-}
-
-function stringAvatar(name: string) {
-	return {
-		sx: {
-			bgcolor: stringToColor(name),
-			width: 24,
-			height: 24,
-			fontSize: 10,
-		},
-		children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
-	};
-}
+import { stringAvatar } from "../utils/stringAvatar";
 
 const NestedList = ({ users, pending_users, house_id }: { users: any[]; house_id: string; pending_users?: any[] }) => {
 	const [open1, setOpen1] = React.useState(true);

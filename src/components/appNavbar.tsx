@@ -16,9 +16,11 @@ const AppNavbar = ({ sidebarWidth }: { sidebarWidth?: number }) => {
 		>
 			<p className="font-bold text-xl text-primary-20 flex-grow">Roomease</p>
 			<div className="flex flex-row gap-3 mr-5">
-				<IconButton>
-					<AccountBoxOutlinedIcon className="text-primary-20" />
-				</IconButton>
+				<Link href="/app/profile">
+					<IconButton>
+						<AccountBoxOutlinedIcon className="text-primary-20" />
+					</IconButton>
+				</Link>
 				<Link href="/app/houses">
 					<IconButton>
 						<HomeOutlinedIcon className="text-primary-20" />

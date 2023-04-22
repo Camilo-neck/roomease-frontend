@@ -28,6 +28,7 @@
     "firebase": "^9.19.0",
     "jsonwebtoken": "^9.0.0",
     "mocha": "^10.2.0",
+    "moment": "^2.29.4",
     "next": "^13.2.4",
     "next-redux-wrapper": "^8.1.0",
     "react": "18.2.0",
