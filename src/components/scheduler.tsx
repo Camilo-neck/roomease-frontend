@@ -9,6 +9,12 @@ const appointments = [
 		endDate: new Date(2021, 4, 22, 11, 30),
 	},
 	{
+		text: "Website Re-Design Plan",
+		startDate: new Date(2021, 4, 23, 9, 30),
+		endDate: new Date(2021, 4, 23, 11, 30),
+		recurrenceRule: "FREQ=WEEKLY;BYDAY=TU,WE,FR;UNTIL=20210628",
+	},
+	{
 		text: "Book Flights to San Fran for Sales Trip",
 		startDate: new Date(2021, 4, 22, 12, 0),
 		endDate: new Date(2021, 4, 22, 13, 0),
@@ -68,6 +74,9 @@ const MyScheduler = () => {
 			startDayHour={9}
 			endDayHour={19}
 			className="h-full"
+			onAppointmentUpdated={(e) => {
+				console.log(e);
+			}}
 		>
 			<Resource
 				dataSource={[

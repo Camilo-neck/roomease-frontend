@@ -16,7 +16,9 @@ import {
 	FormControlLabel,
 	Checkbox,
 	LinearProgress,
+	IconButton,
 } from "@mui/material";
+import AddRoundedIcon from "@mui/icons-material/AddRounded";
 
 // Redux
 import { useSelector, useDispatch } from "react-redux";
@@ -33,6 +35,7 @@ import MyScheduler from "@/components/scheduler";
 
 import jwt from "jsonwebtoken";
 import { getHouseTasks, getUserTasks } from "@/controllers/task.controllers";
+import CreateTaskModal from "@/components/createTaskModal";
 
 const sidebarWidth = 290;
 
@@ -44,6 +47,7 @@ const House = ({ house, userTasks, tasks }: InferGetServerSidePropsType<typeof g
 	const [view, setView] = useState("grid");
 	const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 	const [container, setContainer] = useState<undefined | HTMLElement>(undefined);
+	const [ isCreateTaskModalOpen, setIsCreateTaskModalOpen ] = useState(false);
 
 	useEffect(() => {
 		setContainer(window ? () => document.body : undefined);
@@ -57,6 +61,14 @@ const House = ({ house, userTasks, tasks }: InferGetServerSidePropsType<typeof g
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
+			<CreateTaskModal 
+				isOpen={isCreateTaskModalOpen} 
+				onClose={() => setIsCreateTaskModalOpen(false)}
+				onSubmit={data => {
+					console.log(data);
+				}}
+				users={house.users}
+			/>
 			<main className="bg-[#FAFDFD] h-screen">
 				<div className="bg-primary-40/5 h-screen flex flex-col items-center">
 					{/* Upper bar*/}
@@ -144,7 +156,16 @@ const House = ({ house, userTasks, tasks }: InferGetServerSidePropsType<typeof g
 							<div className="flex flex-col">
 								<div className="flex flex-row">
 									<div className="w-[30%]">
-										<p className="text-lg font-semibold">Mis tareas:</p>
+										<div className="flex flex-col flex-col-reverse md:flex-row items-start md:items-center mr-5">
+										<p className="text-lg font-semibold flex-grow">Mis tareas:</p>
+										<IconButton 
+											color="primary"
+											className="bg-primary-90 hover:bg-primary-80 active:bg-primary-80"
+											onClick={() => setIsCreateTaskModalOpen(true)}
+											>
+											<AddRoundedIcon />
+										</IconButton>
+										</div>
 										<FormGroup className="flex flex-col gap-2">
 											{tasks
 												.filter((task) => task.users_id.includes(user._id))
@@ -163,11 +184,11 @@ const House = ({ house, userTasks, tasks }: InferGetServerSidePropsType<typeof g
 								</div>
 								<div>
 									<p className="text-xl">Progresos</p>
-									<div className="flex flex-row items-center gap-2">
+									<div className="grid grid-flow-row-dense grid-cols-6 items-center gap-2">
 										<p className="font-semibold">Mi progreso:</p>
 										<LinearProgress
 											variant="determinate"
-											className="flex-grow rounded-lg h-2"
+											className="flex-grow rounded-lg col-span-5 h-2"
 											value={
 												userTasks.length > 0
 													? (userTasks.filter((task) => task.done).length * 100) / userTasks.length
@@ -175,11 +196,11 @@ const House = ({ house, userTasks, tasks }: InferGetServerSidePropsType<typeof g
 											}
 										/>
 									</div>
-									<div className="flex flex-row items-center gap-2">
+									<div className="grid grid-flow-row-dense grid-cols-6 items-center gap-2">
 										<p className="font-semibold">Progreso de la casa:</p>
 										<LinearProgress
 											variant="determinate"
-											className="flex-grow rounded-lg h-2"
+											className="flex-grow rounded-lg h-2 col-span-5"
 											value={tasks.length > 0 ? (tasks.filter((task) => task.done).length * 100) / tasks.length : 0}
 										/>
 									</div>
