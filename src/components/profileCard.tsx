@@ -31,34 +31,32 @@ const ProfileCard = ({ name, email, description, birthDate, phone, tags }: Profi
 				></Avatar>
 				<div className="h-[10%]"></div>
 				<span className="font-semibold text-[1.5rem]">{name}</span>
-				<span className="text-sm pb-2">
-					{email}
-				</span>
+				<span className="text-sm pb-2">{email}</span>
 				<Stack className="w-[80%] pt-3 items-center" spacing={1}>
 					<span className="text-sm">
 						<span className="font-semibold">Edad: </span>
 						{getAge(birthDate)} años
 					</span>
 					<span className="text-sm">
-							<span className="font-semibold">Teléfono: </span>
-							{phone}
+						<span className="font-semibold">Teléfono: </span>
+						{phone}
 					</span>
-				</Stack>				
+				</Stack>
 				<Divider className="w-[80%] pt-5" />
 				<div className="w-[75%] pt-5 pb-5">
 					<Typography className="line-clamp-5 leading-5 text-sm text-center">{description}</Typography>
 				</div>
 				<Divider className="w-[80%] pt-3" />
 				<div className="w-[80%] pt-5">
-				<Grid container spacing={2} className="justify-center">
-					{tags.map((tag, id) => (
-						<Grid item key={id}>
-						<Paper className="text-sm p-1" style={{ backgroundColor: stringToColor(tag, true) }}>
-							{tag}
-						</Paper>
-						</Grid>
-					))}
-				</Grid>
+					<Grid container spacing={2} className="justify-center">
+						{tags.map((tag, id) => (
+							<Grid item key={id}>
+								<Paper className="text-sm p-1" style={{ backgroundColor: stringToColor(tag, true) }}>
+									{tag}
+								</Paper>
+							</Grid>
+						))}
+					</Grid>
 				</div>
 			</Stack>
 		</Card>

@@ -63,29 +63,27 @@ const appointments = [
 	},
 ];
 
-const MyScheduler = () => {
-	const [data, setData] = React.useState(appointments);
+const MyScheduler = ({
+	data
+}:{
+	data: any
+}) => {
+	// const [data, setData] = React.useState(appointments);
+	console.log(data)
 
 	return (
 		<Scheduler
 			dataSource={data}
 			defaultCurrentView="day"
-			defaultCurrentDate={new Date(2021, 4, 22)}
+			defaultCurrentDate={new Date()}
 			startDayHour={9}
 			endDayHour={19}
 			className="h-full"
 			onAppointmentUpdated={(e) => {
 				console.log(e);
 			}}
+			editing={false}
 		>
-			<Resource
-				dataSource={[
-					{ text: "Room 1", id: 1, color: "#cb6bb2" },
-					{ text: "Room 2", id: 2, color: "#56ca85" },
-				]}
-				fieldExpr="roomId"
-				useColorAsDefault={true}
-			/>
 		</Scheduler>
 	);
 };
