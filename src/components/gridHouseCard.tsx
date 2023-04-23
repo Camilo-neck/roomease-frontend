@@ -30,6 +30,9 @@ const GridHouseCard = ({
 			<div className="flex flex-col gap-2 p-5">
 				<div className="flex flex-row w-full items-center">
 					<p className="font-semibold text-lg flex-grow">{name}</p>
+					
+				</div>
+				<div className="flex flex-row w-full items-center">
 					<AvatarGroup
 						max={3}
 						sx={{
@@ -38,7 +41,7 @@ const GridHouseCard = ({
 								height: 24,
 							},
 						}}
-						className="flex items-center justify-end p-1 text-sm"
+						className="flex flex-grow items-center justify-end p-1 text-sm"
 					>
 						{users.map((user) => {
 							return user.profile_picture && user.profile_picture !== "" ? (
@@ -48,9 +51,6 @@ const GridHouseCard = ({
 							);
 						})}
 					</AvatarGroup>
-				</div>
-				<div className="flex flex-row w-full items-center">
-					<Rating className="flex-grow" name="read-only" value={4} size="small" readOnly />
 					<Link href={`/app/house/${id}`}>
 						<Button
 							size="small"
