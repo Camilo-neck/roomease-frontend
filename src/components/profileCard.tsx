@@ -16,7 +16,7 @@ interface ProfileCardProps {
 
 const ProfileCard = ({ name, email, description, birthDate, phone, tags }: ProfileCardProps) => {
 	return (
-		<Card className="w-full h-full rounded-lg shadow-lg">
+		<Card className="w-full min-h-[650px] h-full rounded-lg shadow-lg">
 			<Stack alignItems={"center"} className="w-full h-full" style={{ position: "relative" }}>
 				<div className="bg-gradient-to-t from-primary-50 to-secondary-60 w-full h-[25%]"></div>
 				<Avatar
