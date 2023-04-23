@@ -36,9 +36,9 @@ const Profile = ({ userData }: InferGetServerSidePropsType<typeof getServerSideP
 				<div className="bg-primary-40/5 h-screen flex flex-col items-center">
 					<AppNavbar />
 					<hr className="border border-neutral_variant-80 w-full" />
-					<div className="flex w-[80vw] h-screen items-center justify-center p-10">
+					<div className="flex w-[90vw] h-screen items-center justify-center p-10">
 						<div className="flex flex-col w-full h-[80vh] p-3 gap-8 items-center justify-center">
-							<Stack justifyContent={"space-between"} className="w-[60%] h-full">
+							<Stack justifyContent={"space-between"} className="w-full md:w-[60%] h-full">
 								<ProfileCard
 									name={userInfo.name}
 									email={userInfo.email}

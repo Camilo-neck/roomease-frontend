@@ -23,7 +23,7 @@ import { HouseI } from "@/lib/interfaces";
 import { useAuth } from "@/hooks/useAuth";
 import HousesHeader from "@/components/housesHeader";
 import LayoutGroupButtons from "@/components/layoutGroupButtons";
-import HousesGrid from "@/components/HousesGrid";
+import HousesGrid from "@/components/housesGrid";
 
 import jwt from "jsonwebtoken";
 

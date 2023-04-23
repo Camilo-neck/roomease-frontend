@@ -36,16 +36,15 @@ const GridHouseCard = ({
 							"& .MuiAvatar-root": {
 								width: 24,
 								height: 24,
-								fontSize: "14px",
 							},
 						}}
 						className="flex items-center justify-end p-1 text-sm"
 					>
 						{users.map((user) => {
 							return user.profile_picture && user.profile_picture !== "" ? (
-								<Avatar key={user._id} alt={user.name} className="w-6 h-6" src={user.profile_picture} />
+								<Avatar key={user._id} alt={user.name} src={user.profile_picture} {...stringAvatar(user.name)} />
 							) : (
-								<Avatar key={user._id} className="w-6 h-6" {...stringAvatar(user.name)} />
+								<Avatar key={user._id} {...stringAvatar(user.name)} />
 							);
 						})}
 					</AvatarGroup>

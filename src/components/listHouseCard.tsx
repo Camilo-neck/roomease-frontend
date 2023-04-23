@@ -40,16 +40,16 @@ const ListHouseCard = ({
 								"& .MuiAvatar-root": {
 									width: 35,
 									height: 35,
-									fontSize: "14px",
+									fontSize: 12
 								},
 							}}
 							className="flex-grow flex justify-end text-sm"
 						>
 							{users.map((user) => {
 								return user.profile_picture && user.profile_picture !== "" ? (
-									<Avatar key={user._id} alt={user.name} className="w-6 h-6" src={user.profile_picture} />
+									<Avatar key={user._id} alt={user.name} src={user.profile_picture} {...stringAvatar(user.name)} />
 								) : (
-									<Avatar key={user._id} className="w-6 h-6" {...stringAvatar(user.name)} />
+									<Avatar key={user._id} {...stringAvatar(user.name)} />
 								);
 							})}
 						</AvatarGroup>
