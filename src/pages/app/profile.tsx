@@ -6,12 +6,7 @@ import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsT
 import { useState } from "react";
 
 // Material UI
-import {
-	Grid,
-	Card,
-	Paper,
-	Stack,
-} from "@mui/material";
+import { Grid, Card, Paper, Stack } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 
 // Components
@@ -27,8 +22,7 @@ import ProfileCard from "@/components/profileCard";
 
 const Profile = ({ userData }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	useAuth();
-	const [userInfo, setUserInfo] = useState<UserI>(userData ? userData : {} as UserI);
-	
+	const [userInfo, setUserInfo] = useState<UserI>(userData ? userData : ({} as UserI));
 
 	return (
 		<>
@@ -56,7 +50,7 @@ const Profile = ({ userData }: InferGetServerSidePropsType<typeof getServerSideP
 											tags={userInfo.tags}
 										></ProfileCard>
 										<Card className="w-full h-[49%] rounded-md">
-										<div className="flex items-center justify-center h-[90%] w-[90%]">Mis tareas</div>
+											<div className="flex items-center justify-center h-[90%] w-[90%]">Mis tareas</div>
 										</Card>
 									</Stack>
 								</Grid>

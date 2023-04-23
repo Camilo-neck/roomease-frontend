@@ -49,7 +49,6 @@ const ProfileCard = ({ name, email, description, birthDate, phone, tags }: Profi
 				</div>
 				<Divider className="w-[90%] pt-3" />
 				<div className="w-[90%] pt-2">
-					
 					<Stack className="w-full" justifyContent={"center"} direction="row" spacing={2}>
 						{tags.map((tag, id) => (
 							<Paper className="text-xs p-1" style={{ backgroundColor: stringToColor(tag, true) }} key={id}>
