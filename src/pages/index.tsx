@@ -19,28 +19,15 @@ import { useEffect } from "react";
 import { getCookie } from "@/lib/cookie";
 import jwt from "jsonwebtoken";
 import { fetchUserInfo } from "@/redux/thunks/user.thunk";
+import { useAuth } from "@/hooks/useAuth";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+	useAuth()
 	const user = useSelector(selectUser);
 	const dispatch = useDispatch();
 	const router = useRouter();
-
-	useEffect(() => {
-		// Fetch the user
-		async function f() {
-			const cookie = getCookie("auth-token");
-			if (cookie) {
-				const decoded: any = jwt.decode(cookie);
-				if (decoded) {
-					const { _id } = decoded;
-					dispatch(fetchUserInfo(_id, cookie));
-				}
-			}
-		}
-		f();
-	}, []);
 
 	return (
 		<>

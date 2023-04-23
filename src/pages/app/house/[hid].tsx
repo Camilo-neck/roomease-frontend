@@ -32,11 +32,11 @@ import { HouseI, TaskI } from "@/lib/interfaces";
 import MyScheduler from "@/components/scheduler";
 
 import jwt from "jsonwebtoken";
-import { getUserTasks } from "@/controllers/tasks.controllers";
+import { getHouseTasks, getUserTasks } from "@/controllers/task.controllers";
 
 const sidebarWidth = 290;
 
-const House = ({ house, tasks }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const House = ({ house, userTasks, tasks }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	useAuth();
 	const user = useSelector(selectUser);
 	const isMobile = useMediaQuery("(max-width: 768px)");
@@ -158,7 +158,7 @@ const House = ({ house, tasks }: InferGetServerSidePropsType<typeof getServerSid
 										</FormGroup>
 									</div>
 									<div className="overflow-y-auto h-[70vh] w-full">
-									<MyScheduler />
+										<MyScheduler />
 									</div>
 								</div>
 								<div>
@@ -169,9 +169,9 @@ const House = ({ house, tasks }: InferGetServerSidePropsType<typeof getServerSid
 											variant="determinate"
 											className="flex-grow rounded-lg h-2"
 											value={
-												(tasks.filter((task) => task.users_id.includes(user._id)).filter((task) => task.done).length *
-													100) /
-												tasks.filter((task) => task.users_id.includes(user._id)).length
+												userTasks.length > 0
+													? (userTasks.filter((task) => task.done).length * 100) / userTasks.length
+													: 0
 											}
 										/>
 									</div>
@@ -180,7 +180,7 @@ const House = ({ house, tasks }: InferGetServerSidePropsType<typeof getServerSid
 										<LinearProgress
 											variant="determinate"
 											className="flex-grow rounded-lg h-2"
-											value={tasks.filter((task) => task.done).length * 100 / tasks.length}
+											value={tasks.length > 0 ? (tasks.filter((task) => task.done).length * 100) / tasks.length : 0}
 										/>
 									</div>
 								</div>
@@ -193,7 +193,7 @@ const House = ({ house, tasks }: InferGetServerSidePropsType<typeof getServerSid
 	);
 };
 
-export const getServerSideProps: GetServerSideProps<{ house: HouseI; tasks: TaskI[] }> = async (
+export const getServerSideProps: GetServerSideProps<{ house: HouseI; userTasks: TaskI[]; tasks: TaskI[] }> = async (
 	ctx: GetServerSidePropsContext,
 ) => {
 	const cookie = ctx.req.cookies["auth-token"];
@@ -217,11 +217,13 @@ export const getServerSideProps: GetServerSideProps<{ house: HouseI; tasks: Task
 			},
 		};
 	}
-	const tasks: TaskI[] = await getUserTasks(ctx.query.hid as string, decodedToken._id, cookie);
+	const tasks: TaskI[] = await getHouseTasks(ctx.query.hid as string, cookie);
+	const userTasks: TaskI[] = await getUserTasks(ctx.query.hid as string, decodedToken._id, cookie);
 	console.log(tasks);
 	return {
 		props: {
 			house,
+			userTasks,
 			tasks,
 		},
 	};
