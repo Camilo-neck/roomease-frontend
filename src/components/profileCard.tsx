@@ -1,5 +1,5 @@
 // Material UI
-import { Card, Paper, Stack, Typography, Divider, Avatar } from "@mui/material";
+import { Card, Paper, Stack, Typography, Divider, Avatar, Grid } from "@mui/material";
 
 // Utils
 import { getAge } from "@/utils/getAge";
@@ -16,11 +16,11 @@ interface ProfileCardProps {
 
 const ProfileCard = ({ name, email, description, birthDate, phone, tags }: ProfileCardProps) => {
 	return (
-		<Card className="w-full h-[49%] rounded-md">
+		<Card className="w-full h-full rounded-lg shadow-lg">
 			<Stack alignItems={"center"} className="w-full h-full" style={{ position: "relative" }}>
-				<div className="bg-sky-500 w-full h-[25%]"></div>
+				<div className="bg-gradient-to-t from-primary-50 to-secondary-60 w-full h-[25%]"></div>
 				<Avatar
-					{...stringAvatar(name, 96, 30)}
+					{...stringAvatar(name, 120, 40)}
 					style={{
 						position: "absolute",
 						top: "25%",
@@ -29,33 +29,36 @@ const ProfileCard = ({ name, email, description, birthDate, phone, tags }: Profi
 						border: "4px solid white",
 					}}
 				></Avatar>
-				<div className="h-[15%]"></div>
-				<span className="font-semibold text-xl pb-1">{name}</span>
-				<span className="text-sm">
-					<span className="font-semibold">Correo: </span>
+				<div className="h-[10%]"></div>
+				<span className="font-semibold text-[1.5rem]">{name}</span>
+				<span className="text-sm pb-2">
 					{email}
 				</span>
-				<span className="text-sm">
-					<span className="font-semibold">Edad: </span>
-					{getAge(birthDate)}
-				</span>
-				<span className="text-sm">
-					<span className="font-semibold">Teléfono: </span>
-					{phone}
-				</span>
-				<Divider className="w-[90%] pt-3" />
-				<div className="w-[90%] pt-2">
-					<Typography className="line-clamp-2 leading-5 text-sm text-center">{description}</Typography>
+				<Stack className="w-[80%] pt-3 items-center" spacing={1}>
+					<span className="text-sm">
+						<span className="font-semibold">Edad: </span>
+						{getAge(birthDate)} años
+					</span>
+					<span className="text-sm">
+							<span className="font-semibold">Teléfono: </span>
+							{phone}
+					</span>
+				</Stack>				
+				<Divider className="w-[80%] pt-5" />
+				<div className="w-[75%] pt-5 pb-5">
+					<Typography className="line-clamp-5 leading-5 text-sm text-center">{description}</Typography>
 				</div>
-				<Divider className="w-[90%] pt-3" />
-				<div className="w-[90%] pt-2">
-					<Stack className="w-full" justifyContent={"center"} direction="row" spacing={2}>
-						{tags.map((tag, id) => (
-							<Paper className="text-xs p-1" style={{ backgroundColor: stringToColor(tag, true) }} key={id}>
-								{tag}
-							</Paper>
-						))}
-					</Stack>
+				<Divider className="w-[80%] pt-3" />
+				<div className="w-[80%] pt-5">
+				<Grid container spacing={2} className="justify-center">
+					{tags.map((tag, id) => (
+						<Grid item key={id}>
+						<Paper className="text-sm p-1" style={{ backgroundColor: stringToColor(tag, true) }}>
+							{tag}
+						</Paper>
+						</Grid>
+					))}
+				</Grid>
 				</div>
 			</Stack>
 		</Card>
