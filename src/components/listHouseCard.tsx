@@ -17,7 +17,6 @@ const ListHouseCard = ({
 	id: string;
 	users: UserI[];
 }) => {
-
 	return (
 		<div className="flex flex-row bg-white shadow-lg rounded-lg">
 			<Image

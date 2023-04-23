@@ -10,7 +10,7 @@ import { logoutUser } from "@/controllers/auth.controllers";
 import { useRouter } from "next/navigation";
 
 const AppNavbar = ({ sidebarWidth }: { sidebarWidth?: number }) => {
-	const dispatch = useDispatch()
+	const dispatch = useDispatch();
 	const router = useRouter();
 	const [userPopoverAnchorEl, setUserPopoverAnchorEl] = useState<null | HTMLElement>(null);
 	const userPopoverOpen = Boolean(userPopoverAnchorEl);
@@ -51,17 +51,16 @@ const AppNavbar = ({ sidebarWidth }: { sidebarWidth?: number }) => {
 						horizontal: "center",
 					}}
 				>
+					<MenuItem className="text-primary-20 hover:text-primary-30 focus:text-primary-30 ">
+						<Link href={"/app/profile"}>Ver perfil</Link>
+					</MenuItem>
 					<MenuItem
+						onClick={async () => {
+							await dispatch(logoutUser());
+							router.push("/");
+						}}
 						className="text-primary-20 hover:text-primary-30 focus:text-primary-30 "
 					>
-						<Link href={"/app/profile"}>
-							Ver perfil
-						</Link>
-					</MenuItem>
-					<MenuItem onClick={async () => {
-						await dispatch(logoutUser())
-						router.push("/")
-					}} className="text-primary-20 hover:text-primary-30 focus:text-primary-30 ">
 						Cerrar sesión
 					</MenuItem>
 				</Menu>

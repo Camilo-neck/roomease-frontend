@@ -30,7 +30,7 @@ const Login = () => {
 	const router = useRouter();
 	const dispatch = useDispatch();
 
-	const [ loginErrorMessage, setLoginErrorMessage ] = useState<string | null>(null);
+	const [loginErrorMessage, setLoginErrorMessage] = useState<string | null>(null);
 
 	const onSubmit = async (data: any) => {
 		console.log(data);
@@ -98,9 +98,7 @@ const Login = () => {
 							Iniciar Sesión
 						</Button>
 					</form>
-					{loginErrorMessage && (
-						<p className="text-sm text-error-60 text-center mt-1">{loginErrorMessage}</p>
-					)}
+					{loginErrorMessage && <p className="text-sm text-error-60 text-center mt-1">{loginErrorMessage}</p>}
 					<p className="text-neutral-30 text-md mt-5">
 						¿No tienes una cuenta?{" "}
 						<Link href="/auth/register" className="text-tertiary-50">

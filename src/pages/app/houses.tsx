@@ -25,7 +25,7 @@ import HousesHeader from "@/components/housesHeader";
 import LayoutGroupButtons from "@/components/layoutGroupButtons";
 import HousesGrid from "@/components/HousesGrid";
 
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 
 const Houses = ({ startHouses }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	useAuth();

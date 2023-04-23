@@ -17,7 +17,6 @@ const GridHouseCard = ({
 	id: string;
 	users: UserI[];
 }) => {
-
 	return (
 		<div className="flex flex-col bg-white shadow-lg rounded-lg">
 			<Image
