@@ -16,7 +16,7 @@ export const loginUser =
 				body: JSON.stringify(user),
 			});
 			const data = await response.json();
-			console.log(data)
+			console.log(data);
 			if (data.message) {
 				if (data.message === "Wrong password") {
 					throw new Error("Contraseña incorrecta");
@@ -24,7 +24,7 @@ export const loginUser =
 				if (data.message === "Wrong Email") {
 					throw new Error("Email incorrecto");
 				}
-			};
+			}
 			const { _id, name, email } = data;
 			dispatch(setUser({ _id, name, email }));
 

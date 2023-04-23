@@ -28,4 +28,4 @@ export const getHouseTasks = async (hid: string, token: string) => {
 	} catch (error) {
 		console.error(error);
 	}
-}
+};
