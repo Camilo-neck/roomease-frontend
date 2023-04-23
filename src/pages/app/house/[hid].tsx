@@ -7,7 +7,16 @@ import * as React from "react";
 import { useState } from "react";
 
 // Material UI
-import { Button, Drawer, Box, useMediaQuery } from "@mui/material";
+import {
+	Button,
+	Drawer,
+	Box,
+	useMediaQuery,
+	FormGroup,
+	FormControlLabel,
+	Checkbox,
+	LinearProgress,
+} from "@mui/material";
 
 // Redux
 import { useSelector, useDispatch } from "react-redux";
@@ -19,11 +28,15 @@ import { getHouse } from "@/controllers/houses.controllers";
 import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import AppNavbar from "@/components/appNavbar";
 import { useAuth } from "@/hooks/useAuth";
-import { HouseI } from "@/lib/interfaces";
+import { HouseI, TaskI } from "@/lib/interfaces";
+import MyScheduler from "@/components/scheduler";
+
+import jwt from "jsonwebtoken";
+import { getUserTasks } from "@/controllers/tasks.controllers";
 
 const sidebarWidth = 290;
 
-const House = ({ house }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const House = ({ house, tasks }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	useAuth();
 	const user = useSelector(selectUser);
 	const isMobile = useMediaQuery("(max-width: 768px)");
@@ -119,17 +132,58 @@ const House = ({ house }: InferGetServerSidePropsType<typeof getServerSideProps>
 						<Box
 							sx={{
 								flexGrow: 1,
-								p: 3,
+								p: 4,
 								width: { md: `calc(100% - ${sidebarWidth}px)` },
 							}}
 							component="main"
-							className="h-full"
+							className="h-[90vh]"
 						>
 							<Button onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)} className="block md:hidden">
 								Toggle
 							</Button>
-							<div className="flex flex-col justify-center items-center w-full h-full">
-								<Image src={"/construction-warning-xd.webp"} alt="construction" width={500} height={500} />
+							<div className="flex flex-col">
+								<div className="flex flex-row">
+									<div className="w-[30%]">
+										<p className="text-lg font-semibold">Mis tareas:</p>
+										<FormGroup className="flex flex-col gap-2">
+											{tasks
+												.filter((task) => task.users_id.includes(user._id))
+												.map((task) => (
+													<FormControlLabel
+														control={<Checkbox checked={task.done} />}
+														key={task._id}
+														label={task.name}
+													/>
+												))}
+										</FormGroup>
+									</div>
+									<div className="overflow-y-auto h-[70vh] w-full">
+									<MyScheduler />
+									</div>
+								</div>
+								<div>
+									<p className="text-xl">Progresos</p>
+									<div className="flex flex-row items-center gap-2">
+										<p className="font-semibold">Mi progreso:</p>
+										<LinearProgress
+											variant="determinate"
+											className="flex-grow rounded-lg h-2"
+											value={
+												(tasks.filter((task) => task.users_id.includes(user._id)).filter((task) => task.done).length *
+													100) /
+												tasks.filter((task) => task.users_id.includes(user._id)).length
+											}
+										/>
+									</div>
+									<div className="flex flex-row items-center gap-2">
+										<p className="font-semibold">Progreso de la casa:</p>
+										<LinearProgress
+											variant="determinate"
+											className="flex-grow rounded-lg h-2"
+											value={tasks.filter((task) => task.done).length * 100 / tasks.length}
+										/>
+									</div>
+								</div>
 							</div>
 						</Box>
 					</div>
@@ -139,7 +193,9 @@ const House = ({ house }: InferGetServerSidePropsType<typeof getServerSideProps>
 	);
 };
 
-export const getServerSideProps: GetServerSideProps<{ house: HouseI }> = async (ctx: GetServerSidePropsContext) => {
+export const getServerSideProps: GetServerSideProps<{ house: HouseI; tasks: TaskI[] }> = async (
+	ctx: GetServerSidePropsContext,
+) => {
 	const cookie = ctx.req.cookies["auth-token"];
 	if (!cookie) {
 		return {
@@ -149,6 +205,7 @@ export const getServerSideProps: GetServerSideProps<{ house: HouseI }> = async (
 			},
 		};
 	}
+	const decodedToken = jwt.decode(cookie) as { _id: string };
 	ctx.res.setHeader("Cache-Control", "public, s-maxage=30, stale-while-revalidate=59");
 	const house = await getHouse(ctx.query.hid as string, cookie);
 
@@ -160,10 +217,12 @@ export const getServerSideProps: GetServerSideProps<{ house: HouseI }> = async (
 			},
 		};
 	}
-
+	const tasks: TaskI[] = await getUserTasks(ctx.query.hid as string, decodedToken._id, cookie);
+	console.log(tasks);
 	return {
 		props: {
 			house,
+			tasks,
 		},
 	};
 };

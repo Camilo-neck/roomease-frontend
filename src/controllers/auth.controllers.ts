@@ -32,7 +32,6 @@ export const loginUser =
 
 			if (token) {
 				const unEncryptedToken: any = jwt.decode(token);
-				const expiryDate = new Date(unEncryptedToken.exp * 1000);
 				setCookie("auth-token", token, new Date(), null, unEncryptedToken.exp * 1000 - Date.now());
 			}
 
