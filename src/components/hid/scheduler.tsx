@@ -6,10 +6,11 @@ const MyScheduler = ({ data, isAdaptable }: { data: any; isAdaptable: boolean })
 	return (
 		<Scheduler
 			dataSource={data}
-			defaultCurrentView="day"
+			defaultCurrentView="week"
 			defaultCurrentDate={new Date()}
-			startDayHour={0}
+			startDayHour={7}
 			endDayHour={24}
+			shadeUntilCurrentTime={true}
 			className="h-full"
 			editing={false}
 			adaptivityEnabled={isAdaptable}
