@@ -40,7 +40,7 @@ const ListHouseCard = ({
 								"& .MuiAvatar-root": {
 									width: 35,
 									height: 35,
-									fontSize: 12
+									fontSize: 12,
 								},
 							}}
 							className="flex-grow flex justify-end text-sm"

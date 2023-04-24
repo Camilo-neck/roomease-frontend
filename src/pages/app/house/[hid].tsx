@@ -47,7 +47,7 @@ const House = ({ house, userTasks, tasks }: InferGetServerSidePropsType<typeof g
 	const [view, setView] = useState("grid");
 	const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 	const [container, setContainer] = useState<undefined | HTMLElement>(undefined);
-	const [ isCreateTaskModalOpen, setIsCreateTaskModalOpen ] = useState(false);
+	const [isCreateTaskModalOpen, setIsCreateTaskModalOpen] = useState(false);
 
 	useEffect(() => {
 		setContainer(window ? () => document.body : undefined);
@@ -61,10 +61,10 @@ const House = ({ house, userTasks, tasks }: InferGetServerSidePropsType<typeof g
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			<CreateTaskModal 
-				isOpen={isCreateTaskModalOpen} 
+			<CreateTaskModal
+				isOpen={isCreateTaskModalOpen}
 				onClose={() => setIsCreateTaskModalOpen(false)}
-				onSubmit={data => {
+				onSubmit={(data) => {
 					console.log(data);
 				}}
 				users={house.users}
@@ -157,14 +157,14 @@ const House = ({ house, userTasks, tasks }: InferGetServerSidePropsType<typeof g
 								<div className="flex flex-row">
 									<div className="w-[30%]">
 										<div className="flex flex-col flex-col-reverse md:flex-row items-start md:items-center mr-5">
-										<p className="text-lg font-semibold flex-grow">Mis tareas:</p>
-										<IconButton 
-											color="primary"
-											className="bg-primary-90 hover:bg-primary-80 active:bg-primary-80"
-											onClick={() => setIsCreateTaskModalOpen(true)}
+											<p className="text-lg font-semibold flex-grow">Mis tareas:</p>
+											<IconButton
+												color="primary"
+												className="bg-primary-90 hover:bg-primary-80 active:bg-primary-80"
+												onClick={() => setIsCreateTaskModalOpen(true)}
 											>
-											<AddRoundedIcon />
-										</IconButton>
+												<AddRoundedIcon />
+											</IconButton>
 										</div>
 										<FormGroup className="flex flex-col gap-2">
 											{tasks

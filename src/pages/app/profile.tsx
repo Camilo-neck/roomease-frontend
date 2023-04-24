@@ -6,8 +6,7 @@ import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsT
 import { useState } from "react";
 
 // Material UI
-import { Grid, Card, Paper, Stack } from "@mui/material";
-import Avatar from "@mui/material/Avatar";
+import { Stack } from "@mui/material";
 
 // Components
 import AppNavbar from "@/components/appNavbar";
