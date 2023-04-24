@@ -22,7 +22,7 @@ import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "@/redux/slices/user.slice";
 import { useEffect } from "react";
-import { getCookie } from "@/lib/cookie";
+import { getCookie } from "@/utils/cookie";
 import jwt from "jsonwebtoken";
 import { fetchUserInfo } from "@/redux/thunks/user.thunk";
 import MediaCard from "@/components/mediaCard";

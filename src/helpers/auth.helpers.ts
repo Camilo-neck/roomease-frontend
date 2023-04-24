@@ -1,7 +1,8 @@
-import { deleteCookie, setCookie } from "@/lib/cookie";
+import { deleteCookie, setCookie } from "@/utils/cookie";
 import { setUser } from "@/redux/slices/user.slice";
 import { deleteUserInfo } from "@/redux/thunks/user.thunk";
 import jwt from "jsonwebtoken";
+import { UserI } from "@/utils/interfaces";
 
 export const loginUser =
 	(user: { email: string; password: string }): any =>
@@ -41,7 +42,7 @@ export const loginUser =
 		}
 	};
 
-export async function registerUser(user: any) {
+export async function registerUser(user: UserI) {
 	try {
 		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/register`, {
 			method: "POST",

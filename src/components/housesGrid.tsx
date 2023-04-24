@@ -1,4 +1,4 @@
-import { HouseI } from "@/lib/interfaces";
+import { HouseI } from "@/utils/interfaces";
 import GridHouseCard from "./gridHouseCard";
 import ListHouseCard from "./listHouseCard";
 

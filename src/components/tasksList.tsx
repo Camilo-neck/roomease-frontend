@@ -1,4 +1,4 @@
-import { TaskI } from "@/lib/interfaces";
+import { TaskI } from "@/utils/interfaces";
 import { Checkbox, FormControlLabel, FormGroup } from "@mui/material";
 
 const TasksList = ({ tasks, onChange }: { tasks: TaskI[]; onChange: (tid: string) => void }) => {

@@ -26,15 +26,15 @@ import { selectUser } from "@/redux/slices/user.slice";
 import { useEffect } from "react";
 import MediaCard from "@/components/mediaCard";
 import PeopleCard from "@/components/peopleCard";
-import { getHouse } from "@/controllers/houses.controllers";
+import { getHouse } from "@/helpers/houses.helpers";
 import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import AppNavbar from "@/components/appNavbar";
 import { useAuth } from "@/hooks/useAuth";
-import { HouseI, TaskI } from "@/lib/interfaces";
+import { HouseI, TaskI } from "@/utils/interfaces";
 import MyScheduler from "@/components/scheduler";
 
 import jwt from "jsonwebtoken";
-import { createTask, getTasksByUser, getTasksByHouse, checkTask } from "@/controllers/task.controllers";
+import { createTask, getTasksByUser, getTasksByHouse, checkTask } from "@/helpers/task.helpers";
 import CreateTaskModal from "@/components/createTaskModal";
 import { useCookies } from "@/hooks/useCookie";
 import TasksList from "@/components/tasksList";

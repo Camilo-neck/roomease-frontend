@@ -10,7 +10,7 @@ import { Avatar, Button } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "@/redux/slices/user.slice";
-import { logoutUser } from "@/controllers/auth.controllers";
+import { logoutUser } from "@/helpers/auth.helpers";
 
 export default function Header() {
 	const user = useSelector(selectUser);

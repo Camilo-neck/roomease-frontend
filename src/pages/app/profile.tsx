@@ -15,8 +15,8 @@ import AppNavbar from "@/components/appNavbar";
 import { useAuth } from "@/hooks/useAuth";
 
 import jwt from "jsonwebtoken";
-import { fetchUserData } from "@/controllers/user.controllers";
-import { UserI } from "@/lib/interfaces";
+import { fetchUserData } from "@/helpers/user.helpers";
+import { UserI } from "@/utils/interfaces";
 import ProfileCard from "@/components/profileCard";
 
 const Profile = ({ userData }: InferGetServerSidePropsType<typeof getServerSideProps>) => {

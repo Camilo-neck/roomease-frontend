@@ -2,7 +2,7 @@ import { Controller, useForm } from "react-hook-form";
 import { Button, TextField, TextFieldProps } from "@mui/material";
 import Link from "next/link";
 import { useRef } from "react";
-import { loginUser, registerUser } from "@/controllers/auth.controllers";
+import { loginUser, registerUser } from "@/helpers/auth.helpers";
 import { useRouter } from "next/navigation";
 
 import AuthLayout from "@/components/authLayout";

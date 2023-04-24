@@ -6,7 +6,7 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { logoutUser } from "@/controllers/auth.controllers";
+import { logoutUser } from "@/helpers/auth.helpers";
 import { useRouter } from "next/navigation";
 
 const AppNavbar = ({ sidebarWidth }: { sidebarWidth?: number }) => {
