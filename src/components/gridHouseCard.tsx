@@ -30,7 +30,6 @@ const GridHouseCard = ({
 			<div className="flex flex-col gap-2 p-5">
 				<div className="flex flex-row w-full items-center">
 					<p className="font-semibold text-lg flex-grow">{name}</p>
-					
 				</div>
 				<div className="flex flex-row w-full items-center">
 					<AvatarGroup

@@ -76,11 +76,13 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 				startDate: new Date(task.start_date),
 				endDate: new Date(task.end_date),
 				description: task.description,
-				recurrenceRule: `FREQ=WEEKLY;BYDAY=${getRecurrenceDays(task.days)};UNTIL=${formatTwoDigits(until_date.getFullYear())}${formatTwoDigits(until_date.getMonth() + 1)}${formatTwoDigits(until_date.getDate())}`,
+				recurrenceRule: `FREQ=WEEKLY;BYDAY=${getRecurrenceDays(task.days)};UNTIL=${formatTwoDigits(
+					until_date.getFullYear(),
+				)}${formatTwoDigits(until_date.getMonth() + 1)}${formatTwoDigits(until_date.getDate())}`,
 			};
 		});
 		return data;
-	}
+	};
 
 	return (
 		<>
