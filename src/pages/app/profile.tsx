@@ -11,8 +11,6 @@ import { Stack } from "@mui/material";
 // Components
 import AppNavbar from "@/components/appNavbar";
 
-// Redux
-import { useAuth } from "@/hooks/useAuth";
 
 import jwt from "jsonwebtoken";
 import { fetchUserData } from "@/helpers/user.helpers";
@@ -80,7 +78,7 @@ export const getServerSideProps: GetServerSideProps<{
 	}
 	return {
 		props: {
-			userData: userData,
+			userData,
 		},
 	};
 };

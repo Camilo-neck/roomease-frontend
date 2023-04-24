@@ -24,20 +24,23 @@ import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "@/redux/slices/user.slice";
 import { useEffect } from "react";
-import MediaCard from "@/components/mediaCard";
-import PeopleCard from "@/components/peopleCard";
+import MediaCard from "@/components/hid/mediaCard";
+import PeopleCard from "@/components/hid/peopleCard";
 import { getHouse } from "@/helpers/houses.helpers";
 import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import AppNavbar from "@/components/appNavbar";
 import { useAuth } from "@/hooks/useAuth";
 import { HouseI, TaskI } from "@/utils/interfaces";
-import MyScheduler from "@/components/scheduler";
+import MyScheduler from "@/components/hid/scheduler";
 
 import jwt from "jsonwebtoken";
 import { createTask, getTasksByUser, getTasksByHouse, checkTask } from "@/helpers/task.helpers";
-import CreateTaskModal from "@/components/createTaskModal";
+import CreateTaskModal from "@/components/hid/createTaskModal";
 import { useCookies } from "@/hooks/useCookie";
-import TasksList from "@/components/tasksList";
+import TasksList from "@/components/hid/tasksList";
+import Sidebar from "@/components/hid/sidebar";
+import TasksBar from "@/components/hid/tasksBar";
+import Progress from "@/components/hid/progress";
 
 const sidebarWidth = 290;
 
@@ -69,19 +72,33 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 
 	const getData = () => {
 		const data = tasks.map((task) => {
-			const until_date = new Date(task.until_date);
+			const until_date = new Date(task.until_date || '');
 			return {
 				text: task.name,
 				startDate: new Date(task.start_date),
 				endDate: new Date(task.end_date),
 				description: task.description,
-				recurrenceRule: `FREQ=WEEKLY;BYDAY=${getRecurrenceDays(task.days)};UNTIL=${formatTwoDigits(
+				recurrenceRule: task.repeat ?  `FREQ=WEEKLY;BYDAY=${getRecurrenceDays(task.days || [])};UNTIL=${formatTwoDigits(
 					until_date.getFullYear(),
-				)}${formatTwoDigits(until_date.getMonth() + 1)}${formatTwoDigits(until_date.getDate())}`,
+				)}${formatTwoDigits(until_date.getMonth() + 1)}${formatTwoDigits(until_date.getDate())}` : undefined,
 			};
 		});
 		return data;
 	};
+
+	const formatFormTask = (oldTask: TaskI) => {
+		const task = Object.assign(oldTask, { house_id: house._id });
+		task.start_date = new Date(task.start_date);
+		task.end_date = new Date(task.end_date);
+		task.until_date = task.repeat ? new Date(task.until_date || '') : undefined;
+		return task;
+	}
+	const onCreateTask = async (data: TaskI) => {
+		const token = getCookie("auth-token");
+		const task = formatFormTask(data);
+		await createTask(task, token as string);
+		setCurrentUserTasks(await getTasksByUser(house._id, user._id, token as string));
+	}
 
 	return (
 		<>
@@ -94,15 +111,7 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 			<CreateTaskModal
 				isOpen={isCreateTaskModalOpen}
 				onClose={() => setIsCreateTaskModalOpen(false)}
-				onSubmit={async (data) => {
-					const token = getCookie("auth-token");
-					const task = Object.assign(data, { house_id: house._id });
-					task.start_date = new Date(task.start_date);
-					task.end_date = new Date(task.end_date);
-					task.until_date = task.repeat ? new Date(task.until_date) : undefined;
-					await createTask(data, token as string);
-					setCurrentUserTasks(await getTasksByUser(house._id, user._id, token as string));
-				}}
+				onSubmit={onCreateTask}
 				users={house.users}
 			/>
 			<main className="bg-[#FAFDFD] h-screen">
@@ -113,69 +122,13 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 					{/*Main*/}
 					<div className="flex flex-row w-full h-full">
 						{/* Sidebar */}
-						<nav className={`md:w-[270px] md:flex-shrink-0`}>
-							<Drawer
-								sx={{
-									"& .MuiDrawer-paper": {
-										boxSizing: "border-box",
-										width: sidebarWidth,
-									},
-								}}
-								variant="permanent"
-								className="bg-primary-95 hidden md:block"
-							>
-								<div className="bg-primary-40/10 h-full">
-									{/* House card */}
-									<div className="p-5 items-center">
-										<MediaCard
-											name={house.name}
-											address={house.address}
-											description={house.description}
-											picture={house.house_picture}
-										/>
-									</div>
-									{/* House members */}
-									<div className="p-5 pt-0">
-										<PeopleCard users={house.users} pending_users={house.pending_users} house_id={house._id} />
-									</div>
-								</div>
-							</Drawer>
-							<Drawer
-								sx={{
-									"& .MuiDrawer-paper": {
-										boxSizing: "border-box",
-										width: sidebarWidth,
-									},
-								}}
-								anchor="left"
-								open={mobileSidebarOpen}
-								onClose={() => setMobileSidebarOpen(false)}
-								container={container}
-								ModalProps={{
-									keepMounted: true, // Better open performance on mobile.
-								}}
-								className="bg-primary-95 block md:hidden"
-							>
-								<div className="bg-primary-40/10 h-full">
-									<Button onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)} className="block md:hidden">
-										Toggle
-									</Button>
-									{/* House card */}
-									<div className="p-5 items-center">
-										<MediaCard
-											name={house.name}
-											address={house.address}
-											description={house.description}
-											picture={house.house_picture}
-										/>
-									</div>
-									{/* House members */}
-									<div className="p-5 pt-0">
-										<PeopleCard users={house.users} pending_users={house.pending_users} house_id={house._id} />
-									</div>
-								</div>
-							</Drawer>
-						</nav>
+						<Sidebar 
+							house={house}
+							sidebarWidth={sidebarWidth}
+							mobileSidebarOpen={mobileSidebarOpen}
+							container={container}
+							onMobileSidebarClose={setMobileSidebarOpen}
+						/>
 						{/* Content */}
 						<Box
 							sx={{
@@ -191,52 +144,19 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 							</Button>
 							<div className="flex flex-col">
 								<div className="flex flex-row">
-									<div className="w-[30%]">
-										<div className="flex flex-col-reverse md:flex-row items-start md:items-center mr-5">
-											<p className="text-lg font-semibold flex-grow">Mis tareas:</p>
-											<IconButton
-												color="primary"
-												className="bg-primary-90 hover:bg-primary-80 active:bg-primary-80"
-												onClick={() => setIsCreateTaskModalOpen(true)}
-											>
-												<AddRoundedIcon />
-											</IconButton>
-										</div>
-										<TasksList
-											tasks={currentUserTasks}
-											onChange={async (tid: string) => {
-												await checkTask(tid, token as string);
-												setCurrentUserTasks(await getTasksByUser(house._id, user._id, token as string));
-											}}
-										/>
-									</div>
+									<TasksBar 
+										currentUserTasks={currentUserTasks} 
+										onCreateTask={() => setIsCreateTaskModalOpen(true)}
+										onListChange={async (tid: string) => {
+											await checkTask(tid, token);
+											setCurrentUserTasks(await getTasksByUser(house._id, user._id, token));
+										}}
+									/>
 									<div className="overflow-y-auto h-[70vh] w-full">
 										<MyScheduler data={getData()} isAdaptable={isMobile} />
 									</div>
 								</div>
-								<div>
-									<p className="text-xl">Progresos</p>
-									<div className="grid grid-flow-row-dense grid-cols-6 items-center gap-2">
-										<p className="font-semibold">Mi progreso:</p>
-										<LinearProgress
-											variant="determinate"
-											className="flex-grow rounded-lg col-span-5 h-2"
-											value={
-												userTasks.length > 0
-													? (currentUserTasks.filter((task) => task.done).length * 100) / currentUserTasks.length
-													: 0
-											}
-										/>
-									</div>
-									<div className="grid grid-flow-row-dense grid-cols-6 items-center gap-2">
-										<p className="font-semibold">Progreso de la casa:</p>
-										<LinearProgress
-											variant="determinate"
-											className="flex-grow rounded-lg h-2 col-span-5"
-											value={tasks.length > 0 ? (tasks.filter((task) => task.done).length * 100) / tasks.length : 0}
-										/>
-									</div>
-								</div>
+								<Progress currentUserTasks={currentUserTasks} tasks={tasks} />
 							</div>
 						</Box>
 					</div>

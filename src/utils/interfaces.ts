@@ -43,8 +43,8 @@ export interface TaskI {
 	start_date: Date;
 	end_date: Date;
 	repeat: boolean;
-	days: string[];
-	until_date: Date;
+	days?: string[];
+	until_date?: Date;
 }
 
 export interface HoursTaskI {

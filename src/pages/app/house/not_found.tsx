@@ -25,8 +25,8 @@ import { useEffect } from "react";
 import { getCookie } from "@/utils/cookie";
 import jwt from "jsonwebtoken";
 import { fetchUserInfo } from "@/redux/thunks/user.thunk";
-import MediaCard from "@/components/mediaCard";
-import PeopleCard from "@/components/peopleCard";
+import MediaCard from "@/components/hid/mediaCard";
+import PeopleCard from "@/components/hid/peopleCard";
 
 const inter = Inter({ subsets: ["latin"] });
 

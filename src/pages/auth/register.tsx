@@ -2,12 +2,11 @@ import { Controller, useForm } from "react-hook-form";
 import { Button, TextField, TextFieldProps } from "@mui/material";
 import Link from "next/link";
 import { useRef } from "react";
-import { loginUser, registerUser } from "@/helpers/auth.helpers";
+import { registerUser } from "@/helpers/auth.helpers";
 import { useRouter } from "next/navigation";
 
 import AuthLayout from "@/components/authLayout";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { DateField } from "@mui/x-date-pickers/DateField";
 
 const textFieldStyles = {
 	"& label.Mui-focused": {
@@ -191,6 +190,8 @@ const Register = () => {
 						variant="outlined"
 						{...register("passConfirm", {
 							required: "Debe confirmar su contraseña",
+							validate: (value) =>
+								value === watch("password") || "Las contraseñas no coinciden",
 						})}
 					/>
 					<Button
