@@ -264,12 +264,13 @@ export const getServerSideProps: GetServerSideProps<{
 	const decodedToken = jwt.decode(cookie) as { _id: string };
 	ctx.res.setHeader("Cache-Control", "public, s-maxage=30, stale-while-revalidate=59");
 	const house = await getHouse(ctx.query.hid as string, cookie);
-	console.log('>>>>>',house)
+	console.log(">>>>>", house);
 	if (
-		house.message === "User not belongs to this house or the house doesn't exist" || 
-		house.message === "House not found" || 
-		!house) {
-		console.log(house)
+		house.message === "User not belongs to this house or the house doesn't exist" ||
+		house.message === "House not found" ||
+		!house
+	) {
+		console.log(house);
 		return {
 			redirect: {
 				destination: "/app/house/not_found",
