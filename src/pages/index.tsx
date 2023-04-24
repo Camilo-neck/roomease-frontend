@@ -6,17 +6,13 @@ import { useRouter } from "next/navigation";
 
 // Styles
 import { Inter } from "next/font/google";
-import styles from "@/styles/Home.module.css";
-import AOS from "aos";
 import "aos/dist/aos.css";
-
-// Material UI
-import { Button } from "@mui/material";
 
 // Redux
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "@/redux/slices/user.slice";
-import { useAuth } from "@/hooks/useAuth";
+
+// Components
 import Features from "@/components/homepage/features";
 import FeaturesBlocks from "@/components/homepage/features-blocks";
 import Header from "@/components/homepage/ui/header";

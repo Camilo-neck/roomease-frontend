@@ -9,15 +9,6 @@ import { useDispatch } from "react-redux";
 
 import AuthLayout from "@/components/authLayout";
 
-const textFieldStyles = {
-	"& label.Mui-focused": {
-		color: "rgb(0 99 153 / 1)",
-	},
-	"& .MuiInput-underline:after": {
-		borderBottomColor: "rgb(0 99 153 / 1)",
-	},
-};
-
 const Login = () => {
 	const {
 		reset,

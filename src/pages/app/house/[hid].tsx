@@ -1,6 +1,5 @@
 // Next
 import Head from "next/head";
-import Image from "next/image";
 
 // React
 import * as React from "react";
@@ -9,27 +8,17 @@ import { useState } from "react";
 // Material UI
 import {
 	Button,
-	Drawer,
 	Box,
 	useMediaQuery,
-	FormGroup,
-	FormControlLabel,
-	Checkbox,
-	LinearProgress,
-	IconButton,
 } from "@mui/material";
-import AddRoundedIcon from "@mui/icons-material/AddRounded";
 
 // Redux
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "@/redux/slices/user.slice";
 import { useEffect } from "react";
-import MediaCard from "@/components/hid/mediaCard";
-import PeopleCard from "@/components/hid/peopleCard";
 import { getHouse } from "@/helpers/houses.helpers";
 import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import AppNavbar from "@/components/appNavbar";
-import { useAuth } from "@/hooks/useAuth";
 import { HouseI, TaskI } from "@/utils/interfaces";
 import MyScheduler from "@/components/hid/scheduler";
 
@@ -37,7 +26,6 @@ import jwt from "jsonwebtoken";
 import { createTask, getTasksByUser, getTasksByHouse, checkTask } from "@/helpers/task.helpers";
 import CreateTaskModal from "@/components/hid/createTaskModal";
 import { useCookies } from "@/hooks/useCookie";
-import TasksList from "@/components/hid/tasksList";
 import Sidebar from "@/components/hid/sidebar";
 import TasksBar from "@/components/hid/tasksBar";
 import Progress from "@/components/hid/progress";

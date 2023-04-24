@@ -4,31 +4,10 @@ import Image from "next/image";
 
 // React
 import * as React from "react";
-import { useState } from "react";
 
 // Styles
 import { Inter } from "next/font/google";
 
-// Material UI
-import { Button, ToggleButton, ToggleButtonGroup, IconButton, ListItem } from "@mui/material";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import ListRoundedIcon from "@mui/icons-material/ListRounded";
-import AddHomeRoundedIcon from "@mui/icons-material/AddHomeRounded";
-import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";
-
-// Redux
-import { useSelector, useDispatch } from "react-redux";
-import { selectUser } from "@/redux/slices/user.slice";
-import { useEffect } from "react";
-import { getCookie } from "@/utils/cookie";
-import jwt from "jsonwebtoken";
-import { fetchUserInfo } from "@/redux/thunks/user.thunk";
-import MediaCard from "@/components/hid/mediaCard";
-import PeopleCard from "@/components/hid/peopleCard";
-
-const inter = Inter({ subsets: ["latin"] });
 
 const NotFoundError = () => {
 	return (
