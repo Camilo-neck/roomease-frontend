@@ -68,11 +68,11 @@ export const joinHouse = async (house_code: string): Promise<any> => {
 				"auth-token": token,
 			},
 		});
-		console.log(response)
+		console.log(response);
 
 		return response;
 	} catch (err) {
-		console.log(err)
+		console.log(err);
 		return err;
 	}
 };

@@ -36,8 +36,8 @@ const Houses = ({ startHouses }: InferGetServerSidePropsType<typeof getServerSid
 	const [addPopoverAnchorEl, setAddPopoverAnchorEl] = useState<HTMLButtonElement | null>(null);
 	const [createHouseModalOpen, setCreateHouseModalOpen] = useState<boolean>(false);
 	const [joinHouseModalOpen, setJoinHouseModalOpen] = useState<boolean>(false);
-	const [ successMessage, setSuccessMessage ] = useState<string | null>(null);
-	const [ errorMessage, setErrorMessage ] = useState<string | null>(null);
+	const [successMessage, setSuccessMessage] = useState<string | null>(null);
+	const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
 	// Create House Modal
 	const openCreateHouseModal = () => {
@@ -55,10 +55,10 @@ const Houses = ({ startHouses }: InferGetServerSidePropsType<typeof getServerSid
 				setErrorMessage(res.message);
 				return;
 			}
-			setErrorMessage("Ha ocurrido un error inesperado.")
+			setErrorMessage("Ha ocurrido un error inesperado.");
 			return;
 		}
-		setSuccessMessage("Casa creada satisfactoriamente!")
+		setSuccessMessage("Casa creada satisfactoriamente!");
 		setErrorMessage(null);
 		setHouses((prev) => [...prev, data]);
 	};
@@ -74,19 +74,19 @@ const Houses = ({ startHouses }: InferGetServerSidePropsType<typeof getServerSid
 
 	const onJoinHouseModalSubmit = async (data: { houseCode: string }) => {
 		const res = await joinHouse(data.houseCode);
-		console.log(res)
+		console.log(res);
 		if (!res.ok) {
-			console.log('not ok')
+			console.log("not ok");
 			if (res.status === 400 || res.status === 404) {
 				const error = await res.json();
-				console.log(error)
+				console.log(error);
 				setErrorMessage(error.message);
 				return;
 			}
-			setErrorMessage("Ha ocurrido un error inesperado.")
+			setErrorMessage("Ha ocurrido un error inesperado.");
 			return;
 		}
-		setSuccessMessage("Se ha enviado la solicitud satisfactoriamente!")
+		setSuccessMessage("Se ha enviado la solicitud satisfactoriamente!");
 		setErrorMessage(null);
 		setHouses(await fetchHouses(user._id, getCookie("auth-token")));
 	};
@@ -115,9 +115,9 @@ const Houses = ({ startHouses }: InferGetServerSidePropsType<typeof getServerSid
 				onClose={closeCreateHouseModal}
 				isOpen={createHouseModalOpen}
 			/>
-			<Snackbar 
-				open={!!successMessage} 
-				autoHideDuration={6000} 
+			<Snackbar
+				open={!!successMessage}
+				autoHideDuration={6000}
 				onClose={() => setSuccessMessage(null)}
 				anchorOrigin={{ vertical: "top", horizontal: "center" }}
 			>

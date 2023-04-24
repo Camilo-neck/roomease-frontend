@@ -38,7 +38,7 @@ const Login = () => {
 		// if res is an error, show error
 		if (res instanceof Error) {
 			console.log("error");
-			if(res.message.includes("password") || res.message.includes("email")) {
+			if (res.message.includes("password") || res.message.includes("email")) {
 				setLoginErrorMessage(res.message);
 			} else {
 				setLoginErrorMessage("Ha ocurrido un error inesperado");
