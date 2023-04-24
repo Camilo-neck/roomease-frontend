@@ -2,14 +2,7 @@ import React from "react";
 import "devextreme/dist/css/dx.light.css";
 import { Scheduler } from "devextreme-react/scheduler";
 
-const MyScheduler = ({
-	data,
-	isAdaptable,
-}:{
-	data: any;
-	isAdaptable: boolean;
-}) => {
-
+const MyScheduler = ({ data, isAdaptable }: { data: any; isAdaptable: boolean }) => {
 	return (
 		<Scheduler
 			dataSource={data}

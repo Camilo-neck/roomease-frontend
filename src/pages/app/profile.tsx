@@ -21,7 +21,6 @@ import { UserI } from "@/lib/interfaces";
 import ProfileCard from "@/components/profileCard";
 
 const Profile = ({ userData }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-	useAuth();
 	const [userInfo, setUserInfo] = useState<UserI>(userData ? userData : ({} as UserI));
 
 	return (

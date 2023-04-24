@@ -24,7 +24,6 @@ import { useAuth } from "@/hooks/useAuth";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-	useAuth();
 	const user = useSelector(selectUser);
 	const dispatch = useDispatch();
 	const router = useRouter();
