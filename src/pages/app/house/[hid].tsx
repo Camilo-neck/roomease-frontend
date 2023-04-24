@@ -72,15 +72,17 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 
 	const getData = () => {
 		const data = tasks.map((task) => {
-			const until_date = new Date(task.until_date || '');
+			const until_date = new Date(task.until_date || "");
 			return {
 				text: task.name,
 				startDate: new Date(task.start_date),
 				endDate: new Date(task.end_date),
 				description: task.description,
-				recurrenceRule: task.repeat ?  `FREQ=WEEKLY;BYDAY=${getRecurrenceDays(task.days || [])};UNTIL=${formatTwoDigits(
-					until_date.getFullYear(),
-				)}${formatTwoDigits(until_date.getMonth() + 1)}${formatTwoDigits(until_date.getDate())}` : undefined,
+				recurrenceRule: task.repeat
+					? `FREQ=WEEKLY;BYDAY=${getRecurrenceDays(task.days || [])};UNTIL=${formatTwoDigits(
+							until_date.getFullYear(),
+					  )}${formatTwoDigits(until_date.getMonth() + 1)}${formatTwoDigits(until_date.getDate())}`
+					: undefined,
 			};
 		});
 		return data;
@@ -90,15 +92,15 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 		const task = Object.assign(oldTask, { house_id: house._id });
 		task.start_date = new Date(task.start_date);
 		task.end_date = new Date(task.end_date);
-		task.until_date = task.repeat ? new Date(task.until_date || '') : undefined;
+		task.until_date = task.repeat ? new Date(task.until_date || "") : undefined;
 		return task;
-	}
+	};
 	const onCreateTask = async (data: TaskI) => {
 		const token = getCookie("auth-token");
 		const task = formatFormTask(data);
 		await createTask(task, token as string);
 		setCurrentUserTasks(await getTasksByUser(house._id, user._id, token as string));
-	}
+	};
 
 	return (
 		<>
@@ -122,7 +124,7 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 					{/*Main*/}
 					<div className="flex flex-row w-full h-full">
 						{/* Sidebar */}
-						<Sidebar 
+						<Sidebar
 							house={house}
 							sidebarWidth={sidebarWidth}
 							mobileSidebarOpen={mobileSidebarOpen}
@@ -144,8 +146,8 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 							</Button>
 							<div className="flex flex-col">
 								<div className="flex flex-row">
-									<TasksBar 
-										currentUserTasks={currentUserTasks} 
+									<TasksBar
+										currentUserTasks={currentUserTasks}
 										onCreateTask={() => setIsCreateTaskModalOpen(true)}
 										onListChange={async (tid: string) => {
 											await checkTask(tid, token);

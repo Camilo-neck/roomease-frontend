@@ -11,7 +11,6 @@ import { Stack } from "@mui/material";
 // Components
 import AppNavbar from "@/components/appNavbar";
 
-
 import jwt from "jsonwebtoken";
 import { fetchUserData } from "@/helpers/user.helpers";
 import { UserI } from "@/utils/interfaces";

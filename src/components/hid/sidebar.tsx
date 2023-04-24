@@ -1,7 +1,4 @@
-import {
-	Drawer,
-	Button,
-} from "@mui/material";
+import { Drawer, Button } from "@mui/material";
 import MediaCard from "./mediaCard";
 import PeopleCard from "./peopleCard";
 import { HouseI } from "@/utils/interfaces";
@@ -12,12 +9,12 @@ const Sidebar = ({
 	mobileSidebarOpen,
 	container,
 	onMobileSidebarClose,
-}:{
-	house: HouseI,
-	sidebarWidth: number,
-	mobileSidebarOpen: boolean,
-	container: undefined | HTMLElement,
-	onMobileSidebarClose: (new_value: boolean) => void,
+}: {
+	house: HouseI;
+	sidebarWidth: number;
+	mobileSidebarOpen: boolean;
+	container: undefined | HTMLElement;
+	onMobileSidebarClose: (new_value: boolean) => void;
 }) => {
 	return (
 		<div>

@@ -1,15 +1,7 @@
 import { TaskI } from "@/utils/interfaces";
-import {
-	LinearProgress,
-} from "@mui/material";
+import { LinearProgress } from "@mui/material";
 
-const Progress = ({
-	currentUserTasks,
-	tasks,
-}:{
-	currentUserTasks: TaskI[],
-	tasks: TaskI[]
-}) => {
+const Progress = ({ currentUserTasks, tasks }: { currentUserTasks: TaskI[]; tasks: TaskI[] }) => {
 	return (
 		<div>
 			<p className="text-xl">Progresos</p>

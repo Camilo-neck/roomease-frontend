@@ -190,8 +190,7 @@ const Register = () => {
 						variant="outlined"
 						{...register("passConfirm", {
 							required: "Debe confirmar su contraseña",
-							validate: (value) =>
-								value === watch("password") || "Las contraseñas no coinciden",
+							validate: (value) => value === watch("password") || "Las contraseñas no coinciden",
 						})}
 					/>
 					<Button

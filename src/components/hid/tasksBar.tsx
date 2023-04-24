@@ -1,6 +1,4 @@
-import {
-	IconButton,
-} from "@mui/material";
+import { IconButton } from "@mui/material";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import TasksList from "./tasksList";
 import { TaskI } from "@/utils/interfaces";
@@ -8,11 +6,11 @@ import { TaskI } from "@/utils/interfaces";
 const TasksBar = ({
 	currentUserTasks,
 	onCreateTask,
-	onListChange
-}:{
-	currentUserTasks: TaskI[],
-	onCreateTask: () => void,
-	onListChange: (tid: string) => void
+	onListChange,
+}: {
+	currentUserTasks: TaskI[];
+	onCreateTask: () => void;
+	onListChange: (tid: string) => void;
 }) => {
 	return (
 		<div className="w-[30%]">
@@ -26,10 +24,7 @@ const TasksBar = ({
 					<AddRoundedIcon />
 				</IconButton>
 			</div>
-			<TasksList
-				tasks={currentUserTasks}
-				onChange={onListChange}
-			/>
+			<TasksList tasks={currentUserTasks} onChange={onListChange} />
 		</div>
 	);
 };
