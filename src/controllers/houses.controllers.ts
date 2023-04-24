@@ -15,7 +15,7 @@ export const fetchHouses = async (uid: string, token: string) => {
 };
 
 export const getHouse = async (houseId: string, token: string) => {
-	try{
+	try {
 		const house = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/house/${houseId}`, {
 			method: "GET",
 			headers: {
