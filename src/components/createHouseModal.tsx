@@ -114,7 +114,6 @@ export default function CreateHouseModal({
 			);
 	};
 
-	console.log(errors);
 	return (
 		<Dialog open={isOpen} onClose={handleClose} className="rounded-2xl">
 			<DialogTitle>Crea tu nueva casa</DialogTitle>
