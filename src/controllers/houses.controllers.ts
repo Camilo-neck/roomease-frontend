@@ -15,18 +15,22 @@ export const fetchHouses = async (uid: string, token: string) => {
 };
 
 export const getHouse = async (houseId: string, token: string) => {
-	const house = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/house/${houseId}`, {
-		method: "GET",
-		headers: {
-			Accept: "*/*",
-			"Content-Type": "application/json",
-			"auth-token": token,
-		},
-	})
-		.then((res) => res.json())
-		.catch((err) => console.log(err));
+	try{
+		const house = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/house/${houseId}`, {
+			method: "GET",
+			headers: {
+				Accept: "*/*",
+				"Content-Type": "application/json",
+				"auth-token": token,
+			},
+		})
+			.then((res) => res.json())
+			.catch((err) => console.log(err));
 
-	return house ? house : [];
+		return house ? house : [];
+	} catch (err) {
+		console.log(err);
+	}
 };
 
 export const createHouse = async (house: any) => {
