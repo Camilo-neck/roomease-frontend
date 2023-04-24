@@ -38,7 +38,11 @@ const Login = () => {
 		// if res is an error, show error
 		if (res instanceof Error) {
 			console.log("error");
-			setLoginErrorMessage(res.message);
+			if(res.message.includes("password") || res.message.includes("email")) {
+				setLoginErrorMessage(res.message);
+			} else {
+				setLoginErrorMessage("Ha ocurrido un error inesperado");
+			}
 			return;
 		}
 		// if res is not an error, redirect to houses

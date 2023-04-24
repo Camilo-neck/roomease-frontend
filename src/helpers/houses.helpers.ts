@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import { getCookie } from "@/utils/cookie";
+import { HouseI } from "@/utils/interfaces";
 
 export const fetchHouses = async (uid: string, token: string) => {
 	const houses = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/houses?userId=${uid}`, {
@@ -30,10 +31,11 @@ export const getHouse = async (houseId: string, token: string) => {
 		return house ? house : [];
 	} catch (err) {
 		console.log(err);
+		return err;
 	}
 };
 
-export const createHouse = async (house: any) => {
+export const createHouse = async (house: HouseI): Promise<any> => {
 	const token = getCookie("auth-token");
 	const { _id } = jwt.decode(token) as { _id: string };
 
@@ -46,19 +48,16 @@ export const createHouse = async (house: any) => {
 				"auth-token": token,
 			},
 			body: JSON.stringify({ ...house }),
-		}).then((res) => res.json());
-
-		if (!response.ok) {
-			throw new Error(response.message);
-		}
+		});
 
 		return response;
 	} catch (err) {
 		console.log(err);
+		return err;
 	}
 };
 
-export const joinHouse = async (house_code: string) => {
+export const joinHouse = async (house_code: string): Promise<any> => {
 	const token = getCookie("auth-token");
 	try {
 		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/house/join/${house_code.replace("#", "_")}`, {
@@ -68,15 +67,13 @@ export const joinHouse = async (house_code: string) => {
 				"Content-Type": "application/json",
 				"auth-token": token,
 			},
-		}).then((res) => res.json());
-
-		if (!response.ok) {
-			throw new Error(response.message);
-		}
+		});
+		console.log(response)
 
 		return response;
 	} catch (err) {
-		console.log(err);
+		console.log(err)
+		return err;
 	}
 };
 

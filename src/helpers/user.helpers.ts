@@ -11,5 +11,6 @@ export const fetchUserData = async (uid: string, token: string) => {
 		return data;
 	} catch (error) {
 		console.log(error);
+		return error;
 	}
 };

@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 // Styles
 
 // Material UI
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 // Components
 import CreateHouseModal from "@/components/createHouseModal";
@@ -20,7 +22,6 @@ import JoinHouseModal from "@/components/joinHouseModal";
 import AppNavbar from "@/components/appNavbar";
 import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { HouseI } from "@/utils/interfaces";
-import { useAuth } from "@/hooks/useAuth";
 import HousesHeader from "@/components/housesHeader";
 import LayoutGroupButtons from "@/components/layoutGroupButtons";
 import HousesGrid from "@/components/housesGrid";
@@ -35,6 +36,8 @@ const Houses = ({ startHouses }: InferGetServerSidePropsType<typeof getServerSid
 	const [addPopoverAnchorEl, setAddPopoverAnchorEl] = useState<HTMLButtonElement | null>(null);
 	const [createHouseModalOpen, setCreateHouseModalOpen] = useState<boolean>(false);
 	const [joinHouseModalOpen, setJoinHouseModalOpen] = useState<boolean>(false);
+	const [ successMessage, setSuccessMessage ] = useState<string | null>(null);
+	const [ errorMessage, setErrorMessage ] = useState<string | null>(null);
 
 	// Create House Modal
 	const openCreateHouseModal = () => {
@@ -46,7 +49,17 @@ const Houses = ({ startHouses }: InferGetServerSidePropsType<typeof getServerSid
 	};
 
 	const onCreateHouseModalSubmit = async (data: HouseI) => {
-		await createHouse(data);
+		const res = await createHouse(data);
+		if (!res.ok) {
+			if (res.status === 400) {
+				setErrorMessage(res.message);
+				return;
+			}
+			setErrorMessage("Ha ocurrido un error inesperado.")
+			return;
+		}
+		setSuccessMessage("Casa creada satisfactoriamente!")
+		setErrorMessage(null);
 		setHouses((prev) => [...prev, data]);
 	};
 
@@ -60,7 +73,21 @@ const Houses = ({ startHouses }: InferGetServerSidePropsType<typeof getServerSid
 	};
 
 	const onJoinHouseModalSubmit = async (data: { houseCode: string }) => {
-		await joinHouse(data.houseCode);
+		const res = await joinHouse(data.houseCode);
+		console.log(res)
+		if (!res.ok) {
+			console.log('not ok')
+			if (res.status === 400 || res.status === 404) {
+				const error = await res.json();
+				console.log(error)
+				setErrorMessage(error.message);
+				return;
+			}
+			setErrorMessage("Ha ocurrido un error inesperado.")
+			return;
+		}
+		setSuccessMessage("Se ha enviado la solicitud satisfactoriamente!")
+		setErrorMessage(null);
 		setHouses(await fetchHouses(user._id, getCookie("auth-token")));
 	};
 
@@ -88,6 +115,22 @@ const Houses = ({ startHouses }: InferGetServerSidePropsType<typeof getServerSid
 				onClose={closeCreateHouseModal}
 				isOpen={createHouseModalOpen}
 			/>
+			<Snackbar 
+				open={!!successMessage} 
+				autoHideDuration={6000} 
+				onClose={() => setSuccessMessage(null)}
+				anchorOrigin={{ vertical: "top", horizontal: "center" }}
+			>
+				<Alert severity="success">{successMessage}</Alert>
+			</Snackbar>
+			<Snackbar
+				open={!!errorMessage}
+				autoHideDuration={6000}
+				onClose={() => setErrorMessage(null)}
+				anchorOrigin={{ vertical: "top", horizontal: "center" }}
+			>
+				<Alert severity="error">{errorMessage}</Alert>
+			</Snackbar>
 			<JoinHouseModal onSubmit={onJoinHouseModalSubmit} onClose={closeJoinHouseModal} isOpen={joinHouseModalOpen} />
 			<main className="bg-[#FAFDFD] h-screen">
 				<div className="bg-primary-40/5 h-screen flex flex-col items-center">

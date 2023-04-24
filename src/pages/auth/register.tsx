@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Button, TextField, TextFieldProps } from "@mui/material";
+import { Alert, Button, TextField, TextFieldProps } from "@mui/material";
 import Link from "next/link";
 import { useRef } from "react";
 import { registerUser } from "@/helpers/auth.helpers";
@@ -28,12 +29,19 @@ const Register = () => {
 	} = useForm();
 	const formRef = useRef<HTMLFormElement>(null);
 	const router = useRouter();
+	const [ registerErrorMessage, setRegisterErrorMessage ] = useState<string | null>(null);
 
-	const onSubmit = (data: any) => {
+	const onSubmit = async (data: any) => {
 		const tmp_data = Object.assign({}, data);
 		tmp_data.birth_date = new Date(data.birth_date);
 		tmp_data.tags = tmp_data.tags.split(",").map((tag: string) => tag.trim());
-		registerUser(tmp_data);
+		const res = await registerUser({...tmp_data, passConfirm: undefined});
+		console.log(res.body)
+		if (!res.ok) {
+			setRegisterErrorMessage("Ha ocurrido un error. Intente nuevamente");
+			return
+		}
+		setRegisterErrorMessage(null);
 		router.push("/auth/login");
 		reset();
 	};
@@ -204,7 +212,7 @@ const Register = () => {
 						Crear Cuenta
 					</Button>
 				</form>
-
+				{registerErrorMessage && <Alert severity="error">{registerErrorMessage}</Alert>}
 				<p className="text-neutral-30 text-md mt-5">
 					¿Ya tienes una cuenta?{" "}
 					<Link href="/auth/login" className="text-tertiary-50">

@@ -41,7 +41,7 @@ export const loginUser =
 		}
 	};
 
-export async function registerUser(user: UserI) {
+export async function registerUser(user: UserI): Promise<Response> {
 	try {
 		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/register`, {
 			method: "POST",
@@ -53,7 +53,8 @@ export async function registerUser(user: UserI) {
 		});
 		return response;
 	} catch (error) {
-		return error;
+		console.log(error)
+		return error as Response;
 	}
 }
 
