@@ -5,13 +5,16 @@ import { CssBaseline } from "@mui/material";
 import { wrapper } from "@/redux/store";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { AuthProvider } from "@/hooks/AuthProvider";
 
 function App({ Component, pageProps }: AppProps) {
 	return (
 		<LocalizationProvider dateAdapter={AdapterDayjs}>
 			<StyledEngineProvider injectFirst>
 				<CssBaseline />
-				<Component {...pageProps} />
+				<AuthProvider>
+					<Component {...pageProps} />
+				</AuthProvider>
 			</StyledEngineProvider>
 		</LocalizationProvider>
 	);

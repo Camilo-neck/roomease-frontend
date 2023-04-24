@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import { useCookies } from "./useCookie";
 
 export const useAuth = () => {
-	const { user, addUser } = useUser();
+	const { user, setUser, addUser } = useUser();
 	const { getCookie } = useCookies();
 
 	useEffect(() => {
@@ -21,5 +21,5 @@ export const useAuth = () => {
 		f();
 	}, []);
 
-	return { user };
+	return { user, setUser };
 };

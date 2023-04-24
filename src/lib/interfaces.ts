@@ -38,13 +38,13 @@ export interface TaskI {
 	description: string;
 	house_id: string;
 	users_id: string[];
-	done: boolean;
-	created_by: UserI;
-	days: string[];
-	hours: HoursTaskI;
+	done?: boolean;
+	created_by?: UserI;
+	start_date: Date;
+	end_date: Date;
 	repeat: boolean;
-	from_date: Date;
-	to_date: Date;
+	days: string[];
+	until_date: Date;
 }
 
 export interface HoursTaskI {

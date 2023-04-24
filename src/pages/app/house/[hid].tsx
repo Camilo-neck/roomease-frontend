@@ -34,17 +34,19 @@ import { HouseI, TaskI } from "@/lib/interfaces";
 import MyScheduler from "@/components/scheduler";
 
 import jwt from "jsonwebtoken";
-import { getHouseTasks, getUserTasks } from "@/controllers/task.controllers";
+import { createTask, getTasksByUser, getTasksByHouse, checkTask } from "@/controllers/task.controllers";
 import CreateTaskModal from "@/components/createTaskModal";
+import { useCookies } from "@/hooks/useCookie";
+import TasksList from "@/components/tasksList";
 
 const sidebarWidth = 290;
 
-const House = ({ house, userTasks, tasks }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-	useAuth();
+const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const user = useSelector(selectUser);
+	const { getCookie } = useCookies();
 	const isMobile = useMediaQuery("(max-width: 768px)");
 	const dispatch = useDispatch();
-	const [view, setView] = useState("grid");
+	const [currentUserTasks, setCurrentUserTasks] = useState<TaskI[]>(userTasks);
 	const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 	const [container, setContainer] = useState<undefined | HTMLElement>(undefined);
 	const [isCreateTaskModalOpen, setIsCreateTaskModalOpen] = useState(false);
@@ -52,6 +54,34 @@ const House = ({ house, userTasks, tasks }: InferGetServerSidePropsType<typeof g
 	useEffect(() => {
 		setContainer(window ? () => document.body : undefined);
 	}, []);
+
+	const getRecurrenceDays = (days: string[]) => {
+		let recurrenceDays = "";
+		days.forEach((day) => {
+			recurrenceDays += day + ",";
+		});
+		return recurrenceDays.slice(0, -1);
+	};
+
+	const formatTwoDigits = (n: number) => {
+		return n < 10 ? "0" + n : n;
+	};
+
+	const getData = () => {
+		const data = tasks.map((task) => {
+			const until_date = new Date(task.until_date);
+			return {
+				text: task.name,
+				startDate: new Date(task.start_date),
+				endDate: new Date(task.end_date),
+				description: task.description,
+				recurrenceRule: `FREQ=WEEKLY;BYDAY=${getRecurrenceDays(task.days)};UNTIL=${formatTwoDigits(
+					until_date.getFullYear(),
+				)}${formatTwoDigits(until_date.getMonth() + 1)}${formatTwoDigits(until_date.getDate())}`,
+			};
+		});
+		return data;
+	};
 
 	return (
 		<>
@@ -64,8 +94,14 @@ const House = ({ house, userTasks, tasks }: InferGetServerSidePropsType<typeof g
 			<CreateTaskModal
 				isOpen={isCreateTaskModalOpen}
 				onClose={() => setIsCreateTaskModalOpen(false)}
-				onSubmit={(data) => {
-					console.log(data);
+				onSubmit={async (data) => {
+					const token = getCookie("auth-token");
+					const task = Object.assign(data, { house_id: house._id });
+					task.start_date = new Date(task.start_date);
+					task.end_date = new Date(task.end_date);
+					task.until_date = task.repeat ? new Date(task.until_date) : undefined;
+					await createTask(data, token as string);
+					setCurrentUserTasks(await getTasksByUser(house._id, user._id, token as string));
 				}}
 				users={house.users}
 			/>
@@ -156,7 +192,7 @@ const House = ({ house, userTasks, tasks }: InferGetServerSidePropsType<typeof g
 							<div className="flex flex-col">
 								<div className="flex flex-row">
 									<div className="w-[30%]">
-										<div className="flex flex-col flex-col-reverse md:flex-row items-start md:items-center mr-5">
+										<div className="flex flex-col-reverse md:flex-row items-start md:items-center mr-5">
 											<p className="text-lg font-semibold flex-grow">Mis tareas:</p>
 											<IconButton
 												color="primary"
@@ -166,20 +202,16 @@ const House = ({ house, userTasks, tasks }: InferGetServerSidePropsType<typeof g
 												<AddRoundedIcon />
 											</IconButton>
 										</div>
-										<FormGroup className="flex flex-col gap-2">
-											{tasks
-												.filter((task) => task.users_id.includes(user._id))
-												.map((task) => (
-													<FormControlLabel
-														control={<Checkbox checked={task.done} />}
-														key={task._id}
-														label={task.name}
-													/>
-												))}
-										</FormGroup>
+										<TasksList
+											tasks={currentUserTasks}
+											onChange={async (tid: string) => {
+												await checkTask(tid, token as string);
+												setCurrentUserTasks(await getTasksByUser(house._id, user._id, token as string));
+											}}
+										/>
 									</div>
 									<div className="overflow-y-auto h-[70vh] w-full">
-										<MyScheduler />
+										<MyScheduler data={getData()} isAdaptable={isMobile} />
 									</div>
 								</div>
 								<div>
@@ -191,7 +223,7 @@ const House = ({ house, userTasks, tasks }: InferGetServerSidePropsType<typeof g
 											className="flex-grow rounded-lg col-span-5 h-2"
 											value={
 												userTasks.length > 0
-													? (userTasks.filter((task) => task.done).length * 100) / userTasks.length
+													? (currentUserTasks.filter((task) => task.done).length * 100) / currentUserTasks.length
 													: 0
 											}
 										/>
@@ -214,9 +246,12 @@ const House = ({ house, userTasks, tasks }: InferGetServerSidePropsType<typeof g
 	);
 };
 
-export const getServerSideProps: GetServerSideProps<{ house: HouseI; userTasks: TaskI[]; tasks: TaskI[] }> = async (
-	ctx: GetServerSidePropsContext,
-) => {
+export const getServerSideProps: GetServerSideProps<{
+	house: HouseI;
+	userTasks: TaskI[];
+	tasks: TaskI[];
+	token: string;
+}> = async (ctx: GetServerSidePropsContext) => {
 	const cookie = ctx.req.cookies["auth-token"];
 	if (!cookie) {
 		return {
@@ -229,8 +264,12 @@ export const getServerSideProps: GetServerSideProps<{ house: HouseI; userTasks: 
 	const decodedToken = jwt.decode(cookie) as { _id: string };
 	ctx.res.setHeader("Cache-Control", "public, s-maxage=30, stale-while-revalidate=59");
 	const house = await getHouse(ctx.query.hid as string, cookie);
-
-	if (house.message === "User not belongs to this house or the house doesn't exist" || !house) {
+	console.log('>>>>>',house)
+	if (
+		house.message === "User not belongs to this house or the house doesn't exist" || 
+		house.message === "House not found" || 
+		!house) {
+		console.log(house)
 		return {
 			redirect: {
 				destination: "/app/house/not_found",
@@ -238,14 +277,15 @@ export const getServerSideProps: GetServerSideProps<{ house: HouseI; userTasks: 
 			},
 		};
 	}
-	const tasks: TaskI[] = await getHouseTasks(ctx.query.hid as string, cookie);
-	const userTasks: TaskI[] = await getUserTasks(ctx.query.hid as string, decodedToken._id, cookie);
+	const tasks: TaskI[] = await getTasksByHouse(ctx.query.hid as string, cookie);
+	const userTasks: TaskI[] = await getTasksByUser(ctx.query.hid as string, decodedToken._id, cookie);
 	console.log(tasks);
 	return {
 		props: {
 			house,
 			userTasks,
 			tasks,
+			token: cookie,
 		},
 	};
 };

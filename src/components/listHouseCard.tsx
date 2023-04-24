@@ -29,9 +29,8 @@ const ListHouseCard = ({
 			/>
 			<div className="flex flex-col gap-1 p-5 w-full">
 				<p className="font-semibold text-2xl">{name}</p>
-				<Rating className="flex-grow" name="read-only" value={4} size="medium" readOnly />
-				<p className="max-h-24 line-clamp-3">{description}</p>
-				<div className="flex flex-row w-full">
+				<p className="max-h-24 line-clamp-3 flex-grow">{description}</p>
+				<div className="flex flex-row w-full self-end">
 					<div className="flex flex-col gap-1 flex-grow">
 						<p className="font-semibold">Integrantes:</p>
 						<AvatarGroup

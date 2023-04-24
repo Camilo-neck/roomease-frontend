@@ -28,7 +28,6 @@ import HousesGrid from "@/components/housesGrid";
 import jwt from "jsonwebtoken";
 
 const Houses = ({ startHouses }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-	useAuth();
 	const user = useSelector(selectUser);
 	const dispatch = useDispatch();
 	const [view, setView] = useState("grid");
