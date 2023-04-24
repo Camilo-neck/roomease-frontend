@@ -26,13 +26,12 @@ export default function Features() {
 					{/* Section header */}
 					<div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
 						<p className="text-xl text-gray-600">
-						RoomEase es la solución perfecta para mantener la armonía en tu hogar compartido. 
-						Con RoomEase, nunca más tendrás que preocuparte por quién hizo qué tarea o cuándo se debe limpiar el baño. 
-						¡Haz que la convivencia en casa sea más fácil y feliz con RoomEase!
+							RoomEase es la solución perfecta para mantener la armonía en tu hogar compartido. Con RoomEase, nunca más
+							tendrás que preocuparte por quién hizo qué tarea o cuándo se debe limpiar el baño. ¡Haz que la convivencia
+							en casa sea más fácil y feliz con RoomEase!
 						</p>
 					</div>
-					<div className="w-full h-[10vh]">
-					</div>
+					<div className="w-full h-[10vh]"></div>
 				</div>
 			</div>
 		</section>

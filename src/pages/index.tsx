@@ -32,15 +32,15 @@ export default function Home() {
 
 	return (
 		<div className="Simpleflex flex-col min-h-screen overflow-hidden supports-[overflow:clip]:overflow-clip">
-      <Head>
+			<Head>
 				<title>RoomEase</title>
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 			</Head>
 			<Header />
 			<main>
 				<HomePage />
-        <FeaturesBlocks />
-        <Features />
+				<FeaturesBlocks />
+				<Features />
 			</main>
 			<Footer />
 		</div>

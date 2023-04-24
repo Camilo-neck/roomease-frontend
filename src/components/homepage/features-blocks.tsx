@@ -2,19 +2,18 @@ export default function FeaturesBlocks() {
 	return (
 		<section className="relative">
 			{/* Section background (needs .relative class on parent and next sibling elements) */}
-			<div
-				className="absolute inset-0 top md:mt-24 lg:mt-0 bg-primary-10 pointer-events-none"
-				aria-hidden="true"
-			></div>
+			<div className="absolute inset-0 top md:mt-24 lg:mt-0 bg-primary-10 pointer-events-none" aria-hidden="true"></div>
 
 			<div className="relative max-w-6xl mx-auto px-4 sm:px-6">
 				<div className="py-12 md:py-20">
 					{/* Section header */}
 					<div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
 						<p className="text-xl text-primary-90">
-						Con RoomEase, la aplicación para la gestión de tareas compartidas, puedes disfrutar de la convivencia con tus compañeros de residencia sin preocupaciones ni malentendidos. 
-						Podrás crear, asignar y compartir tareas de forma rápida y sencilla, y mantenerte en comunicación efectiva con tus compañeros para asegurarte de que todo está en orden en tu hogar compartido.
-						 Con RoomEase, la organización de tus actividades y deberes será más práctica que nunca.
+							Con RoomEase, la aplicación para la gestión de tareas compartidas, puedes disfrutar de la convivencia con
+							tus compañeros de residencia sin preocupaciones ni malentendidos. Podrás crear, asignar y compartir tareas
+							de forma rápida y sencilla, y mantenerte en comunicación efectiva con tus compañeros para asegurarte de
+							que todo está en orden en tu hogar compartido. Con RoomEase, la organización de tus actividades y deberes
+							será más práctica que nunca.
 						</p>
 					</div>
 
@@ -73,7 +72,9 @@ export default function FeaturesBlocks() {
 								</g>
 							</svg>
 							<h4 className="text-xl font-bold leading-snug tracking-tight mb-1">Comunicación efectiva:</h4>
-							<p className="text-gray-600 text-center">Vive en armonía con tus roomies gracias a una comunicación clara.</p>
+							<p className="text-gray-600 text-center">
+								Vive en armonía con tus roomies gracias a una comunicación clara.
+							</p>
 						</div>
 
 						{/* 3rd item */}
@@ -149,7 +150,9 @@ export default function FeaturesBlocks() {
 								</g>
 							</svg>
 							<h4 className="text-xl font-bold leading-snug tracking-tight mb-1">Recordatorios automatizados:</h4>
-							<p className="text-gray-600 text-center">No pierdas una tarea de vista gracias a los recordatorios automáticos.</p>
+							<p className="text-gray-600 text-center">
+								No pierdas una tarea de vista gracias a los recordatorios automáticos.
+							</p>
 						</div>
 
 						{/* 6th item */}
