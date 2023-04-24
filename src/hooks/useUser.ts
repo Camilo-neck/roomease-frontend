@@ -12,5 +12,5 @@ export const useUser = () => {
 		dispatch(fetchUserInfo(user_id, token));
 	};
 
-	return { user, addUser };
+	return { user, setUser, addUser };
 };

@@ -42,7 +42,6 @@ import TasksList from "@/components/tasksList";
 const sidebarWidth = 290;
 
 const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-	useAuth();
 	const user = useSelector(selectUser);
 	const { getCookie } = useCookies();
 	const isMobile = useMediaQuery("(max-width: 768px)");
@@ -100,7 +99,7 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 					const task = Object.assign(data, { house_id: house._id });
 					task.start_date = new Date(task.start_date);
 					task.end_date = new Date(task.end_date);
-					task.until_date = new Date(task.until_date);
+					task.until_date = task.until_date ? new Date(task.until_date) : task.until_date;
 					await createTask(data, token as string);
 					setCurrentUserTasks(await getTasksByUser(house._id, user._id, token as string));
 				}}
@@ -265,8 +264,12 @@ export const getServerSideProps: GetServerSideProps<{
 	const decodedToken = jwt.decode(cookie) as { _id: string };
 	ctx.res.setHeader("Cache-Control", "public, s-maxage=30, stale-while-revalidate=59");
 	const house = await getHouse(ctx.query.hid as string, cookie);
-
-	if (house.message === "User not belongs to this house or the house doesn't exist" || !house) {
+	console.log('>>>>>',house)
+	if (
+		house.message === "User not belongs to this house or the house doesn't exist" || 
+		house.message === "House not found" || 
+		!house) {
+		console.log(house)
 		return {
 			redirect: {
 				destination: "/app/house/not_found",
