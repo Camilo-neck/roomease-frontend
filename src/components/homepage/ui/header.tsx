@@ -77,24 +77,22 @@ export default function Header() {
 								</ul>
 							</nav>
 							<MobileMenu />
-					</>
-				):
-				(
-					<nav className="flex flex-row items-center gap-2">
-						<p className="text-md sm:text-lg font-semibold text-primary-30 ">Hola, {user.name}</p>
-						<Avatar alt={user.name} className="cursor-pointer" />
-						<Button
-							onClick={async () => {
-								await dispatch(logoutUser());
-							}}
-							variant="outlined"
-							className="bg-tertiary-50 text-primary-100 hover:bg-tertiary-40 rounded-xl border hover:border-[#6F797A] border-[#6F797A] capitalize"
-						>
-							<span>Cerrar Sesión</span>
-						</Button>
-					</nav>
-				)
-				}
+						</>
+					) : (
+						<nav className="flex flex-row items-center gap-2">
+							<p className="text-md sm:text-lg font-semibold text-primary-30 ">Hola, {user.name}</p>
+							<Avatar alt={user.name} className="cursor-pointer" />
+							<Button
+								onClick={async () => {
+									await dispatch(logoutUser());
+								}}
+								variant="outlined"
+								className="bg-tertiary-50 text-primary-100 hover:bg-tertiary-40 rounded-xl border hover:border-[#6F797A] border-[#6F797A] capitalize"
+							>
+								<span>Cerrar Sesión</span>
+							</Button>
+						</nav>
+					)}
 				</div>
 			</div>
 		</header>
