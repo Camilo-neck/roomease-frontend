@@ -99,7 +99,7 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 					const task = Object.assign(data, { house_id: house._id });
 					task.start_date = new Date(task.start_date);
 					task.end_date = new Date(task.end_date);
-					task.until_date = new Date(task.until_date);
+					task.until_date = task.until_date ? new Date(task.until_date) : task.until_date;
 					await createTask(data, token as string);
 					setCurrentUserTasks(await getTasksByUser(house._id, user._id, token as string));
 				}}
