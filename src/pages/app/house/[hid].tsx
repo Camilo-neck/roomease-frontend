@@ -50,6 +50,7 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 	const isMobile = useMediaQuery("(max-width: 768px)");
 	const dispatch = useDispatch();
 	const [currentUserTasks, setCurrentUserTasks] = useState<TaskI[]>(userTasks);
+	const [ currentTasks, setCurrentTasks ] = useState<TaskI[]>(tasks);
 	const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 	const [container, setContainer] = useState<undefined | HTMLElement>(undefined);
 	const [isCreateTaskModalOpen, setIsCreateTaskModalOpen] = useState(false);
@@ -71,7 +72,7 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 	};
 
 	const getData = () => {
-		const data = tasks.map((task) => {
+		const data = currentTasks.map((task) => {
 			const until_date = new Date(task.until_date || "");
 			return {
 				text: task.name,
@@ -81,7 +82,7 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 				recurrenceRule: task.repeat
 					? `FREQ=WEEKLY;BYDAY=${getRecurrenceDays(task.days || [])};UNTIL=${formatTwoDigits(
 							until_date.getFullYear(),
-					  )}${formatTwoDigits(until_date.getMonth() + 1)}${formatTwoDigits(until_date.getDate())}`
+					)}${formatTwoDigits(until_date.getMonth() + 1)}${formatTwoDigits(until_date.getDate())}`
 					: undefined,
 			};
 		});
@@ -100,6 +101,7 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 		const task = formatFormTask(data);
 		await createTask(task, token as string);
 		setCurrentUserTasks(await getTasksByUser(house._id, user._id, token as string));
+		setCurrentTasks(await getTasksByHouse(house._id, token as string));
 	};
 
 	return (
@@ -152,13 +154,14 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 										onListChange={async (tid: string) => {
 											await checkTask(tid, token);
 											setCurrentUserTasks(await getTasksByUser(house._id, user._id, token));
+											setCurrentTasks(await getTasksByHouse(house._id, token));
 										}}
 									/>
 									<div className="overflow-y-auto h-[70vh] w-full">
 										<MyScheduler data={getData()} isAdaptable={isMobile} />
 									</div>
 								</div>
-								<Progress currentUserTasks={currentUserTasks} tasks={tasks} />
+								<Progress currentUserTasks={currentUserTasks} tasks={currentTasks} />
 							</div>
 						</Box>
 					</div>
