@@ -33,7 +33,6 @@ const Login = () => {
 	const [loginErrorMessage, setLoginErrorMessage] = useState<string | null>(null);
 
 	const onSubmit = async (data: any) => {
-		console.log(data);
 		const res = await dispatch(loginUser(data));
 		reset();
 		// if res is an error, show error

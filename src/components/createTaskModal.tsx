@@ -67,8 +67,6 @@ const CreateTaskModal = ({
 		handleClose();
 	};
 
-	console.log(watch("days"));
-
 	return (
 		<Dialog open={isOpen} onClose={handleClose} className="rounded-2xl">
 			<DialogTitle>Crear tarea</DialogTitle>

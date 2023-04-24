@@ -17,7 +17,6 @@ export const loginUser =
 				body: JSON.stringify(user),
 			});
 			const data = await response.json();
-			console.log(data);
 			if (data.message) {
 				if (data.message === "Wrong password") {
 					throw new Error("Contraseña incorrecta");

@@ -36,10 +36,6 @@ const Houses = ({ startHouses }: InferGetServerSidePropsType<typeof getServerSid
 	const [createHouseModalOpen, setCreateHouseModalOpen] = useState<boolean>(false);
 	const [joinHouseModalOpen, setJoinHouseModalOpen] = useState<boolean>(false);
 
-	useEffect(() => {
-		console.log(startHouses);
-	}, []);
-
 	// Create House Modal
 	const openCreateHouseModal = () => {
 		setCreateHouseModalOpen(true);
