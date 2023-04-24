@@ -60,6 +60,7 @@ export default function CreateHouseModal({
 
 	const handleClose = () => {
 		reset(initialState);
+		setImage(null);
 		onClose();
 	};
 
