@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Avatar, AvatarGroup, Button, Rating } from "@mui/material";
 import Link from "next/link";
-import { UserI } from "@/lib/interfaces";
+import { UserI } from "@/utils/interfaces";
 import { stringAvatar } from "@/utils/avatar.utils";
 
 const ListHouseCard = ({

@@ -2,7 +2,7 @@ import { Controller, useForm } from "react-hook-form";
 import { Button, TextField, TextFieldProps } from "@mui/material";
 import Link from "next/link";
 import { useRef } from "react";
-import { loginUser, registerUser } from "@/controllers/auth.controllers";
+import { loginUser, registerUser } from "@/helpers/auth.helpers";
 import { useRouter } from "next/navigation";
 
 import AuthLayout from "@/components/authLayout";
@@ -31,7 +31,6 @@ const Register = () => {
 	const router = useRouter();
 
 	const onSubmit = (data: any) => {
-		console.log(new Date(data.date));
 		const tmp_data = Object.assign({}, data);
 		tmp_data.birth_date = new Date(data.birth_date);
 		tmp_data.tags = tmp_data.tags.split(",").map((tag: string) => tag.trim());

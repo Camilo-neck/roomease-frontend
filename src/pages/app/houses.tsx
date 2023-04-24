@@ -14,12 +14,12 @@ import CreateHouseModal from "@/components/createHouseModal";
 // Redux
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "@/redux/slices/user.slice";
-import { getCookie } from "@/lib/cookie";
-import { fetchHouses, createHouse, joinHouse } from "@/controllers/houses.controllers";
+import { getCookie } from "@/utils/cookie";
+import { fetchHouses, createHouse, joinHouse } from "@/helpers/houses.helpers";
 import JoinHouseModal from "@/components/joinHouseModal";
 import AppNavbar from "@/components/appNavbar";
 import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
-import { HouseI } from "@/lib/interfaces";
+import { HouseI } from "@/utils/interfaces";
 import { useAuth } from "@/hooks/useAuth";
 import HousesHeader from "@/components/housesHeader";
 import LayoutGroupButtons from "@/components/layoutGroupButtons";
@@ -35,10 +35,6 @@ const Houses = ({ startHouses }: InferGetServerSidePropsType<typeof getServerSid
 	const [addPopoverAnchorEl, setAddPopoverAnchorEl] = useState<HTMLButtonElement | null>(null);
 	const [createHouseModalOpen, setCreateHouseModalOpen] = useState<boolean>(false);
 	const [joinHouseModalOpen, setJoinHouseModalOpen] = useState<boolean>(false);
-
-	useEffect(() => {
-		console.log(startHouses);
-	}, []);
 
 	// Create House Modal
 	const openCreateHouseModal = () => {

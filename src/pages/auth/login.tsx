@@ -4,7 +4,7 @@ import { Button, TextField } from "@mui/material";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { loginUser } from "@/controllers/auth.controllers";
+import { loginUser } from "@/helpers/auth.helpers";
 import { useDispatch } from "react-redux";
 
 import AuthLayout from "@/components/authLayout";
@@ -33,7 +33,6 @@ const Login = () => {
 	const [loginErrorMessage, setLoginErrorMessage] = useState<string | null>(null);
 
 	const onSubmit = async (data: any) => {
-		console.log(data);
 		const res = await dispatch(loginUser(data));
 		reset();
 		// if res is an error, show error

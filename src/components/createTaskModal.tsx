@@ -11,7 +11,7 @@ import { DateTimePicker, DatePicker, MobileDateTimePicker } from "@mui/x-date-pi
 import Button from "@mui/material/Button";
 import { Controller, useForm } from "react-hook-form";
 import { DialogContentText, FormHelperText, ToggleButton, ToggleButtonGroup } from "@mui/material";
-import { UserI } from "@/lib/interfaces";
+import { UserI } from "@/utils/interfaces";
 import dayjs from "dayjs";
 
 const initialState = {
@@ -66,8 +66,6 @@ const CreateTaskModal = ({
 		reset(initialState);
 		handleClose();
 	};
-
-	console.log(watch("days"));
 
 	return (
 		<Dialog open={isOpen} onClose={handleClose} className="rounded-2xl">

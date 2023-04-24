@@ -45,7 +45,6 @@ export default function JoinHouseModal({
 		handleClose();
 	};
 
-	console.log(errors);
 	return (
 		<Dialog open={isOpen} onClose={handleClose} className="rounded-2xl">
 			<DialogTitle>Unirme a una casa existente</DialogTitle>

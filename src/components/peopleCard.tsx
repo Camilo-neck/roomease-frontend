@@ -20,7 +20,7 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import Avatar from "@mui/material/Avatar";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearSharpIcon from "@mui/icons-material/ClearSharp";
-import { acceptPendingUser, rejectPendingUser } from "@/controllers/houses.controllers";
+import { acceptPendingUser, rejectPendingUser } from "@/helpers/houses.helpers";
 import { stringAvatar } from "@/utils/avatar.utils";
 
 const NestedList = ({ users, pending_users, house_id }: { users: any[]; house_id: string; pending_users?: any[] }) => {
