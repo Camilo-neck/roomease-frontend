@@ -1,7 +1,7 @@
 import { IconButton } from "@mui/material";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import TasksList from "./tasksList";
-import { TaskI } from "@/utils/interfaces";
+import { taskI } from "@/dtos";
 
 const TasksBar = ({
 	currentUserTasks,

@@ -1,5 +1,6 @@
+import { LoggedUserI } from "@/dtos";
 import { createContext } from "react";
-import { LoggedUserI } from "@/utils/interfaces";
+// import { LoggedUserI } from "@/utils/interfaces";
 
 interface AuthContextI {
 	user: LoggedUserI | null;
