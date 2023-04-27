@@ -26,7 +26,6 @@ import { getCookie } from "@/utils/cookie";
 import { fetchHouses, createHouse, joinHouse } from "@/helpers/houses.helpers";
 import { HouseI } from "@/utils/interfaces";
 
-
 import jwt from "jsonwebtoken";
 
 const Houses = ({ startHouses }: InferGetServerSidePropsType<typeof getServerSideProps>) => {

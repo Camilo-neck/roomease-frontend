@@ -8,7 +8,6 @@ import * as React from "react";
 // Styles
 import { Inter } from "next/font/google";
 
-
 const NotFoundError = () => {
 	return (
 		<>

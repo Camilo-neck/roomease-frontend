@@ -6,11 +6,7 @@ import * as React from "react";
 import { useState } from "react";
 
 // Material UI
-import {
-	Button,
-	Box,
-	useMediaQuery,
-} from "@mui/material";
+import { Button, Box, useMediaQuery } from "@mui/material";
 
 // Redux
 import { useSelector, useDispatch } from "react-redux";
@@ -38,7 +34,7 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 	const isMobile = useMediaQuery("(max-width: 768px)");
 	const dispatch = useDispatch();
 	const [currentUserTasks, setCurrentUserTasks] = useState<TaskI[]>(userTasks);
-	const [ currentTasks, setCurrentTasks ] = useState<TaskI[]>(tasks);
+	const [currentTasks, setCurrentTasks] = useState<TaskI[]>(tasks);
 	const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 	const [container, setContainer] = useState<undefined | HTMLElement>(undefined);
 	const [isCreateTaskModalOpen, setIsCreateTaskModalOpen] = useState(false);
@@ -70,7 +66,7 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 				recurrenceRule: task.repeat
 					? `FREQ=WEEKLY;BYDAY=${getRecurrenceDays(task.days || [])};UNTIL=${formatTwoDigits(
 							until_date.getFullYear(),
-					)}${formatTwoDigits(until_date.getMonth() + 1)}${formatTwoDigits(until_date.getDate())}`
+					  )}${formatTwoDigits(until_date.getMonth() + 1)}${formatTwoDigits(until_date.getDate())}`
 					: undefined,
 			};
 		});
