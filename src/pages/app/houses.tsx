@@ -24,7 +24,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "@/redux/slices/user.slice";
 import { getCookie } from "@/utils/cookie";
 import { fetchHouses, createHouse, joinHouse } from "@/helpers/houses.helpers";
-import { HouseI } from "@/utils/interfaces";
+import { houseI } from "@/dtos";
 
 import jwt from "jsonwebtoken";
 

@@ -1,4 +1,4 @@
-import { TaskI } from "@/utils/interfaces";
+import { taskI } from "@/dtos";
 import { LinearProgress } from "@mui/material";
 
 const Progress = ({ currentUserTasks, tasks }: { currentUserTasks: TaskI[]; tasks: TaskI[] }) => {

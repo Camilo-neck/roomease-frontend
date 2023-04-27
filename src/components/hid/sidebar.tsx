@@ -1,7 +1,7 @@
 import { Drawer, Button } from "@mui/material";
 import MediaCard from "./mediaCard";
 import PeopleCard from "./peopleCard";
-import { HouseI } from "@/utils/interfaces";
+import { houseI } from "@/dtos";
 
 const Sidebar = ({
 	house,

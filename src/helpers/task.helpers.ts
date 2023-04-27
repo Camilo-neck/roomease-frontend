@@ -1,4 +1,4 @@
-import { TaskI } from "@/utils/interfaces";
+import { taskI } from "@/dtos";
 
 export const getTasksByUser = async (hid: string, uid: string, token: string) => {
 	try {

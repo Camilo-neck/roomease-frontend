@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Avatar, AvatarGroup, Button, Rating } from "@mui/material";
 import Link from "next/link";
-import { UserI } from "@/utils/interfaces";
+import { userI } from "@/dtos";
 import { stringAvatar } from "@/utils/avatar.utils";
 
 const GridHouseCard = ({

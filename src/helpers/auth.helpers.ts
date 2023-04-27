@@ -2,7 +2,7 @@ import { deleteCookie, setCookie } from "@/utils/cookie";
 import { setUser } from "@/redux/slices/user.slice";
 import { deleteUserInfo } from "@/redux/thunks/user.thunk";
 import jwt from "jsonwebtoken";
-import { UserI } from "@/utils/interfaces";
+import { userI } from "@/dtos";
 
 export const loginUser =
 	(user: { email: string; password: string }): any =>
