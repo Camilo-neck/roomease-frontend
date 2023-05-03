@@ -13,7 +13,7 @@ import AppNavbar from "@/components/appNavbar";
 
 import jwt from "jsonwebtoken";
 import { fetchUserData } from "@/helpers/user.helpers";
-import { userI } from "@/dtos";
+import { UserI } from "@/dtos";
 import ProfileCard from "@/components/profileCard";
 
 const Profile = ({ userData }: InferGetServerSidePropsType<typeof getServerSideProps>) => {

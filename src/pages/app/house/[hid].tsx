@@ -15,7 +15,7 @@ import { useEffect } from "react";
 import { getHouse } from "@/helpers/houses.helpers";
 import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import AppNavbar from "@/components/appNavbar";
-import { HouseI, TaskI } from "@/utils/interfaces";
+import { HouseI, TaskI } from "@/dtos";
 import MyScheduler from "@/components/hid/scheduler";
 
 import jwt from "jsonwebtoken";
@@ -25,6 +25,7 @@ import { useCookies } from "@/hooks/useCookie";
 import Sidebar from "@/components/hid/sidebar";
 import TasksBar from "@/components/hid/tasksBar";
 import Progress from "@/components/hid/progress";
+import { refreshToken } from "@/helpers/auth.helpers";
 
 const sidebarWidth = 290;
 
@@ -145,7 +146,9 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 										<MyScheduler data={getData()} isAdaptable={isMobile} />
 									</div>
 								</div>
+								<div>
 								<Progress currentUserTasks={currentUserTasks} tasks={currentTasks} />
+								</div>
 							</div>
 						</Box>
 					</div>
@@ -161,18 +164,10 @@ export const getServerSideProps: GetServerSideProps<{
 	tasks: TaskI[];
 	token: string;
 }> = async (ctx: GetServerSidePropsContext) => {
-	const cookie = ctx.req.cookies["auth-token"];
-	if (!cookie) {
-		return {
-			redirect: {
-				destination: "/auth/login",
-				permanent: false,
-			},
-		};
-	}
-	const decodedToken = jwt.decode(cookie) as { _id: string };
+	let auth_token = ctx.req.cookies["auth-token"] as string;
+	const decodedToken = jwt.decode(auth_token) as { _id: string };
 	ctx.res.setHeader("Cache-Control", "public, s-maxage=30, stale-while-revalidate=59");
-	const house = await getHouse(ctx.query.hid as string, cookie);
+	const house = await getHouse(ctx.query.hid as string, auth_token);
 	if (
 		house.message === "User not belongs to this house or the house doesn't exist" ||
 		house.message === "House not found" ||
@@ -185,14 +180,14 @@ export const getServerSideProps: GetServerSideProps<{
 			},
 		};
 	}
-	const tasks: TaskI[] = await getTasksByHouse(ctx.query.hid as string, cookie);
-	const userTasks: TaskI[] = await getTasksByUser(ctx.query.hid as string, decodedToken._id, cookie);
+	const tasks: TaskI[] = await getTasksByHouse(ctx.query.hid as string, auth_token);
+	const userTasks: TaskI[] = await getTasksByUser(ctx.query.hid as string, decodedToken._id, auth_token);
 	return {
 		props: {
 			house,
 			userTasks,
 			tasks,
-			token: cookie,
+			token: auth_token,
 		},
 	};
 };

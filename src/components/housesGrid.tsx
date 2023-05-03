@@ -1,4 +1,4 @@
-import { houseI } from "@/dtos";
+import { HouseI } from "@/dtos";
 import GridHouseCard from "./gridHouseCard";
 import ListHouseCard from "./listHouseCard";
 

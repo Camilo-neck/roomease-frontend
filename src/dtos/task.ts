@@ -5,7 +5,7 @@ export interface TaskI {
 	name: string;
 	description: string;
 	house_id: string;
-	users_id: string[];
+	users: UserI[];
 	done?: boolean;
 	created_by?: UserI;
 	start_date: Date;

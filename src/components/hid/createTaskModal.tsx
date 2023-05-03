@@ -11,7 +11,7 @@ import { DateTimePicker, DatePicker, MobileDateTimePicker } from "@mui/x-date-pi
 import Button from "@mui/material/Button";
 import { Controller, useForm } from "react-hook-form";
 import { DialogContentText, FormHelperText, ToggleButton, ToggleButtonGroup } from "@mui/material";
-import { userI } from "@/dtos";
+import { UserI } from "@/dtos";
 import dayjs from "dayjs";
 
 const initialState = {

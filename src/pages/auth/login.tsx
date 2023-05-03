@@ -28,7 +28,7 @@ const Login = () => {
 		reset();
 		// if res is an error, show error
 		if (res instanceof Error) {
-			console.log("error");
+			console.log(res);
 			if (res.message.includes("password") || res.message.includes("email")) {
 				setLoginErrorMessage(res.message);
 			} else {

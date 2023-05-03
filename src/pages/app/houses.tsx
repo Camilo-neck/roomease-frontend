@@ -24,7 +24,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "@/redux/slices/user.slice";
 import { getCookie } from "@/utils/cookie";
 import { fetchHouses, createHouse, joinHouse } from "@/helpers/houses.helpers";
-import { houseI } from "@/dtos";
+import { HouseI } from "@/dtos";
 
 import jwt from "jsonwebtoken";
 
@@ -167,7 +167,7 @@ export const getServerSideProps: GetServerSideProps<{
 	if (!cookie) {
 		return {
 			redirect: {
-				destination: "/login",
+				destination: "/auth/login",
 				permanent: false,
 			},
 		};
