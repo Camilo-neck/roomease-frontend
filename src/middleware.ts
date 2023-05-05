@@ -66,7 +66,7 @@ export async function middleware(req: NextRequest) {
 	}
 
 	if (req.nextUrl.pathname.startsWith("/app") && token) {
-		const response =  NextResponse.next();
+		const response = NextResponse.next();
 		if (!unEnCryptedToken) {
 			unEnCryptedToken = decodeJwt(token);
 		}

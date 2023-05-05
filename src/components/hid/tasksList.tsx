@@ -16,7 +16,9 @@ function getHours(start_date: Date, end_date: Date) {
 
 const Task = ({ task, onChange }: { task: TaskI; onChange: (tid: string) => void }) => (
 	<div
-		className={`flex flex-row m-1 mr-2 ${task.done ? "bg-primary-90/90" : "bg-neutral-95"} p-2 rounded-xl shadow-sm transition-all duration-300`}
+		className={`flex flex-row m-1 mr-2 ${
+			task.done ? "bg-primary-90/90" : "bg-neutral-95"
+		} p-2 rounded-xl shadow-sm transition-all duration-300`}
 	>
 		<div className="flex flex-col gap-1 w-full">
 			<FormControlLabel

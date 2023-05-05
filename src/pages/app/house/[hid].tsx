@@ -113,6 +113,7 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 						{/* Sidebar */}
 						<Sidebar
 							house={house}
+							tasks={currentTasks}
 							sidebarWidth={sidebarWidth}
 							mobileSidebarOpen={mobileSidebarOpen}
 							container={container}
@@ -147,7 +148,7 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 									</div>
 								</div>
 								<div>
-								<Progress currentUserTasks={currentUserTasks} tasks={currentTasks} />
+									<Progress currentUserTasks={currentUserTasks} tasks={currentTasks} />
 								</div>
 							</div>
 						</Box>

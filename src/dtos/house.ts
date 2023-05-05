@@ -10,5 +10,5 @@ export interface HouseI {
 	address: string;
 	users: UserI[];
 	tags: string[];
-	pending_users: string[];
+	pending_users: UserI[];
 }

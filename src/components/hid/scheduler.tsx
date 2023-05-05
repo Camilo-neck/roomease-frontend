@@ -7,13 +7,13 @@ const MyScheduler = ({ data, isAdaptable }: { data: any; isAdaptable: boolean })
 
 	useEffect(() => {
 		const currentDate = new Date();
-		schedulerRef.current?.instance?.scrollToTime(currentDate.getHours(), currentDate.getMinutes());
+		schedulerRef.current?.instance?.scrollTo(currentDate);
 		// schedulerRef.current?.instance?.scrollToTime(8, 0);
 	}, []);
 
 	return (
 		<Scheduler
-			ref = {schedulerRef}
+			ref={schedulerRef}
 			dataSource={data}
 			defaultCurrentView="week"
 			startDayHour={0}
