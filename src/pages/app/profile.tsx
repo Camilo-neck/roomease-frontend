@@ -27,12 +27,12 @@ const Profile = ({ userData }: InferGetServerSidePropsType<typeof getServerSideP
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			<main className="bg-[#FAFDFD] h-screen">
-				<div className="bg-primary-40/5 h-screen flex flex-col items-center">
+			<main className="bg-[#FAFDFD] h-full">
+				<div className="h-screen flex flex-col items-center">
 					<AppNavbar />
 					<hr className="border border-neutral_variant-80 w-full" />
-					<div className="flex w-[90vw] h-screen items-center justify-center p-10">
-						<div className="flex flex-col w-full h-[80vh] p-3 gap-8 items-center justify-center">
+					<div className="flex w-[90vw] min-h-[800px] h-screen items-center justify-center p-10">
+						<div className="flex flex-col w-full h-full p-3 gap-8 items-center justify-center">
 							<Stack justifyContent={"space-between"} className="w-full md:w-[60%] h-full">
 								<ProfileCard
 									name={userInfo.name}
