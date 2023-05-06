@@ -19,6 +19,9 @@ import Header from "@/components/homepage/ui/header";
 import Footer from "@/components/homepage/ui/footer";
 import HomePage from "@/components/homepage/home";
 
+// Material UI
+import HouseIcon from "@mui/icons-material/House";
+
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 
 export default function Home() {
@@ -31,6 +34,7 @@ export default function Home() {
 			<Head>
 				<title>RoomEase</title>
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
+				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<Header />
 			<main>
