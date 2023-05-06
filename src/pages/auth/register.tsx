@@ -29,17 +29,17 @@ const Register = () => {
 	} = useForm();
 	const formRef = useRef<HTMLFormElement>(null);
 	const router = useRouter();
-	const [ registerErrorMessage, setRegisterErrorMessage ] = useState<string | null>(null);
+	const [registerErrorMessage, setRegisterErrorMessage] = useState<string | null>(null);
 
 	const onSubmit = async (data: any) => {
 		const tmp_data = Object.assign({}, data);
 		tmp_data.birth_date = new Date(data.birth_date);
 		tmp_data.tags = tmp_data.tags.split(",").map((tag: string) => tag.trim());
-		const res = await registerUser({...tmp_data, passConfirm: undefined});
-		console.log(res.body)
+		const res = await registerUser({ ...tmp_data, passConfirm: undefined });
+		console.log(res.body);
 		if (!res.ok) {
 			setRegisterErrorMessage("Ha ocurrido un error. Intente nuevamente");
-			return
+			return;
 		}
 		setRegisterErrorMessage(null);
 		router.push("/auth/login");
