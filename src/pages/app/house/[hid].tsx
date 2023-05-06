@@ -19,13 +19,14 @@ import { HouseI, TaskI } from "@/dtos";
 import MyScheduler from "@/components/hid/scheduler";
 
 import jwt from "jsonwebtoken";
-import { createTask, getTasksByUser, getTasksByHouse, checkTask } from "@/helpers/task.helpers";
+import { createTask, getTasksByUser, getTasksByHouse, checkTask, updateTask, deleteTask } from "@/helpers/task.helpers";
 import CreateTaskModal from "@/components/hid/createTaskModal";
 import { useCookies } from "@/hooks/useCookie";
 import Sidebar from "@/components/hid/sidebar";
 import TasksBar from "@/components/hid/tasksBar";
 import Progress from "@/components/hid/progress";
 import { refreshToken } from "@/helpers/auth.helpers";
+import dayjs from "dayjs";
 
 const sidebarWidth = 290;
 
@@ -39,6 +40,8 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 	const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 	const [container, setContainer] = useState<undefined | HTMLElement>(undefined);
 	const [isCreateTaskModalOpen, setIsCreateTaskModalOpen] = useState(false);
+	const [ isUpdateTaskModalOpen, setIsUpdateTaskModalOpen ] = useState(false);
+	const [ toEditTask, setToEditTask ] = useState<any | undefined>(undefined);
 
 	useEffect(() => {
 		setContainer(window ? () => document.body : undefined);
@@ -81,12 +84,55 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 		task.until_date = task.repeat ? new Date(task.until_date || "") : undefined;
 		return task;
 	};
+	// Initial state format:
+	/**
+	 * const initialState = {
+	name: "",
+	description: "",
+	house_id: "",
+	users_id: [],
+	start_date: "",
+	end_date: "",
+	repeat: false,
+	days: [],
+	until_date: "",
+};
+	 */
+	const formatTaskToForm = (task: TaskI) => {
+		return {
+			_id: task._id,
+			name: task.name,
+			description: task.description,
+			house_id: task.house_id,
+			users_id: task.users.map((user) => user._id),
+			start_date: dayjs(task.start_date),
+			end_date: dayjs(task.end_date),
+			repeat: task.repeat,
+			days: task.days,
+			until_date: task.repeat ? dayjs(task.until_date) : "",
+		};
+	};
+	const onEditTask = (tid: string) => {
+		const task = currentTasks.find((task) => task._id === tid);
+		if (!task) return;
+		setToEditTask(formatTaskToForm(task));
+		setIsUpdateTaskModalOpen(true);
+	};
 	const onCreateTask = async (data: TaskI) => {
 		const token = getCookie("auth-token");
 		const task = formatFormTask(data);
 		await createTask(task, token as string);
 		setCurrentUserTasks(await getTasksByUser(house._id, user._id, token as string));
 		setCurrentTasks(await getTasksByHouse(house._id, token as string));
+	};
+	const onUpdateTask = async (data: TaskI) => {
+		const token = getCookie("auth-token");
+		const task = formatFormTask(data);
+		console.log(task)
+		await updateTask(task._id, task, token as string);
+		setCurrentUserTasks(await getTasksByUser(house._id, user._id, token as string));
+		setCurrentTasks(await getTasksByHouse(house._id, token as string));
+		setToEditTask(undefined);
 	};
 
 	return (
@@ -103,6 +149,19 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 				onSubmit={onCreateTask}
 				users={house.users}
 			/>
+			{
+				toEditTask && <CreateTaskModal
+					isOpen={isUpdateTaskModalOpen}
+					onClose={() => {
+						setIsUpdateTaskModalOpen(false)
+					}}
+					onSubmit={onUpdateTask}
+					currentState={toEditTask}
+					isUpdate={true}
+					users={house.users}
+				/>
+			}
+			
 			<main className="bg-[#FAFDFD] h-screen">
 				<div className="bg-primary-40/5 h-screen flex flex-col items-center">
 					{/* Upper bar*/}
@@ -139,6 +198,12 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 										onCreateTask={() => setIsCreateTaskModalOpen(true)}
 										onListChange={async (tid: string) => {
 											await checkTask(tid, token);
+											setCurrentUserTasks(await getTasksByUser(house._id, user._id, token));
+											setCurrentTasks(await getTasksByHouse(house._id, token));
+										}}
+										onEdit={onEditTask}
+										onDelete={async (tid: string) => {
+											await deleteTask(tid, token);
 											setCurrentUserTasks(await getTasksByUser(house._id, user._id, token));
 											setCurrentTasks(await getTasksByHouse(house._id, token));
 										}}

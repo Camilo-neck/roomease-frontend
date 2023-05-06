@@ -68,12 +68,12 @@ export const checkTask = async (tid: string, token: string) => {
 export const updateTask = async (tid: string, task: TaskI, token: string) => {
 	try {
 		const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/task/update/${tid}`, {
-			method: "PATCH",
+			method: "PUT",
 			headers: {
 				"Content-Type": "application/json",
 				"auth-token": `${token}`,
 			},
-			body: JSON.stringify(task),
+			body: JSON.stringify({...task, _id: undefined}),
 		});
 		const data = await res.json();
 		return data;
@@ -81,3 +81,19 @@ export const updateTask = async (tid: string, task: TaskI, token: string) => {
 		console.error(error);
 	}
 };
+
+export const deleteTask = async (tid: string, token: string) => {
+	try {
+		const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/task/delete/${tid}`, {
+			method: "DELETE",
+			headers: {
+				"Content-Type": "application/json",
+				"auth-token": `${token}`,
+			},
+		});
+		const data = await res.json();
+		return data;
+	} catch (error) {
+		console.error(error);
+	}
+}

@@ -7,10 +7,14 @@ const TasksBar = ({
 	currentUserTasks,
 	onCreateTask,
 	onListChange,
+	onEdit,
+	onDelete,
 }: {
 	currentUserTasks: TaskI[];
 	onCreateTask: () => void;
 	onListChange: (tid: string) => void;
+	onEdit: (tid: string) => void;
+	onDelete: (tid: string) => void;
 }) => {
 	return (
 		<div className="w-[30%] p-1 bg-primary-100 rounded-md">
@@ -25,7 +29,7 @@ const TasksBar = ({
 				</IconButton>
 			</div>
 			<hr />
-			<TasksList tasks={currentUserTasks} onChange={onListChange} />
+			<TasksList tasks={currentUserTasks} onChange={onListChange} onEdit={onEdit} onDelete={onDelete} />
 		</div>
 	);
 };

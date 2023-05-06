@@ -1,6 +1,7 @@
 import { TaskI } from "@/dtos";
 import { Avatar, AvatarGroup, Checkbox, FormControlLabel, FormGroup, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import EventRepeatIcon from "@mui/icons-material/EventRepeat";
 import { stringAvatar } from "@/utils/avatar.utils";
 
@@ -14,7 +15,7 @@ function getHours(start_date: Date, end_date: Date) {
 	)}:${formatHour(end_date.getMinutes())}`;
 }
 
-const Task = ({ task, onChange }: { task: TaskI; onChange: (tid: string) => void }) => (
+const Task = ({ task, onChange, onEdit, onDelete }: { task: TaskI; onChange: (tid: string) => void; onEdit: (tid: string) => void; onDelete: (tid:string) => void }) => (
 	<div
 		className={`flex flex-row m-1 mr-2 ${
 			task.done ? "bg-primary-90/90" : "bg-neutral-95"
@@ -53,19 +54,22 @@ const Task = ({ task, onChange }: { task: TaskI; onChange: (tid: string) => void
 				{task.repeat && <EventRepeatIcon htmlColor="#C5533F" fontSize="inherit" className="ml-2" />}
 			</div>
 		</div>
-		<div>
-			<IconButton>
+		<div className="grid grid-cols-2 h-fit">
+			<IconButton onClick={async () => await onEdit(task._id)}>
+				<EditIcon color="primary" />
+			</IconButton>
+			<IconButton onClick={async () => await onDelete(task._id)}>
 				<DeleteIcon color="error" />
 			</IconButton>
 		</div>
 	</div>
 );
 
-const TasksList = ({ tasks, onChange }: { tasks: TaskI[]; onChange: (tid: string) => void }) => {
+const TasksList = ({ tasks, onChange, onEdit, onDelete }: { tasks: TaskI[]; onChange: (tid: string) => void; onEdit: (tid: string) => void; onDelete: (tid: string) => void }) => {
 	return (
 		<FormGroup className="flex flex-col gap-2 p-1 m-1 mt-2 rounded-lg min-h-full">
 			{tasks.map((task) => (
-				<Task key={task._id} task={task} onChange={onChange} />
+				<Task key={task._id} task={task} onChange={onChange} onEdit={onEdit} onDelete={onDelete} />
 			))}
 		</FormGroup>
 	);

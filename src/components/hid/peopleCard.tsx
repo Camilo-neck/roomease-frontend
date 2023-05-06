@@ -27,13 +27,23 @@ import MiniProfileCard from "../miniProfileCard";
 import { fetchUserData } from "@/helpers/user.helpers";
 import { useCookies } from "@/hooks/useCookie";
 
-const NestedList = ({ users, pending_users, house_id, tasks }: { users: UserI[]; house_id: string; pending_users?: UserI[]; tasks:TaskI[] }) => {
+const NestedList = ({
+	users,
+	pending_users,
+	house_id,
+	tasks,
+}: {
+	users: UserI[];
+	house_id: string;
+	pending_users?: UserI[];
+	tasks: TaskI[];
+}) => {
 	const [open1, setOpen1] = useState(true);
 	const [open2, setOpen2] = useState(true);
-	const [ popoverUser, setPopoverUser ] = useState<UserI | null>(null);
-	const [ popoverUserTasks, setPopoverUserTasks ] = useState<TaskI[]>([]);
-	const [ currentUser, setCurrentUser ] = useState<UserI | null>(null);
-	const [ anchorEl, setAnchorEl ] = useState<null | HTMLElement>(null);
+	const [popoverUser, setPopoverUser] = useState<UserI | null>(null);
+	const [popoverUserTasks, setPopoverUserTasks] = useState<TaskI[]>([]);
+	const [currentUser, setCurrentUser] = useState<UserI | null>(null);
+	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const { getCookie } = useCookies();
 
 	const handleClick1 = () => {
@@ -47,14 +57,14 @@ const NestedList = ({ users, pending_users, house_id, tasks }: { users: UserI[];
 		if (anchorEl) {
 			fetchUserData(currentUser?._id as string, getCookie("auth-token") as string).then((res) => {
 				setPopoverUser(res);
-				console.log(res)
+				console.log(res);
 			});
 			setPopoverUserTasks(getUserTasks(currentUser as UserI));
 		}
 	}, [anchorEl]);
 
 	const getUserTasks = (user: UserI) => {
-		return tasks ? tasks.filter((task) => task.users.filter(u => u._id === user._id).length > 0) : [];
+		return tasks ? tasks.filter((task) => task.users.filter((u) => u._id === user._id).length > 0) : [];
 	};
 
 	const handlePopoverClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -85,11 +95,11 @@ const NestedList = ({ users, pending_users, house_id, tasks }: { users: UserI[];
 				onClose={handlePopoverClose}
 				anchorOrigin={{
 					vertical: "bottom",
-					horizontal: "center"
+					horizontal: "center",
 				}}
 				transformOrigin={{
 					vertical: "top",
-					horizontal: "center"
+					horizontal: "center",
 				}}
 				className="w-96"
 			>
@@ -106,16 +116,17 @@ const NestedList = ({ users, pending_users, house_id, tasks }: { users: UserI[];
 				<List component="div" disablePadding>
 					{users.map((user, id) => (
 						<ListItem className="p-1 pl-5" key={id}>
-							<Chip 
-							variant="outlined"
-							className="text-xs text-left rounded-xl" 
-							label={user.name} 
-							avatar={<Avatar {...stringAvatar(user.name)} />}
-							onClick={async (e) => {
-								setCurrentUser(user);
-								handlePopoverClick(e)
-							}}
-							clickable />
+							<Chip
+								variant="outlined"
+								className="text-xs text-left rounded-xl"
+								label={user.name}
+								avatar={<Avatar {...stringAvatar(user.name)} />}
+								onClick={async (e) => {
+									setCurrentUser(user);
+									handlePopoverClick(e);
+								}}
+								clickable
+							/>
 						</ListItem>
 					))}
 				</List>
@@ -157,16 +168,17 @@ const NestedList = ({ users, pending_users, house_id, tasks }: { users: UserI[];
 												</>
 											}
 										>
-											<Chip 
+											<Chip
 												variant="outlined"
-												className="text-xs text-left rounded-xl" 
-												label={user.name} 
+												className="text-xs text-left rounded-xl"
+												label={user.name}
 												avatar={<Avatar {...stringAvatar(user.name)} />}
 												onClick={async (e) => {
 													setCurrentUser(user);
-													handlePopoverClick(e)
+													handlePopoverClick(e);
 												}}
-												clickable />
+												clickable
+											/>
 										</ListItem>
 									</div>
 								</>
@@ -179,7 +191,12 @@ const NestedList = ({ users, pending_users, house_id, tasks }: { users: UserI[];
 	);
 };
 
-const PeopleCard = ({ users, pending_users, house_id, tasks }: {
+const PeopleCard = ({
+	users,
+	pending_users,
+	house_id,
+	tasks,
+}: {
 	users: UserI[];
 	pending_users?: UserI[];
 	house_id: string;
@@ -190,11 +207,21 @@ const PeopleCard = ({ users, pending_users, house_id, tasks }: {
 	return (
 		<Card className="shadow-lg rounded-lg">
 			<CardContent>
-				<NestedList tasks={tasks} users={expanded ? users : users.slice(0,2)} pending_users={expanded ? pending_users : pending_users?.slice(0,2)} house_id={house_id} />
+				<NestedList
+					tasks={tasks}
+					users={expanded ? users : users.slice(0, 2)}
+					pending_users={expanded ? pending_users : pending_users?.slice(0, 2)}
+					house_id={house_id}
+				/>
 			</CardContent>
 			<CardActions className="flex flex-col items-center p-1 w-full">
-				<Button variant="outlined" onClick={() => setExpanded(!expanded)} className="bg-secondary-90/70 hover:bg-secondary-90/90 active:bg-secondary-80/80 rounded-2xl" size="small">
-					{expanded ? 'Ver menos' : 'Ver más'}
+				<Button
+					variant="outlined"
+					onClick={() => setExpanded(!expanded)}
+					className="bg-secondary-90/70 hover:bg-secondary-90/90 active:bg-secondary-80/80 rounded-2xl"
+					size="small"
+				>
+					{expanded ? "Ver menos" : "Ver más"}
 				</Button>
 			</CardActions>
 		</Card>

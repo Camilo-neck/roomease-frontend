@@ -6,15 +6,14 @@ import { getAge } from "@/utils/getAge";
 import { stringAvatar, stringToColor } from "@/utils/avatar.utils";
 import { TaskI, UserI } from "@/dtos";
 
-
-const MiniProfileCard = ({ user, userTasks }: { user: UserI, userTasks:TaskI[] }) => {
-	console.log(userTasks)
+const MiniProfileCard = ({ user, userTasks }: { user: UserI; userTasks: TaskI[] }) => {
+	console.log(userTasks);
 	return (
 		<Card className="w-full h-[49%] rounded-md p-3">
 			<Stack alignItems={"center"} className="w-full h-full" style={{ position: "relative" }}>
 				<div className="flex flex-row gap-2">
 					<Avatar
-						{...stringAvatar(user ? user?.name : ' ', 96, 30)}
+						{...stringAvatar(user ? user?.name : " ", 96, 30)}
 						style={{
 							border: "4px solid white",
 						}}
@@ -52,18 +51,21 @@ const MiniProfileCard = ({ user, userTasks }: { user: UserI, userTasks:TaskI[] }
 				<Divider className="w-[90%] pt-3" />
 				<div className="w-[90%] pt-2">
 					<p className="text-sm font-semibold text-center mb-1">Avance de tareas</p>
-					<Box className='justify-center w-full' sx={{ position: 'relative', display: 'inline-flex' }}>
-						<CircularProgress variant="determinate" value={userTasks.length > 0 ? (userTasks.filter((task) => task.done).length * 100) / userTasks.length : 0} />
+					<Box className="justify-center w-full" sx={{ position: "relative", display: "inline-flex" }}>
+						<CircularProgress
+							variant="determinate"
+							value={userTasks.length > 0 ? (userTasks.filter((task) => task.done).length * 100) / userTasks.length : 0}
+						/>
 						<Box
 							sx={{
-							top: 0,
-							left: 0,
-							bottom: 0,
-							right: 0,
-							position: 'absolute',
-							display: 'flex',
-							alignItems: 'center',
-							justifyContent: 'center',
+								top: 0,
+								left: 0,
+								bottom: 0,
+								right: 0,
+								position: "absolute",
+								display: "flex",
+								alignItems: "center",
+								justifyContent: "center",
 							}}
 						>
 							<Typography className="text-sm">
