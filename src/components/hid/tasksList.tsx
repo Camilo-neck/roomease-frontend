@@ -15,7 +15,17 @@ function getHours(start_date: Date, end_date: Date) {
 	)}:${formatHour(end_date.getMinutes())}`;
 }
 
-const Task = ({ task, onChange, onEdit, onDelete }: { task: TaskI; onChange: (tid: string) => void; onEdit: (tid: string) => void; onDelete: (tid:string) => void }) => (
+const Task = ({
+	task,
+	onChange,
+	onEdit,
+	onDelete,
+}: {
+	task: TaskI;
+	onChange: (tid: string) => void;
+	onEdit: (tid: string) => void;
+	onDelete: (tid: string) => void;
+}) => (
 	<div
 		className={`flex flex-row m-1 mr-2 ${
 			task.done ? "bg-primary-90/90" : "bg-neutral-95"
@@ -65,7 +75,17 @@ const Task = ({ task, onChange, onEdit, onDelete }: { task: TaskI; onChange: (ti
 	</div>
 );
 
-const TasksList = ({ tasks, onChange, onEdit, onDelete }: { tasks: TaskI[]; onChange: (tid: string) => void; onEdit: (tid: string) => void; onDelete: (tid: string) => void }) => {
+const TasksList = ({
+	tasks,
+	onChange,
+	onEdit,
+	onDelete,
+}: {
+	tasks: TaskI[];
+	onChange: (tid: string) => void;
+	onEdit: (tid: string) => void;
+	onDelete: (tid: string) => void;
+}) => {
 	return (
 		<FormGroup className="flex flex-col gap-2 p-1 m-1 mt-2 rounded-lg min-h-full">
 			{tasks.map((task) => (
