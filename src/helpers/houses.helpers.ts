@@ -3,7 +3,7 @@ import { getCookie } from "@/utils/cookie";
 import { HouseI } from "@/dtos";
 
 export const fetchHouses = async (uid: string, token: string) => {
-	const houses = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/houses?userId=${uid}`, {
+	const houses = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/houses`, {
 		method: "GET",
 		headers: {
 			Accept: "*/*",
@@ -17,7 +17,7 @@ export const fetchHouses = async (uid: string, token: string) => {
 
 export const getHouse = async (houseId: string, token: string) => {
 	try {
-		const house = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/house/${houseId}`, {
+		const house = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/houses/${houseId}`, {
 			method: "GET",
 			headers: {
 				Accept: "*/*",
@@ -40,7 +40,7 @@ export const createHouse = async (house: HouseI): Promise<any> => {
 	const { _id } = jwt.decode(token) as { _id: string };
 
 	try {
-		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/house/create?userId=${_id}`, {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/houses`, {
 			method: "POST",
 			headers: {
 				Accept: "*/*",
@@ -60,8 +60,8 @@ export const createHouse = async (house: HouseI): Promise<any> => {
 export const joinHouse = async (house_code: string): Promise<any> => {
 	const token = getCookie("auth-token");
 	try {
-		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/house/join/${house_code.replace("#", "_")}`, {
-			method: "GET",
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/houses/join/${house_code.replace("#", "_")}`, {
+			method: "PUT",
 			headers: {
 				Accept: "*/*",
 				"Content-Type": "application/json",
@@ -85,8 +85,8 @@ export const acceptPendingUser = async (houseId: string, userId: string) => {
 		accept: true,
 	};
 	try {
-		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/house/handleJoin/${houseId}`, {
-			method: "POST",
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/houses/handleJoin/${houseId}`, {
+			method: "PUT",
 			headers: {
 				Accept: "*/*",
 				"Content-Type": "application/json",
@@ -113,8 +113,8 @@ export const rejectPendingUser = async (houseId: string, userId: string) => {
 		accept: false,
 	};
 	try {
-		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/house/handleJoin/${houseId}`, {
-			method: "POST",
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/houses/handleJoin/${houseId}`, {
+			method: "PUT",
 			headers: {
 				Accept: "*/*",
 				"Content-Type": "application/json",
