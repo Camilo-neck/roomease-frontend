@@ -54,7 +54,7 @@ const MiniProfileCard = ({ user, userTasks }: { user: UserI; userTasks: TaskI[] 
 					<Box className="justify-center w-full" sx={{ position: "relative", display: "inline-flex" }}>
 						<CircularProgress
 							variant="determinate"
-							value={userTasks.length > 0 ? (userTasks.filter((task) => task.done).length * 100) / userTasks.length : 0}
+							value={userTasks.length > 0 ? ((userTasks.filter((task) => task.done).length * 100) / userTasks.length) : 0}
 						/>
 						<Box
 							sx={{
@@ -68,8 +68,8 @@ const MiniProfileCard = ({ user, userTasks }: { user: UserI; userTasks: TaskI[] 
 								justifyContent: "center",
 							}}
 						>
-							<Typography className="text-sm">
-								{userTasks.length > 0 ? (userTasks.filter((task) => task.done).length * 100) / userTasks.length : 0}%
+							<Typography className="text-xs">
+								{userTasks.length > 0 ? Math.round(userTasks.filter((task) => task.done).length * 100 / userTasks.length) : 0}%
 							</Typography>
 						</Box>
 					</Box>
