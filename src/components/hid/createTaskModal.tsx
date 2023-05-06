@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -11,8 +11,9 @@ import { DateTimePicker, DatePicker, MobileDateTimePicker } from "@mui/x-date-pi
 import Button from "@mui/material/Button";
 import { Controller, useForm } from "react-hook-form";
 import { DialogContentText, FormHelperText, ToggleButton, ToggleButtonGroup } from "@mui/material";
-import { UserI } from "@/utils/interfaces";
+import { UserI } from "@/dtos";
 import dayjs from "dayjs";
+import { current } from "@reduxjs/toolkit";
 
 const initialState = {
 	name: "",
@@ -30,11 +31,15 @@ const CreateTaskModal = ({
 	isOpen,
 	onClose,
 	onSubmit,
+	isUpdate,
+	currentState,
 	users,
 }: {
 	isOpen: boolean;
 	onClose: () => void;
 	onSubmit: (data: any) => void;
+	isUpdate?: boolean;
+	currentState?: typeof initialState;
 	users: UserI[];
 }) => {
 	const formRef = useRef<HTMLFormElement | null>(null);
@@ -46,7 +51,13 @@ const CreateTaskModal = ({
 		control,
 		getFieldState,
 		formState: { errors },
-	} = useForm({ defaultValues: initialState });
+	} = useForm({ defaultValues: isUpdate ? initialState : currentState });
+
+	useEffect(() => {
+		if (isUpdate && currentState) {
+			reset(currentState);
+		}
+	}, [isUpdate, currentState, reset]);
 
 	const handleClose = () => {
 		reset(initialState);
@@ -66,6 +77,8 @@ const CreateTaskModal = ({
 		reset(initialState);
 		handleClose();
 	};
+
+	watch("start_date");
 
 	return (
 		<Dialog open={isOpen} onClose={handleClose} className="rounded-2xl">

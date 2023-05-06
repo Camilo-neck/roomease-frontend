@@ -9,15 +9,6 @@ import { useDispatch } from "react-redux";
 
 import AuthLayout from "@/components/authLayout";
 
-const textFieldStyles = {
-	"& label.Mui-focused": {
-		color: "rgb(0 99 153 / 1)",
-	},
-	"& .MuiInput-underline:after": {
-		borderBottomColor: "rgb(0 99 153 / 1)",
-	},
-};
-
 const Login = () => {
 	const {
 		reset,
@@ -37,7 +28,7 @@ const Login = () => {
 		reset();
 		// if res is an error, show error
 		if (res instanceof Error) {
-			console.log("error");
+			console.log(res);
 			if (res.message.includes("password") || res.message.includes("email")) {
 				setLoginErrorMessage(res.message);
 			} else {

@@ -1,10 +1,9 @@
 // Next
 import Head from "next/head";
+import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 
 // React
-import { useEffect, useState } from "react";
-
-// Styles
+import { useState } from "react";
 
 // Material UI
 import Snackbar from "@mui/material/Snackbar";
@@ -12,19 +11,20 @@ import Alert from "@mui/material/Alert";
 
 // Components
 import CreateHouseModal from "@/components/createHouseModal";
-
-// Redux
-import { useSelector, useDispatch } from "react-redux";
-import { selectUser } from "@/redux/slices/user.slice";
-import { getCookie } from "@/utils/cookie";
-import { fetchHouses, createHouse, joinHouse } from "@/helpers/houses.helpers";
-import JoinHouseModal from "@/components/joinHouseModal";
-import AppNavbar from "@/components/appNavbar";
-import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
-import { HouseI } from "@/utils/interfaces";
 import HousesHeader from "@/components/housesHeader";
 import LayoutGroupButtons from "@/components/layoutGroupButtons";
 import HousesGrid from "@/components/housesGrid";
+import JoinHouseModal from "@/components/joinHouseModal";
+import AppNavbar from "@/components/appNavbar";
+
+// Redux
+import { useSelector, useDispatch } from "react-redux";
+
+// Others
+import { selectUser } from "@/redux/slices/user.slice";
+import { getCookie } from "@/utils/cookie";
+import { fetchHouses, createHouse, joinHouse } from "@/helpers/houses.helpers";
+import { HouseI } from "@/dtos";
 
 import jwt from "jsonwebtoken";
 
@@ -167,7 +167,7 @@ export const getServerSideProps: GetServerSideProps<{
 	if (!cookie) {
 		return {
 			redirect: {
-				destination: "/login",
+				destination: "/auth/login",
 				permanent: false,
 			},
 		};

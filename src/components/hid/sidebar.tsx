@@ -1,19 +1,21 @@
 import { Drawer, Button } from "@mui/material";
 import MediaCard from "./mediaCard";
 import PeopleCard from "./peopleCard";
-import { HouseI } from "@/utils/interfaces";
+import { HouseI, TaskI } from "@/dtos";
 
 const Sidebar = ({
 	house,
 	sidebarWidth,
 	mobileSidebarOpen,
 	container,
+	tasks,
 	onMobileSidebarClose,
 }: {
 	house: HouseI;
 	sidebarWidth: number;
 	mobileSidebarOpen: boolean;
 	container: undefined | HTMLElement;
+	tasks: TaskI[];
 	onMobileSidebarClose: (new_value: boolean) => void;
 }) => {
 	return (
@@ -41,7 +43,7 @@ const Sidebar = ({
 						</div>
 						{/* House members */}
 						<div className="p-5 pt-0">
-							<PeopleCard users={house.users} pending_users={house.pending_users} house_id={house._id} />
+							<PeopleCard tasks={tasks} users={house.users} pending_users={house.pending_users} house_id={house._id} />
 						</div>
 					</div>
 				</Drawer>
@@ -76,7 +78,7 @@ const Sidebar = ({
 						</div>
 						{/* House members */}
 						<div className="p-5 pt-0">
-							<PeopleCard users={house.users} pending_users={house.pending_users} house_id={house._id} />
+							<PeopleCard users={house.users} tasks={tasks} pending_users={house.pending_users} house_id={house._id} />
 						</div>
 					</div>
 				</Drawer>

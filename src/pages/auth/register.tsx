@@ -9,15 +9,6 @@ import { useRouter } from "next/navigation";
 import AuthLayout from "@/components/authLayout";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
-const textFieldStyles = {
-	"& label.Mui-focused": {
-		color: "rgb(0 99 153 / 1)",
-	},
-	"& .MuiInput-underline:after": {
-		borderBottomColor: "rgb(0 99 153 / 1)",
-	},
-};
-
 const Register = () => {
 	const {
 		reset,

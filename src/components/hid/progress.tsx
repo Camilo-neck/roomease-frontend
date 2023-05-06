@@ -1,9 +1,9 @@
-import { TaskI } from "@/utils/interfaces";
+import { TaskI } from "@/dtos";
 import { LinearProgress } from "@mui/material";
 
 const Progress = ({ currentUserTasks, tasks }: { currentUserTasks: TaskI[]; tasks: TaskI[] }) => {
 	return (
-		<div>
+		<div className="bg-white p-5 rounded-lg h-full">
 			<p className="text-xl">Progresos</p>
 			<div className="grid grid-flow-row-dense grid-cols-6 items-center gap-2">
 				<p className="font-semibold">Mi progreso:</p>

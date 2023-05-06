@@ -1,19 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import "devextreme/dist/css/dx.light.css";
 import { Scheduler } from "devextreme-react/scheduler";
 
 const MyScheduler = ({ data, isAdaptable }: { data: any; isAdaptable: boolean }) => {
+	const schedulerRef = useRef<any | null>(null);
+
+	useEffect(() => {
+		const currentDate = new Date();
+		schedulerRef.current?.instance?.scrollTo(currentDate);
+		// schedulerRef.current?.instance?.scrollToTime(8, 0);
+	}, []);
+
 	return (
 		<Scheduler
+			ref={schedulerRef}
 			dataSource={data}
 			defaultCurrentView="week"
-			currentDate={new Date()}
-			startDayHour={7}
-			endDayHour={21}
-			showCurrentTimeIndicator={true}
+			startDayHour={0}
+			endDayHour={24}
 			shadeUntilCurrentTime={true}
-			indicatorUpdateInterval={60000}
-			
 			className="h-full"
 			editing={false}
 			adaptivityEnabled={isAdaptable}
