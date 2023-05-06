@@ -37,11 +37,13 @@ export async function middleware(req: NextRequest) {
 	let unEnCryptedToken: any;
 	if (!token) {
 		const refreshTokenCookie = req.cookies.get("refresh-token")?.value;
-		const { newToken, unEncryptedToken } = (await edgeRefreshToken(refreshTokenCookie, req)) as any;
-		console.log("newToken", unEncryptedToken);
-		if (newToken) {
-			token = newToken;
-			unEnCryptedToken = unEncryptedToken;
+		if (refreshTokenCookie){
+			const { newToken, unEncryptedToken } = (await edgeRefreshToken(refreshTokenCookie, req)) as any;
+			console.log("newToken", unEncryptedToken);
+			if (newToken) {
+				token = newToken;
+				unEnCryptedToken = unEncryptedToken;
+			}
 		}
 	}
 

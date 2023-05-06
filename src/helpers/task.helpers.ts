@@ -73,7 +73,7 @@ export const updateTask = async (tid: string, task: TaskI, token: string) => {
 				"Content-Type": "application/json",
 				"auth-token": `${token}`,
 			},
-			body: JSON.stringify({...task, _id: undefined}),
+			body: JSON.stringify({ ...task, _id: undefined }),
 		});
 		const data = await res.json();
 		return data;
@@ -96,4 +96,4 @@ export const deleteTask = async (tid: string, token: string) => {
 	} catch (error) {
 		console.error(error);
 	}
-}
+};

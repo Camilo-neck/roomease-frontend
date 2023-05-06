@@ -40,8 +40,8 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 	const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 	const [container, setContainer] = useState<undefined | HTMLElement>(undefined);
 	const [isCreateTaskModalOpen, setIsCreateTaskModalOpen] = useState(false);
-	const [ isUpdateTaskModalOpen, setIsUpdateTaskModalOpen ] = useState(false);
-	const [ toEditTask, setToEditTask ] = useState<any | undefined>(undefined);
+	const [isUpdateTaskModalOpen, setIsUpdateTaskModalOpen] = useState(false);
+	const [toEditTask, setToEditTask] = useState<any | undefined>(undefined);
 
 	useEffect(() => {
 		setContainer(window ? () => document.body : undefined);
@@ -128,7 +128,7 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 	const onUpdateTask = async (data: TaskI) => {
 		const token = getCookie("auth-token");
 		const task = formatFormTask(data);
-		console.log(task)
+		console.log(task);
 		await updateTask(task._id, task, token as string);
 		setCurrentUserTasks(await getTasksByUser(house._id, user._id, token as string));
 		setCurrentTasks(await getTasksByHouse(house._id, token as string));
@@ -149,19 +149,19 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 				onSubmit={onCreateTask}
 				users={house.users}
 			/>
-			{
-				toEditTask && <CreateTaskModal
+			{toEditTask && (
+				<CreateTaskModal
 					isOpen={isUpdateTaskModalOpen}
 					onClose={() => {
-						setIsUpdateTaskModalOpen(false)
+						setIsUpdateTaskModalOpen(false);
 					}}
 					onSubmit={onUpdateTask}
 					currentState={toEditTask}
 					isUpdate={true}
 					users={house.users}
 				/>
-			}
-			
+			)}
+
 			<main className="bg-[#FAFDFD] h-screen">
 				<div className="bg-primary-40/5 h-screen flex flex-col items-center">
 					{/* Upper bar*/}
