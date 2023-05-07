@@ -6,6 +6,8 @@ import { getAge } from "@/utils/getAge";
 import { stringAvatar, stringToColor } from "@/utils/avatar.utils";
 import { TaskI, UserI } from "@/dtos";
 
+import { getUserTaskProgress } from "@/utils/progress";
+
 const MiniProfileCard = ({ user, userTasks }: { user: UserI; userTasks: TaskI[] }) => {
 	console.log(userTasks);
 	return (
@@ -54,7 +56,7 @@ const MiniProfileCard = ({ user, userTasks }: { user: UserI; userTasks: TaskI[] 
 					<Box className="justify-center w-full" sx={{ position: "relative", display: "inline-flex" }}>
 						<CircularProgress
 							variant="determinate"
-							value={userTasks.length > 0 ? (userTasks.filter((task) => task.done).length * 100) / userTasks.length : 0}
+							value={getUserTaskProgress(userTasks)}
 						/>
 						<Box
 							sx={{
@@ -69,9 +71,7 @@ const MiniProfileCard = ({ user, userTasks }: { user: UserI; userTasks: TaskI[] 
 							}}
 						>
 							<Typography className="text-xs">
-								{userTasks.length > 0
-									? Math.round((userTasks.filter((task) => task.done).length * 100) / userTasks.length)
-									: 0}
+								{getUserTaskProgress(userTasks)}
 								%
 							</Typography>
 						</Box>
