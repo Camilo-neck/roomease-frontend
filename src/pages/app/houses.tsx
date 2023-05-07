@@ -27,6 +27,7 @@ import { fetchHouses, createHouse, joinHouse } from "@/helpers/houses.helpers";
 import { HouseI } from "@/dtos";
 
 import jwt from "jsonwebtoken";
+import EmptyHouses from "@/components/emptyHouses";
 
 const Houses = ({ startHouses }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const user = useSelector(selectUser);
@@ -148,7 +149,11 @@ const Houses = ({ startHouses }: InferGetServerSidePropsType<typeof getServerSid
 							/>
 							<div className="flex flex-col gap-3 items-center w-full">
 								<LayoutGroupButtons view={view} onChange={setView} />
-								<HousesGrid houses={houses} view={view} />
+								{ houses.length === 0 ? 
+									<EmptyHouses /> :
+									<HousesGrid houses={houses} view={view} />
+								}
+								
 							</div>
 						</div>
 					</div>
