@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "@/helpers/auth.helpers";
 import { useRouter } from "next/navigation";
+import Logo from "./homepage/ui/logo";
 
 const AppNavbar = ({ sidebarWidth }: { sidebarWidth?: number }) => {
 	const dispatch = useDispatch();
@@ -33,7 +34,9 @@ const AppNavbar = ({ sidebarWidth }: { sidebarWidth?: number }) => {
 				}}
 				className={`${sidebarWidth ? "min-w-full md:min-w-min" : "w-full min-w-full"} items-center flex flex-row p-2`}
 			>
-				<p className="font-bold text-xl text-primary-20 flex-grow">Roomease</p>
+				<div className="flex-grow mr-4">
+						<Logo />
+				</div>
 				<div className="flex flex-row gap-3 mr-5">
 					<IconButton onClick={handleUserPopoverOpen}>
 						<AccountBoxOutlinedIcon className="text-primary-20" />
