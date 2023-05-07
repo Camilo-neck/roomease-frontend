@@ -132,12 +132,11 @@ const Houses = ({ startHouses }: InferGetServerSidePropsType<typeof getServerSid
 				<Alert severity="error">{errorMessage}</Alert>
 			</Snackbar>
 			<JoinHouseModal onSubmit={onJoinHouseModalSubmit} onClose={closeJoinHouseModal} isOpen={joinHouseModalOpen} />
-			<main className="bg-[#FAFDFD] h-screen">
-				<div className="bg-primary-40/5 h-screen flex flex-col items-center">
+			<main>
+				<div className="bg-[#FAFDFD] h-full min-h-screen flex flex-col items-center">
 					<AppNavbar />
-					<hr className="border border-neutral_variant-80 w-full" />
-					<div className="flex w-[80vw] h-screen items-center justify-center p-10">
-						<div className="flex flex-col w-full h-[80vh] p-3 gap-8">
+					<div className="flex w-[100vw] md:w-[80vw] h-full items-center justify-center p-5">
+						<div className="flex flex-col w-full h-full p-3 gap-3">
 							<HousesHeader
 								addPopoverId={addPopoverId}
 								handleAddPopoverClick={handleAddPopoverClick}
