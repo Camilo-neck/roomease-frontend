@@ -57,6 +57,28 @@ export const createHouse = async (house: HouseI): Promise<any> => {
 	}
 };
 
+export const editHouse = async (house: HouseI): Promise<any> => {
+	const token = getCookie("auth-token");
+	const { _id } = jwt.decode(token) as { _id: string };
+	
+	try {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/houses`, {
+			method: "PUT",
+			headers: {
+				Accept: "*/*",
+				"Content-Type": "application/json",
+				"auth-token": token,
+			},
+			body: JSON.stringify({ ...house }),
+		});
+
+		return response;
+	} catch (err) {
+		console.log(err);
+		return err;
+	}
+};
+
 export const joinHouse = async (house_code: string): Promise<any> => {
 	const token = getCookie("auth-token");
 	try {
