@@ -25,55 +25,58 @@ const AppNavbar = ({ sidebarWidth }: { sidebarWidth?: number }) => {
 	};
 
 	return (
-		<Box
-			sx={{
-				width: { md: `calc(100% - ${sidebarWidth}px)` },
-				ml: { md: `${sidebarWidth}px` },
-			}}
-			className={`${sidebarWidth ? "min-w-full md:min-w-min" : "w-full min-w-full"} items-center flex flex-row p-2`}
-		>
-			<p className="font-bold text-xl text-primary-20 flex-grow">Roomease</p>
-			<div className="flex flex-row gap-3 mr-5">
-				<IconButton onClick={handleUserPopoverOpen}>
-					<AccountBoxOutlinedIcon className="text-primary-20" />
-				</IconButton>
-				<Menu
-					id={userPopoverId}
-					open={userPopoverOpen}
-					anchorEl={userPopoverAnchorEl}
-					onClose={handleUserPopoverClose}
-					anchorOrigin={{
-						vertical: "bottom",
-						horizontal: "center",
-					}}
-					transformOrigin={{
-						vertical: "top",
-						horizontal: "center",
-					}}
-				>
-					<MenuItem className="text-primary-20 hover:text-primary-30 focus:text-primary-30 ">
-						<Link href={"/app/profile"}>Ver perfil</Link>
-					</MenuItem>
-					<MenuItem
-						onClick={async () => {
-							await dispatch(logoutUser());
-							router.push("/");
-						}}
-						className="text-primary-20 hover:text-primary-30 focus:text-primary-30 "
-					>
-						Cerrar sesión
-					</MenuItem>
-				</Menu>
-				<Link href="/app/houses">
-					<IconButton>
-						<HomeOutlinedIcon className="text-primary-20" />
+		<>
+			<Box
+				sx={{
+					width: { md: `calc(100% - ${sidebarWidth}px)` },
+					ml: { md: `${sidebarWidth}px` },
+				}}
+				className={`${sidebarWidth ? "min-w-full md:min-w-min" : "w-full min-w-full"} items-center flex flex-row p-2`}
+			>
+				<p className="font-bold text-xl text-primary-20 flex-grow">Roomease</p>
+				<div className="flex flex-row gap-3 mr-5">
+					<IconButton onClick={handleUserPopoverOpen}>
+						<AccountBoxOutlinedIcon className="text-primary-20" />
 					</IconButton>
-				</Link>
-				<IconButton>
-					<SettingsOutlinedIcon className="text-primary-20" />
-				</IconButton>
-			</div>
-		</Box>
+					<Menu
+						id={userPopoverId}
+						open={userPopoverOpen}
+						anchorEl={userPopoverAnchorEl}
+						onClose={handleUserPopoverClose}
+						anchorOrigin={{
+							vertical: "bottom",
+							horizontal: "center",
+						}}
+						transformOrigin={{
+							vertical: "top",
+							horizontal: "center",
+						}}
+					>
+						<MenuItem className="text-primary-20 hover:text-primary-30 focus:text-primary-30 ">
+							<Link href={"/app/profile"}>Ver perfil</Link>
+						</MenuItem>
+						<MenuItem
+							onClick={async () => {
+								await dispatch(logoutUser());
+								router.push("/");
+							}}
+							className="text-primary-20 hover:text-primary-30 focus:text-primary-30 "
+						>
+							Cerrar sesión
+						</MenuItem>
+					</Menu>
+					<Link href="/app/houses">
+						<IconButton>
+							<HomeOutlinedIcon className="text-primary-20" />
+						</IconButton>
+					</Link>
+					<IconButton>
+						<SettingsOutlinedIcon className="text-primary-20" />
+					</IconButton>
+				</div>
+			</Box>
+			<hr className="border border-neutral_variant-80 w-full" />
+		</>
 	);
 };
 

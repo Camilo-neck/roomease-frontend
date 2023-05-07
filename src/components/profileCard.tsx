@@ -17,8 +17,8 @@ interface ProfileCardProps {
 const ProfileCard = ({ name, email, description, birthDate, phone, tags }: ProfileCardProps) => {
 	return (
 		<Card className="w-full min-h-[650px] h-full rounded-lg shadow-lg">
-			<Stack alignItems={"center"} className="w-full h-full" style={{ position: "relative" }}>
-				<div className="bg-gradient-to-t from-primary-50 to-secondary-60 w-full h-[25%]"></div>
+			<Stack alignItems={"center"} style={{ position: "relative" }}>
+				<div className="bg-gradient-to-t from-primary-50 to-secondary-60 w-full min-h-[150px]"></div>
 				<Avatar
 					{...stringAvatar(name, 120, 40)}
 					style={{
@@ -29,7 +29,7 @@ const ProfileCard = ({ name, email, description, birthDate, phone, tags }: Profi
 						border: "4px solid white",
 					}}
 				></Avatar>
-				<div className="h-[10%]"></div>
+				<div className="w-full h-[10%] min-h-[70px]"></div>
 				<span className="font-semibold text-[1.5rem]">{name}</span>
 				<span className="text-sm pb-2">{email}</span>
 				<Stack className="w-[80%] pt-3 items-center" spacing={1}>
@@ -47,7 +47,7 @@ const ProfileCard = ({ name, email, description, birthDate, phone, tags }: Profi
 					<Typography className="line-clamp-5 leading-5 text-sm text-center">{description}</Typography>
 				</div>
 				<Divider className="w-[80%] pt-3" />
-				<div className="w-[80%] pt-5">
+				<div className="w-[80%] pt-5 pb-5">
 					<Grid container spacing={2} className="justify-center">
 						{tags.map((tag, id) => (
 							<Grid item key={id}>
