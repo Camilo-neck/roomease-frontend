@@ -166,7 +166,6 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 				<div className="bg-primary-40/5 h-screen flex flex-col items-center">
 					{/* Upper bar*/}
 					<AppNavbar sidebarWidth={isMobile ? 0 : sidebarWidth} />
-					<hr className="border border-neutral_variant-80 w-full" />
 					{/*Main*/}
 					<div className="flex flex-row w-full h-full">
 						{/* Sidebar */}

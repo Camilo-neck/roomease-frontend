@@ -18,7 +18,7 @@ const ListHouseCard = ({
 	users: UserI[];
 }) => {
 	return (
-		<div className="flex flex-row bg-white shadow-lg rounded-lg">
+		<div className="flex flex-row bg-white shadow-lg rounded-lg min-w-[600px]">
 			<Image
 				src={img ? img : "/house_placeholder.jpg"}
 				alt="house placeholder"
@@ -27,7 +27,7 @@ const ListHouseCard = ({
 				className="rounded-t-lg"
 				priority
 			/>
-			<div className="flex flex-col gap-1 p-5 w-full">
+			<div className="flex flex-col gap-1 p-5 min-w-[300px] md:w-[700px]">
 				<p className="font-semibold text-2xl">{name}</p>
 				<p className="max-h-24 line-clamp-3 flex-grow">{description}</p>
 				<div className="flex flex-row w-full self-end">

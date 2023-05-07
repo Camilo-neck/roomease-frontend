@@ -217,7 +217,7 @@ const PeopleCard = ({
 					house_id={house_id}
 				/>
 			</CardContent>
-			<CardActions className="flex flex-col items-center p-1 w-full">
+			<CardActions className="flex flex-col items-center p-3 w-full">
 				<Button
 					variant="outlined"
 					onClick={() => setExpanded(!expanded)}
