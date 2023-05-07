@@ -39,6 +39,7 @@ const Sidebar = ({
 								address={house.address}
 								description={house.description}
 								picture={house.house_picture}
+								code={house.house_code}
 							/>
 						</div>
 						{/* House members */}
@@ -74,6 +75,7 @@ const Sidebar = ({
 								address={house.address}
 								description={house.description}
 								picture={house.house_picture}
+								code={house.house_code}
 							/>
 						</div>
 						{/* House members */}

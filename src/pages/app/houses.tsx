@@ -148,10 +148,10 @@ const Houses = ({ startHouses }: InferGetServerSidePropsType<typeof getServerSid
 								openJoinHouseModal={openJoinHouseModal}
 							/>
 							<div className="flex flex-col gap-3 items-center w-full">
-								<LayoutGroupButtons view={view} onChange={setView} />
 								{ houses.length === 0 ? 
 									<EmptyHouses /> :
-									<HousesGrid houses={houses} view={view} />
+									<><LayoutGroupButtons view={view} onChange={setView} />
+									<HousesGrid houses={houses} view={view} /></>
 								}
 								
 							</div>
