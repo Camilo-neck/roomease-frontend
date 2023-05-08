@@ -137,7 +137,7 @@ export default function EditHouseModal({
 						label="Nombre de la casa"
 						type="text"
 						fullWidth
-						{...register("name", { required: true })}
+						{...register("name")}
 					/>
 					<TextField
 						className="rounded-xl"
@@ -153,7 +153,7 @@ export default function EditHouseModal({
 						fullWidth
 						multiline
 						rows={4}
-						{...register("description", { required: true })}
+						{...register("description")}
 					/>
 					<TextField
 						className="rounded-xl"
@@ -167,7 +167,7 @@ export default function EditHouseModal({
 						label="Dirección"
 						type="text"
 						fullWidth
-						{...register("address", { required: true })}
+						{...register("address")}
 					/>
 					<TextField
 						className="rounded-xl"
@@ -183,7 +183,6 @@ export default function EditHouseModal({
 						fullWidth
 						helperText="Separa las etiquetas con comas"
 						{...register("tags", {
-							required: true,
 							pattern: /([a-zA-Z0-9]+,?\s?)+/,
 						})}
 					/>

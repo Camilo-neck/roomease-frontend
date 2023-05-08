@@ -62,7 +62,7 @@ export const editHouse = async (house: HouseI): Promise<any> => {
 	const { _id } = jwt.decode(token) as { _id: string };
 	
 	try {
-		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/houses`, {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/houses/${house.house_code.replace("#", "_")}`, {
 			method: "PUT",
 			headers: {
 				Accept: "*/*",

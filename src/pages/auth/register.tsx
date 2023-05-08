@@ -90,7 +90,7 @@ const Register = () => {
 							pattern: /^([a-z0-9\s]+,)*([a-z0-9\s]+){1}$/i,
 						})}
 					/>
-					<div className="flex flex-row gap-2 w-96">
+					<div>
 						<Controller
 							control={control}
 							name="birth_date"
@@ -98,7 +98,7 @@ const Register = () => {
 								<DatePicker
 									{...field}
 									inputRef={ref}
-									label="Date"
+									label="Fecha de nacimiento"
 									slotProps={{
 										textField: {
 											variant: "outlined",
@@ -110,7 +110,7 @@ const Register = () => {
 												{...inputProps}
 												onBlur={onBlur}
 												name={name}
-												className="bg-indigo-400/10 rounded-2xl"
+												className="bg-indigo-400/10 rounded-2xl w-full"
 												sx={{
 													"& .MuiOutlinedInput-root": {
 														borderRadius: "16px",
@@ -124,24 +124,24 @@ const Register = () => {
 								/>
 							)}
 						/>
-						<TextField
-							error={errors.phone ? true : false}
-							helperText={errors.phone ? `${errors.phone?.message}` : ""}
-							fullWidth
-							type="tel"
-							className="bg-indigo-400/10 rounded-2xl"
-							sx={{
-								"& .MuiOutlinedInput-root": {
-									borderRadius: "16px",
-								},
-							}}
-							label="Número Telefónico"
-							variant="outlined"
-							{...register("phone", {
-								required: "Debe ingresar su número telefónico",
-							})}
-						/>
 					</div>
+					<TextField
+						error={errors.phone ? true : false}
+						helperText={errors.phone ? `${errors.phone?.message}` : ""}
+						fullWidth
+						type="tel"
+						className="bg-indigo-400/10 rounded-2xl"
+						sx={{
+							"& .MuiOutlinedInput-root": {
+								borderRadius: "16px",
+							},
+						}}
+						label="Número Telefónico"
+						variant="outlined"
+						{...register("phone", {
+							required: "Debe ingresar su número telefónico",
+						})}
+					/>
 					<TextField
 						type={"text"}
 						className="bg-indigo-400/10 rounded-2xl"
