@@ -61,19 +61,19 @@ export const createHouse = async (house: HouseI): Promise<any> => {
 	}
 };
 
-export const editHouse = async (house: HouseI): Promise<any> => {
+export const editHouse = async (house: HouseI, house_id: string): Promise<any> => {
 	const token = getCookie("auth-token");
 	const { _id } = jwt.decode(token) as { _id: string };
 	
 	try {
-		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/houses`, {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/houses/${house_id}`, {
 			method: "PUT",
 			headers: {
 				Accept: "*/*",
 				"Content-Type": "application/json",
 				"auth-token": token,
 			},
-			body: JSON.stringify({ ...house }),
+			body: JSON.stringify({ ...house, users : undefined }),
 		});
 
 		return response;

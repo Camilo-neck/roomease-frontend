@@ -151,7 +151,7 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 	};
 
 	const onEditHouseModalSubmit = async (data: HouseI) => {
-		const res = await editHouse(data);
+		const res = await editHouse(data, house._id);
 		if (!res.ok) {
 			if (res.status === 400) {
 				setErrorMessage(res.message);
