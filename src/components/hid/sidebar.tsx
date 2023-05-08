@@ -10,6 +10,8 @@ const Sidebar = ({
 	container,
 	tasks,
 	onMobileSidebarClose,
+	openEditHouseModal,
+	isOwner,
 }: {
 	house: HouseI;
 	sidebarWidth: number;
@@ -17,6 +19,8 @@ const Sidebar = ({
 	container: undefined | HTMLElement;
 	tasks: TaskI[];
 	onMobileSidebarClose: (new_value: boolean) => void;
+	openEditHouseModal: () => void;
+	isOwner: boolean;
 }) => {
 	return (
 		<div>
@@ -39,6 +43,9 @@ const Sidebar = ({
 								address={house.address}
 								description={house.description}
 								picture={house.house_picture}
+								code={house.house_code}
+								openEditHouseModal={openEditHouseModal}
+								isOwner={isOwner}
 							/>
 						</div>
 						{/* House members */}
@@ -74,6 +81,9 @@ const Sidebar = ({
 								address={house.address}
 								description={house.description}
 								picture={house.house_picture}
+								code={house.house_code}
+								openEditHouseModal={openEditHouseModal}
+								isOwner={isOwner}
 							/>
 						</div>
 						{/* House members */}

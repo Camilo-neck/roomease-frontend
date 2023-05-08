@@ -80,8 +80,7 @@ export default function Header() {
 						</>
 					) : (
 						<nav className="flex flex-row items-center gap-2">
-							<p className="text-md sm:text-lg font-semibold text-primary-30 ">Hola, {user.name}</p>
-							<Avatar alt={user.name} className="cursor-pointer" />
+							<p className="text-md sm:text-lg font-semibold text-primary-30 p-2">Hola, {user.name}</p>
 							<Button
 								onClick={async () => {
 									await dispatch(logoutUser());

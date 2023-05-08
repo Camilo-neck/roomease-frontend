@@ -10,11 +10,11 @@ import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 
 // Components
-import CreateHouseModal from "@/components/createHouseModal";
+import CreateHouseModal from "@/components/house/createHouseModal";
 import HousesHeader from "@/components/housesHeader";
 import LayoutGroupButtons from "@/components/layoutGroupButtons";
 import HousesGrid from "@/components/housesGrid";
-import JoinHouseModal from "@/components/joinHouseModal";
+import JoinHouseModal from "@/components/house/joinHouseModal";
 import AppNavbar from "@/components/appNavbar";
 
 // Redux
@@ -148,8 +148,12 @@ const Houses = ({ startHouses }: InferGetServerSidePropsType<typeof getServerSid
 								openJoinHouseModal={openJoinHouseModal}
 							/>
 							<div className="flex flex-col gap-3 items-center w-full">
-								<LayoutGroupButtons view={view} onChange={setView} />
-								{houses.length === 0 ? <EmptyHouses /> : <HousesGrid houses={houses} view={view} />}
+								{ houses.length === 0 ? 
+									<EmptyHouses /> :
+									<><LayoutGroupButtons view={view} onChange={setView} />
+									<HousesGrid houses={houses} view={view} /></>
+								}
+								
 							</div>
 						</div>
 					</div>

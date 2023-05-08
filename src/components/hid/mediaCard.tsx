@@ -14,11 +14,17 @@ const MediaCard = ({
 	description,
 	address,
 	picture,
+	code,
+	openEditHouseModal,
+	isOwner,
 }: {
 	name: string;
 	description: string;
 	address: string;
 	picture: string;
+	code: string;
+	openEditHouseModal: () => void;
+	isOwner: boolean;
 }) => {
 	return (
 		<Card className="shadow-lg rounded-lg" sx={{ maxWidth: 345 }}>
@@ -27,16 +33,23 @@ const MediaCard = ({
 				<Typography className="text-center leading-5 font-semibold text-lg" gutterBottom component="div">
 					{name}
 				</Typography>
+				<Typography className="text-xs text-center line-clamp-1 text-primary-40 font-mono" gutterBottom component="div">
+					{code}
+				</Typography>
 				<Typography className="text-sm text-center line-clamp-1" gutterBottom component="div" color="text.secondary">
 					{address}
 				</Typography>
 				<Typography className="line-clamp-3 leading-5 text-sm">{description}</Typography>
 			</CardContent>
-			<CardActions className="items-center p-1">
-				<Button className="w-full self-auto" size="small">
-					Editar
-				</Button>
-			</CardActions>
+			{ isOwner ?
+				<CardActions className="flex flex-col items-center p-3 w-full">
+					<Button onClick={openEditHouseModal}
+					variant="outlined" className="bg-secondary-90/70 hover:bg-secondary-90/90 active:bg-secondary-80/80 rounded-2xl" size="small">
+						Editar
+					</Button>
+				</CardActions>:
+				<></>
+			}
 		</Card>
 	);
 };

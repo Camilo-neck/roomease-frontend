@@ -27,6 +27,8 @@ import MiniProfileCard from "../miniProfileCard";
 import { fetchUserData } from "@/helpers/user.helpers";
 import { useCookies } from "@/hooks/useCookie";
 
+import { get_week_tasks } from "@/utils/weekTasks";
+
 const NestedList = ({
 	users,
 	pending_users,
@@ -64,7 +66,8 @@ const NestedList = ({
 	}, [anchorEl]);
 
 	const getUserTasks = (user: UserI) => {
-		return tasks ? tasks.filter((task) => task.users.filter((u) => u._id === user._id).length > 0) : [];
+		const week_tasks = get_week_tasks(tasks);
+		return week_tasks ? week_tasks.filter((task) => task.users.filter((u) => u._id === user._id).length > 0) : [];
 	};
 
 	const handlePopoverClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -214,7 +217,7 @@ const PeopleCard = ({
 					house_id={house_id}
 				/>
 			</CardContent>
-			<CardActions className="flex flex-col items-center p-1 w-full">
+			<CardActions className="flex flex-col items-center p-3 w-full">
 				<Button
 					variant="outlined"
 					onClick={() => setExpanded(!expanded)}
