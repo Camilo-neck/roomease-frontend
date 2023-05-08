@@ -10,11 +10,11 @@ import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 
 // Components
-import CreateHouseModal from "@/components/createHouseModal";
+import CreateHouseModal from "@/components/house/createHouseModal";
 import HousesHeader from "@/components/housesHeader";
 import LayoutGroupButtons from "@/components/layoutGroupButtons";
 import HousesGrid from "@/components/housesGrid";
-import JoinHouseModal from "@/components/joinHouseModal";
+import JoinHouseModal from "@/components/house/joinHouseModal";
 import AppNavbar from "@/components/appNavbar";
 
 // Redux

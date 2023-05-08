@@ -27,6 +27,8 @@ import TasksBar from "@/components/hid/tasksBar";
 import Progress from "@/components/hid/progress";
 import { refreshToken } from "@/helpers/auth.helpers";
 import dayjs from "dayjs";
+import EditHouseModal from "@/components/house/editHouseModal";
+import { editHouse } from "@/helpers/houses.helpers";
 
 const sidebarWidth = 290;
 
@@ -42,6 +44,10 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 	const [isCreateTaskModalOpen, setIsCreateTaskModalOpen] = useState(false);
 	const [isUpdateTaskModalOpen, setIsUpdateTaskModalOpen] = useState(false);
 	const [toEditTask, setToEditTask] = useState<any | undefined>(undefined);
+	const [houses, setHouses] = useState<HouseI[]>([]);
+	const [editHouseModalOpen, setEditHouseModalOpen] = useState<boolean>(false);
+	const [successMessage, setSuccessMessage] = useState<string | null>(null);
+	const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
 	useEffect(() => {
 		setContainer(window ? () => document.body : undefined);
@@ -135,6 +141,30 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 		setToEditTask(undefined);
 	};
 
+	// Edit House Modal
+	const openEditHouseModal = () => {
+		setEditHouseModalOpen(true);
+	};
+
+	const closeEditHouseModal = () => {
+		setEditHouseModalOpen(false);
+	};
+
+	const onEditHouseModalSubmit = async (data: HouseI) => {
+		const res = await editHouse(data);
+		if (!res.ok) {
+			if (res.status === 400) {
+				setErrorMessage(res.message);
+				return;
+			}
+			setErrorMessage("Ha ocurrido un error inesperado.");
+			return;
+		}
+		setSuccessMessage("Casa creada satisfactoriamente!");
+		setErrorMessage(null);
+		setHouses((prev) => [...prev, data]);
+	};
+
 	return (
 		<>
 			<Head>
@@ -161,7 +191,12 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 					users={house.users}
 				/>
 			)}
-
+			<EditHouseModal 
+				onSubmit={onEditHouseModalSubmit}
+				onClose={closeEditHouseModal}
+				isOpen={editHouseModalOpen}
+				house={house}
+			/>
 			<main className="bg-[#FAFDFD] h-screen">
 				<div className="bg-primary-40/5 h-screen flex flex-col items-center">
 					{/* Upper bar*/}
@@ -176,6 +211,8 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 							mobileSidebarOpen={mobileSidebarOpen}
 							container={container}
 							onMobileSidebarClose={setMobileSidebarOpen}
+							openEditHouseModal={openEditHouseModal}
+							isOwner={house.owner === user._id}
 						/>
 						{/* Content */}
 						<Box
