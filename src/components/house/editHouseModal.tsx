@@ -51,7 +51,7 @@ export default function EditHouseModal({
 		handleSubmit,
 		watch,
 		formState: { errors },
-	} = useForm({ defaultValues: initialState });
+	} = useForm({ defaultValues: house });
 	const [image, setImage] = useState<string | null>(null);
 	const [imageLoading, setImageLoading] = useState<boolean>(false);
 	const formRef = useRef<HTMLFormElement | null>(null);

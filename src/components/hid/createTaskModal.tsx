@@ -51,7 +51,7 @@ const CreateTaskModal = ({
 		control,
 		getFieldState,
 		formState: { errors },
-	} = useForm({ defaultValues: isUpdate ? initialState : currentState });
+	} = useForm({ defaultValues: !isUpdate ? initialState : currentState });
 
 	useEffect(() => {
 		if (isUpdate && currentState) {
@@ -82,9 +82,9 @@ const CreateTaskModal = ({
 
 	return (
 		<Dialog open={isOpen} onClose={handleClose} className="rounded-2xl">
-			<DialogTitle>Crear tarea</DialogTitle>
+			<DialogTitle>{isUpdate ? 'Editar' : 'Crear'} tarea</DialogTitle>
 			<DialogContent>
-				<DialogContentText>Crea y asigna una tarea a un usuario o a ti mismo.</DialogContentText>
+				<DialogContentText>{isUpdate ? 'Actualiza' : 'Crea'} y asigna una tarea a un usuario o a ti mismo.</DialogContentText>
 				<form ref={formRef} onSubmit={handleSubmit(handleOnSubmit)}>
 					<TextField
 						{...register("name", { required: "Debe añadir un nombre para la tarea" })}
@@ -308,11 +308,11 @@ const CreateTaskModal = ({
 				</form>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleClose} color="primary">
+				<Button onClick={handleClose} color="error">
 					Cancelar
 				</Button>
 				<Button onClick={() => formRef.current?.requestSubmit()} type="submit" color="primary">
-					Crear
+					{isUpdate ? "Actualizar" : "Crear"}
 				</Button>
 			</DialogActions>
 		</Dialog>
