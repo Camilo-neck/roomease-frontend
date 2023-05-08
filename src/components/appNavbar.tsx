@@ -35,7 +35,7 @@ const AppNavbar = ({ sidebarWidth }: { sidebarWidth?: number }) => {
 				className={`${sidebarWidth ? "min-w-full md:min-w-min" : "w-full min-w-full"} items-center flex flex-row p-2`}
 			>
 				<div className="flex-grow mr-4">
-						<Logo />
+					<Logo />
 				</div>
 				<div className="flex flex-row gap-3 mr-5">
 					<IconButton onClick={handleUserPopoverOpen}>
