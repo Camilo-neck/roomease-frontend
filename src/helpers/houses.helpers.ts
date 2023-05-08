@@ -39,6 +39,10 @@ export const createHouse = async (house: HouseI): Promise<any> => {
 	const token = getCookie("auth-token");
 	const { _id } = jwt.decode(token) as { _id: string };
 
+	if (!house.house_picture) {
+		house.house_picture = "https://images.adsttc.com/media/images/5d34/e507/284d/d109/5600/0240/large_jpg/_FI.jpg?1563747560";
+	}
+
 	try {
 		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/houses`, {
 			method: "POST",
