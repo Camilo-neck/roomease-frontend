@@ -44,7 +44,7 @@ const Login = () => {
 	return (
 		<>
 			<Head>
-				<title>Iniciar sesión</title>
+				<title>Inicio de sesión - Roomease</title>
 			</Head>
 			<AuthLayout>
 				<>
