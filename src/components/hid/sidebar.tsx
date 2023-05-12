@@ -1,5 +1,5 @@
 import { Drawer, Button } from "@mui/material";
-import MediaCard from "./mediaCard";
+import HouseCard from "./houseCard";
 import PeopleCard from "./peopleCard";
 import { HouseI, TaskI } from "@/dtos";
 
@@ -38,7 +38,7 @@ const Sidebar = ({
 					<div className="bg-primary-40/10 h-full">
 						{/* House card */}
 						<div className="p-5 items-center">
-							<MediaCard
+							<HouseCard
 								name={house.name}
 								address={house.address}
 								description={house.description}
@@ -76,7 +76,7 @@ const Sidebar = ({
 						</Button>
 						{/* House card */}
 						<div className="p-5 items-center">
-							<MediaCard
+							<HouseCard
 								name={house.name}
 								address={house.address}
 								description={house.description}

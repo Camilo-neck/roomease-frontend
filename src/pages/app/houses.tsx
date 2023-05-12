@@ -136,7 +136,7 @@ const Houses = ({ startHouses }: InferGetServerSidePropsType<typeof getServerSid
 			<main>
 				<div className="bg-[#FAFDFD] h-full min-h-screen flex flex-col items-center">
 					<AppNavbar />
-					<div className="flex w-[100vw] md:w-[80vw] h-full items-center justify-center p-5">
+					<div className="flex w-[100vw] lg:w-[80vw] h-full items-center justify-center p-5">
 						<div className="flex flex-col w-full h-full p-3 gap-3">
 							<HousesHeader
 								addPopoverId={addPopoverId}
@@ -148,12 +148,14 @@ const Houses = ({ startHouses }: InferGetServerSidePropsType<typeof getServerSid
 								openJoinHouseModal={openJoinHouseModal}
 							/>
 							<div className="flex flex-col gap-3 items-center w-full">
-								{ houses.length === 0 ? 
-									<EmptyHouses /> :
-									<><LayoutGroupButtons view={view} onChange={setView} />
-									<HousesGrid houses={houses} view={view} /></>
-								}
-								
+								{houses.length === 0 ? (
+									<EmptyHouses />
+								) : (
+									<>
+										<LayoutGroupButtons view={view} onChange={setView} />
+										<HousesGrid houses={houses} view={view} />
+									</>
+								)}
 							</div>
 						</div>
 					</div>

@@ -24,7 +24,7 @@ const GridHouseCard = ({
 				alt="house placeholder"
 				width={280}
 				height={250}
-				className="rounded-t-lg max-h-36"
+				className="rounded-t-lg max-h-36 object-cover min-h-[144px]"
 				priority
 			/>
 			<div className="flex flex-col gap-2 p-5">
