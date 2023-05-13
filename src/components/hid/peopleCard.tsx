@@ -34,11 +34,15 @@ const NestedList = ({
 	pending_users,
 	house_id,
 	tasks,
+	onAcceptUser,
+	onRejectUser,
 }: {
 	users: UserI[];
 	house_id: string;
 	pending_users?: UserI[];
 	tasks: TaskI[];
+	onAcceptUser: (user: UserI) => void;
+	onRejectUser: (user: UserI) => void;
 }) => {
 	const [open1, setOpen1] = useState(true);
 	const [open2, setOpen2] = useState(true);
@@ -156,7 +160,10 @@ const NestedList = ({
 													<IconButton
 														size="small"
 														aria-label="accept"
-														onClick={async () => await acceptPendingUser(house_id, user._id)}
+														onClick={async () => {
+															await acceptPendingUser(house_id, user._id)
+															onAcceptUser(user);
+														}}
 													>
 														<CheckIcon htmlColor="green" fontSize="small" />
 													</IconButton>
@@ -164,7 +171,10 @@ const NestedList = ({
 														size="small"
 														edge="end"
 														aria-label="reject"
-														onClick={async () => await rejectPendingUser(house_id, user._id)}
+														onClick={async () => {
+															await rejectPendingUser(house_id, user._id)
+															onRejectUser(user);
+														}}
 													>
 														<ClearSharpIcon htmlColor="red" fontSize="small" />
 													</IconButton>
@@ -199,11 +209,15 @@ const PeopleCard = ({
 	pending_users,
 	house_id,
 	tasks,
+	onAcceptUser,
+	onRejectUser,
 }: {
 	users: UserI[];
 	pending_users?: UserI[];
 	house_id: string;
 	tasks: TaskI[];
+	onAcceptUser: (user: UserI) => void;
+	onRejectUser: (user: UserI) => void;
 }) => {
 	const [expanded, setExpanded] = useState(false);
 
@@ -212,16 +226,18 @@ const PeopleCard = ({
 			<CardContent className="pb-0">
 				<NestedList
 					tasks={tasks}
-					users={expanded ? users : users.slice(0, 2)}
-					pending_users={expanded ? pending_users : pending_users?.slice(0, 2)}
+					users={expanded ? users : users.slice(0, 4)}
+					pending_users={expanded ? pending_users : pending_users?.slice(0, 4)}
 					house_id={house_id}
+					onAcceptUser={onAcceptUser}
+					onRejectUser={onRejectUser}
 				/>
 			</CardContent>
 			<CardActions className="flex flex-col items-center pb-3 w-full">
 				<Button
 					variant="outlined"
 					onClick={() => setExpanded(!expanded)}
-					className="bg-secondary-90/70 hover:bg-secondary-90/90 active:bg-secondary-80/80 rounded-2xl"
+					className={`${users.length > 4 ? '' : 'hidden'} bg-secondary-90/70 hover:bg-secondary-90/90 active:bg-secondary-80/80 rounded-2xl`}
 					size="small"
 				>
 					{expanded ? "Ver menos" : "Ver más"}
