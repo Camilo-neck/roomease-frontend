@@ -25,10 +25,6 @@ import HouseIcon from "@mui/icons-material/House";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 
 export default function Home() {
-	const user = useSelector(selectUser);
-	const dispatch = useDispatch();
-	const router = useRouter();
-
 	return (
 		<div className="Simpleflex flex-col min-h-screen overflow-hidden supports-[overflow:clip]:overflow-clip">
 			<Head>

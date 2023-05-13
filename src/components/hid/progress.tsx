@@ -29,5 +29,4 @@ const Progress = ({ currentUserTasks, tasks }: { currentUserTasks: TaskI[]; task
 	);
 };
 
-
 export default Progress;

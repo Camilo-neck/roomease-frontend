@@ -82,9 +82,11 @@ const CreateTaskModal = ({
 
 	return (
 		<Dialog open={isOpen} onClose={handleClose} className="rounded-2xl">
-			<DialogTitle>{isUpdate ? 'Editar' : 'Crear'} tarea</DialogTitle>
+			<DialogTitle>{isUpdate ? "Editar" : "Crear"} tarea</DialogTitle>
 			<DialogContent>
-				<DialogContentText>{isUpdate ? 'Actualiza' : 'Crea'} y asigna una tarea a un usuario o a ti mismo.</DialogContentText>
+				<DialogContentText>
+					{isUpdate ? "Actualiza" : "Crea"} y asigna una tarea a un usuario o a ti mismo.
+				</DialogContentText>
 				<form ref={formRef} onSubmit={handleSubmit(handleOnSubmit)}>
 					<TextField
 						{...register("name", { required: "Debe añadir un nombre para la tarea" })}

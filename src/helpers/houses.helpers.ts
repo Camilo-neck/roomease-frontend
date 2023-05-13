@@ -40,7 +40,8 @@ export const createHouse = async (house: HouseI): Promise<any> => {
 	const { _id } = jwt.decode(token) as { _id: string };
 
 	if (!house.house_picture) {
-		house.house_picture = "https://images.adsttc.com/media/images/5d34/e507/284d/d109/5600/0240/large_jpg/_FI.jpg?1563747560";
+		house.house_picture =
+			"https://images.adsttc.com/media/images/5d34/e507/284d/d109/5600/0240/large_jpg/_FI.jpg?1563747560";
 	}
 
 	try {
@@ -64,7 +65,7 @@ export const createHouse = async (house: HouseI): Promise<any> => {
 export const editHouse = async (house: HouseI, house_id: string): Promise<any> => {
 	const token = getCookie("auth-token");
 	const { _id } = jwt.decode(token) as { _id: string };
-	
+
 	try {
 		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/houses/${house_id}`, {
 			method: "PUT",
@@ -73,7 +74,7 @@ export const editHouse = async (house: HouseI, house_id: string): Promise<any> =
 				"Content-Type": "application/json",
 				"auth-token": token,
 			},
-			body: JSON.stringify({ ...house, users : undefined }),
+			body: JSON.stringify({ ...house, users: undefined }),
 		});
 
 		return response;

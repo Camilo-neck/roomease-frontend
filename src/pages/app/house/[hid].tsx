@@ -191,7 +191,7 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 					users={house.users}
 				/>
 			)}
-			<EditHouseModal 
+			<EditHouseModal
 				onSubmit={onEditHouseModalSubmit}
 				onClose={closeEditHouseModal}
 				isOpen={editHouseModalOpen}

@@ -37,12 +37,12 @@ export default function EditHouseModal({
 	isOpen,
 	onClose,
 	onSubmit,
-    house,
+	house,
 }: {
 	isOpen: boolean;
 	onClose: () => void;
 	onSubmit: (data: any) => void;
-    house: HouseI;
+	house: HouseI;
 }) {
 	const user = useSelector(selectUser);
 	const {
@@ -126,7 +126,7 @@ export default function EditHouseModal({
 					<TextField
 						autoFocus
 						className="rounded-xl"
-                        //value={house.name}
+						//value={house.name}
 						sx={{
 							"& .MuiOutlinedInput-root": {
 								borderRadius: "1rem",

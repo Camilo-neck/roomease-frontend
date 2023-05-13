@@ -54,10 +54,7 @@ const MiniProfileCard = ({ user, userTasks }: { user: UserI; userTasks: TaskI[] 
 				<div className="w-[90%] pt-2">
 					<p className="text-sm font-semibold text-center mb-1">Avance de tareas</p>
 					<Box className="justify-center w-full" sx={{ position: "relative", display: "inline-flex" }}>
-						<CircularProgress
-							variant="determinate"
-							value={getUserTaskProgress(userTasks)}
-						/>
+						<CircularProgress variant="determinate" value={getUserTaskProgress(userTasks)} />
 						<Box
 							sx={{
 								top: 0,
@@ -70,10 +67,7 @@ const MiniProfileCard = ({ user, userTasks }: { user: UserI; userTasks: TaskI[] 
 								justifyContent: "center",
 							}}
 						>
-							<Typography className="text-xs">
-								{getUserTaskProgress(userTasks)}
-								%
-							</Typography>
+							<Typography className="text-xs">{getUserTaskProgress(userTasks)}%</Typography>
 						</Box>
 					</Box>
 				</div>

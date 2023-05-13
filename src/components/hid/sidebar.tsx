@@ -1,4 +1,5 @@
 import { Drawer, Button } from "@mui/material";
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import MediaCard from "./mediaCard";
 import PeopleCard from "./peopleCard";
 import { HouseI, TaskI } from "@/dtos";
@@ -51,6 +52,11 @@ const Sidebar = ({
 						{/* House members */}
 						<div className="p-5 pt-0">
 							<PeopleCard tasks={tasks} users={house.users} pending_users={house.pending_users} house_id={house._id} />
+						</div>
+						<div className="w-full flex flex-col items-center">
+							<Button endIcon={<ExitToAppIcon />} color="error" className="bg-error-90/70 hover:bg-error-90/90 active:bg-error-80/80 border border-error-50 rounded-2xl">
+								Salir de casa
+							</Button>
 						</div>
 					</div>
 				</Drawer>
