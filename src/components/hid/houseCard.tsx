@@ -9,7 +9,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 
-const MediaCard = ({
+const HouseCard = ({
 	name,
 	description,
 	address,
@@ -59,4 +59,4 @@ const MediaCard = ({
 	);
 };
 
-export default MediaCard;
+export default HouseCard;

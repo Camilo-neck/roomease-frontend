@@ -44,7 +44,7 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 	const [isCreateTaskModalOpen, setIsCreateTaskModalOpen] = useState(false);
 	const [isUpdateTaskModalOpen, setIsUpdateTaskModalOpen] = useState(false);
 	const [toEditTask, setToEditTask] = useState<any | undefined>(undefined);
-	const [houses, setHouses] = useState<HouseI[]>([]);
+	const [currentHouse, setCurrentHouse] = useState<HouseI>(house);
 	const [editHouseModalOpen, setEditHouseModalOpen] = useState<boolean>(false);
 	const [successMessage, setSuccessMessage] = useState<string | null>(null);
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -160,9 +160,8 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 			setErrorMessage("Ha ocurrido un error inesperado.");
 			return;
 		}
-		setSuccessMessage("Casa creada satisfactoriamente!");
 		setErrorMessage(null);
-		setHouses((prev) => [...prev, data]);
+		setCurrentHouse(await getHouse(house._id, token as string));
 	};
 
 	return (
@@ -195,7 +194,13 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 				onSubmit={onEditHouseModalSubmit}
 				onClose={closeEditHouseModal}
 				isOpen={editHouseModalOpen}
-				house={house}
+				house={{
+					name: house.name,
+					description: house.description,
+					address: house.address,
+					tags: house.tags.join(", "),
+					house_picture: house.house_picture,
+				}}
 			/>
 			<main className="bg-[#FAFDFD] h-screen">
 				<div className="bg-primary-40/5 h-screen flex flex-col items-center">
@@ -205,7 +210,7 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 					<div className="flex flex-row w-full h-full">
 						{/* Sidebar */}
 						<Sidebar
-							house={house}
+							house={currentHouse}
 							tasks={currentTasks}
 							sidebarWidth={sidebarWidth}
 							mobileSidebarOpen={mobileSidebarOpen}

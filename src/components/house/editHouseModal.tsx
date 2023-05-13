@@ -22,13 +22,12 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { selectUser } from "@/redux/slices/user.slice";
-import { HouseI } from "@/dtos";
+import { HouseEditI } from "@/dtos/houseEdit";
 
 const initialState = {
 	name: "",
 	description: "",
 	address: "",
-	users: [],
 	tags: "",
 	house_picture: "",
 };
@@ -42,7 +41,7 @@ export default function EditHouseModal({
 	isOpen: boolean;
 	onClose: () => void;
 	onSubmit: (data: any) => void;
-	house: HouseI;
+	house: HouseEditI;
 }) {
 	const user = useSelector(selectUser);
 	const {
@@ -126,7 +125,6 @@ export default function EditHouseModal({
 					<TextField
 						autoFocus
 						className="rounded-xl"
-						//value={house.name}
 						sx={{
 							"& .MuiOutlinedInput-root": {
 								borderRadius: "1rem",

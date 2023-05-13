@@ -209,7 +209,7 @@ const PeopleCard = ({
 
 	return (
 		<Card className="shadow-lg rounded-lg">
-			<CardContent>
+			<CardContent className="pb-0">
 				<NestedList
 					tasks={tasks}
 					users={expanded ? users : users.slice(0, 2)}
@@ -217,7 +217,7 @@ const PeopleCard = ({
 					house_id={house_id}
 				/>
 			</CardContent>
-			<CardActions className="flex flex-col items-center p-3 w-full">
+			<CardActions className="flex flex-col items-center pb-3 w-full">
 				<Button
 					variant="outlined"
 					onClick={() => setExpanded(!expanded)}
