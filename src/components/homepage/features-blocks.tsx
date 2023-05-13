@@ -71,9 +71,9 @@ export default function FeaturesBlocks() {
 									</g>
 								</g>
 							</svg>
-							<h4 className="text-xl font-bold leading-snug tracking-tight mb-1">Comunicación efectiva:</h4>
+							<h4 className="text-xl font-bold leading-snug tracking-tight mb-1">Enterado de tu hogar:</h4>
 							<p className="text-gray-600 text-center">
-								Vive en armonía con tus roomies gracias a una comunicación clara.
+								Notificaciones de las tareas asignadas y de los cambios realizados en ellas.
 							</p>
 						</div>
 
@@ -149,9 +149,9 @@ export default function FeaturesBlocks() {
 									</g>
 								</g>
 							</svg>
-							<h4 className="text-xl font-bold leading-snug tracking-tight mb-1">Recordatorios automatizados:</h4>
+							<h4 className="text-xl font-bold leading-snug tracking-tight mb-1">Retroalimenta tu rendimiento:</h4>
 							<p className="text-gray-600 text-center">
-								No pierdas una tarea de vista gracias a los recordatorios automáticos.
+								Estadísiticas de progreso para que siempre estés al tanto de tu trabajo.
 							</p>
 						</div>
 
