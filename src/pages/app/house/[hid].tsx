@@ -25,7 +25,7 @@ import { useCookies } from "@/hooks/useCookie";
 import Sidebar from "@/components/hid/sidebar";
 import TasksBar from "@/components/hid/tasksBar";
 import Progress from "@/components/hid/progress";
-import { refreshToken } from "@/helpers/auth.helpers";
+import { edgeRefreshToken, refreshToken } from "@/helpers/auth.helpers";
 import dayjs from "dayjs";
 import EditHouseModal from "@/components/house/editHouseModal";
 import { editHouse } from "@/helpers/houses.helpers";
@@ -126,18 +126,20 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 	};
 	const onCreateTask = async (data: TaskI) => {
 		const token = getCookie("auth-token");
+		const refreshToken = getCookie("refresh-token")
 		const task = formatFormTask(data);
-		await createTask(task, token as string);
-		setCurrentUserTasks(await getTasksByUser(house._id, user._id, token as string));
-		setCurrentTasks(await getTasksByHouse(house._id, token as string));
+		await createTask(task, token as string, refreshToken);
+		setCurrentUserTasks(await getTasksByUser(house._id, user._id, token as string, refreshToken));
+		setCurrentTasks(await getTasksByHouse(house._id, token as string, refreshToken));
 	};
 	const onUpdateTask = async (data: TaskI) => {
 		const token = getCookie("auth-token");
+		const refreshToken = getCookie("refresh-token")
 		const task = formatFormTask(data);
 		console.log(task);
-		await updateTask(task._id, task, token as string);
-		setCurrentUserTasks(await getTasksByUser(house._id, user._id, token as string));
-		setCurrentTasks(await getTasksByHouse(house._id, token as string));
+		await updateTask(task._id, task, token as string, refreshToken);
+		setCurrentUserTasks(await getTasksByUser(house._id, user._id, token as string, refreshToken));
+		setCurrentTasks(await getTasksByHouse(house._id, token as string, refreshToken));
 		setToEditTask(undefined);
 	};
 
@@ -151,7 +153,9 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 	};
 
 	const onEditHouseModalSubmit = async (data: HouseI) => {
-		const res = await editHouse(data, house._id);
+		const token = getCookie("auth-token");
+		const refreshToken = getCookie("refresh-token");
+		const res = await editHouse(token as string, data, house._id);
 		if (!res.ok) {
 			if (res.status === 400) {
 				setErrorMessage(res.message);
@@ -161,7 +165,7 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 			return;
 		}
 		setErrorMessage(null);
-		setCurrentHouse(await getHouse(house._id, token as string));
+		setCurrentHouse(await getHouse(house._id, token as string, refreshToken));
 	};
 
 	return (
@@ -238,15 +242,17 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 										currentUserTasks={currentUserTasks}
 										onCreateTask={() => setIsCreateTaskModalOpen(true)}
 										onListChange={async (tid: string) => {
-											await checkTask(tid, token);
-											setCurrentUserTasks(await getTasksByUser(house._id, user._id, token));
-											setCurrentTasks(await getTasksByHouse(house._id, token));
+											const refreshToken = getCookie("refresh-token");
+											await checkTask(tid, token, refreshToken);
+											setCurrentUserTasks(await getTasksByUser(house._id, user._id, token, refreshToken));
+											setCurrentTasks(await getTasksByHouse(house._id, token, refreshToken));
 										}}
 										onEdit={onEditTask}
 										onDelete={async (tid: string) => {
-											await deleteTask(tid, token);
-											setCurrentUserTasks(await getTasksByUser(house._id, user._id, token));
-											setCurrentTasks(await getTasksByHouse(house._id, token));
+											const refreshToken = getCookie("refresh-token");
+											await deleteTask(tid, token, refreshToken);
+											setCurrentUserTasks(await getTasksByUser(house._id, user._id, token, refreshToken));
+											setCurrentTasks(await getTasksByHouse(house._id, token, refreshToken));
 										}}
 									/>
 									<div className="overflow-y-auto h-[70vh] w-full">
@@ -272,9 +278,14 @@ export const getServerSideProps: GetServerSideProps<{
 	token: string;
 }> = async (ctx: GetServerSidePropsContext) => {
 	let auth_token = ctx.req.cookies["auth-token"] as string;
+	const refreshToken = ctx.req.cookies["refresh-token"];
+	if (refreshToken && !auth_token) {
+		const res = await edgeRefreshToken(refreshToken);
+		auth_token = res ?  res.newToken as string : 'null';
+	}
 	const decodedToken = jwt.decode(auth_token) as { _id: string };
 	ctx.res.setHeader("Cache-Control", "public, s-maxage=30, stale-while-revalidate=59");
-	const house = await getHouse(ctx.query.hid as string, auth_token);
+	const house = await getHouse(ctx.query.hid as string, auth_token, refreshToken);
 	if (
 		house.message === "User not belongs to this house or the house doesn't exist" ||
 		house.message === "House not found" ||
@@ -287,8 +298,8 @@ export const getServerSideProps: GetServerSideProps<{
 			},
 		};
 	}
-	const tasks: TaskI[] = await getTasksByHouse(ctx.query.hid as string, auth_token);
-	const userTasks: TaskI[] = await getTasksByUser(ctx.query.hid as string, decodedToken._id, auth_token);
+	const tasks: TaskI[] = await getTasksByHouse(ctx.query.hid as string, auth_token, refreshToken);
+	const userTasks: TaskI[] = await getTasksByUser(ctx.query.hid as string, decodedToken._id, auth_token, refreshToken);
 	return {
 		props: {
 			house,

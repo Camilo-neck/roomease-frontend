@@ -50,7 +50,8 @@ const Houses = ({ startHouses }: InferGetServerSidePropsType<typeof getServerSid
 	};
 
 	const onCreateHouseModalSubmit = async (data: HouseI) => {
-		const res = await createHouse(data);
+		const token = getCookie("auth-token");
+		const res = await createHouse(token as string, data);
 		if (!res.ok) {
 			if (res.status === 400) {
 				setErrorMessage(res.message);
@@ -74,7 +75,9 @@ const Houses = ({ startHouses }: InferGetServerSidePropsType<typeof getServerSid
 	};
 
 	const onJoinHouseModalSubmit = async (data: { houseCode: string }) => {
-		const res = await joinHouse(data.houseCode);
+		const token = getCookie("auth-token");
+		const refreshToken = getCookie("refresh-token");
+		const res = await joinHouse(token, data.houseCode);
 		console.log(res);
 		if (!res.ok) {
 			console.log("not ok");
@@ -89,7 +92,7 @@ const Houses = ({ startHouses }: InferGetServerSidePropsType<typeof getServerSid
 		}
 		setSuccessMessage("Se ha enviado la solicitud satisfactoriamente!");
 		setErrorMessage(null);
-		setHouses(await fetchHouses(user._id, getCookie("auth-token")));
+		setHouses(await fetchHouses(user._id, token, refreshToken));
 	};
 
 	const handleAddPopoverClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -181,7 +184,8 @@ export const getServerSideProps: GetServerSideProps<{
 	ctx.res.setHeader("Cache-Control", "public, s-maxage=30, stale-while-revalidate=59");
 	const decodedToken = jwt.decode(cookie) as { _id: string };
 	const uid = decodedToken?._id;
-	const startHouses = await fetchHouses(uid, cookie);
+	const refreshToken = ctx.req.cookies["refresh-token"];
+	const startHouses = await fetchHouses(uid, cookie, refreshToken);
 	if (startHouses.message) {
 		return {
 			props: {

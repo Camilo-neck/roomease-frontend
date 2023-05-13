@@ -1,17 +1,17 @@
 import dynamic from "next/dynamic";
 
 //import { Liquid } from '@ant-design/plots';
-const Liquid = dynamic(() => import("@ant-design/charts").then(({ Liquid }: any) => Liquid), { ssr: false })
+const Liquid = dynamic(() => import("@ant-design/charts").then(({ Liquid }: any) => Liquid), { ssr: false });
 
 interface LiquidProgressProps {
 	percent: number;
 	shape?: string;
 }
 
-const LiquidProgress = ({percent, shape} : LiquidProgressProps) => {
+const LiquidProgress = ({ percent, shape }: LiquidProgressProps) => {
 	const config: any = {
-		height: 200,
-		width: 200,
+		height: 300,
+		width: 300,
 		autoFit: false,
 		percent: percent,
 		shape: shape,
@@ -27,9 +27,7 @@ const LiquidProgress = ({percent, shape} : LiquidProgressProps) => {
 		// },
 	};
 
-	return (
-		<Liquid {...config} />
-	);
+	return <Liquid {...config} />;
 };
 
 export default LiquidProgress;

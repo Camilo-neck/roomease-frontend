@@ -61,7 +61,7 @@ const NestedList = ({
 
 	useEffect(() => {
 		if (anchorEl) {
-			fetchUserData(currentUser?._id as string, getCookie("auth-token") as string).then((res) => {
+			fetchUserData(currentUser?._id as string, getCookie("auth-token") as string, getCookie('refreshToken')).then((res) => {
 				setPopoverUser(res);
 				console.log(res);
 			});
@@ -161,7 +161,7 @@ const NestedList = ({
 														size="small"
 														aria-label="accept"
 														onClick={async () => {
-															await acceptPendingUser(house_id, user._id)
+															await acceptPendingUser(getCookie('auth-token') as string ,house_id, user._id);
 															onAcceptUser(user);
 														}}
 													>
@@ -172,7 +172,7 @@ const NestedList = ({
 														edge="end"
 														aria-label="reject"
 														onClick={async () => {
-															await rejectPendingUser(house_id, user._id)
+															await rejectPendingUser(house_id, user._id);
 															onRejectUser(user);
 														}}
 													>
@@ -237,7 +237,9 @@ const PeopleCard = ({
 				<Button
 					variant="outlined"
 					onClick={() => setExpanded(!expanded)}
-					className={`${users.length > 4 ? '' : 'hidden'} bg-secondary-90/70 hover:bg-secondary-90/90 active:bg-secondary-80/80 rounded-2xl`}
+					className={`${
+						users.length > 4 ? "" : "hidden"
+					} bg-secondary-90/70 hover:bg-secondary-90/90 active:bg-secondary-80/80 rounded-2xl`}
 					size="small"
 				>
 					{expanded ? "Ver menos" : "Ver más"}

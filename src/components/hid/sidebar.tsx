@@ -1,5 +1,5 @@
 import { Drawer, Button } from "@mui/material";
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import HouseCard from "./houseCard";
 import PeopleCard from "./peopleCard";
 import { HouseI, TaskI, UserI } from "@/dtos";
@@ -25,17 +25,17 @@ const Sidebar = ({
 	openEditHouseModal: () => void;
 	isOwner: boolean;
 }) => {
-	const [ currentUsers, setCurrentUsers ] = useState<UserI[]>(house.users)
-	const [ currentPendingUsers, setCurrentPendingUsers ] = useState<UserI[]>(house.pending_users)
+	const [currentUsers, setCurrentUsers] = useState<UserI[]>(house.users);
+	const [currentPendingUsers, setCurrentPendingUsers] = useState<UserI[]>(house.pending_users);
 
 	const onAcceptUser = (user: UserI) => {
-		setCurrentUsers([...currentUsers, user])
-		setCurrentPendingUsers(currentPendingUsers.filter((pending_user) => pending_user._id !== user._id))
-	}
+		setCurrentUsers([...currentUsers, user]);
+		setCurrentPendingUsers(currentPendingUsers.filter((pending_user) => pending_user._id !== user._id));
+	};
 
 	const onRejectUser = (user: UserI) => {
-		setCurrentPendingUsers(currentPendingUsers.filter((pending_user) => pending_user._id !== user._id))
-	}
+		setCurrentPendingUsers(currentPendingUsers.filter((pending_user) => pending_user._id !== user._id));
+	};
 
 	return (
 		<div>
@@ -65,17 +65,21 @@ const Sidebar = ({
 						</div>
 						{/* House members */}
 						<div className="p-5 pt-0">
-							<PeopleCard 
-								tasks={tasks} 
-								users={currentUsers} 
-								pending_users={currentPendingUsers} 
+							<PeopleCard
+								tasks={tasks}
+								users={currentUsers}
+								pending_users={currentPendingUsers}
 								house_id={house._id}
 								onAcceptUser={onAcceptUser}
 								onRejectUser={onRejectUser}
 							/>
 						</div>
 						<div className="w-full flex flex-col items-center">
-							<Button endIcon={<ExitToAppIcon />} color="error" className="bg-error-90/70 hover:bg-error-90/90 active:bg-error-80/80 border border-error-50 rounded-2xl">
+							<Button
+								endIcon={<ExitToAppIcon />}
+								color="error"
+								className="bg-error-90/70 hover:bg-error-90/90 active:bg-error-80/80 border border-error-50 rounded-2xl"
+							>
 								Salir de casa
 							</Button>
 						</div>
@@ -115,11 +119,11 @@ const Sidebar = ({
 						</div>
 						{/* House members */}
 						<div className="p-5 pt-0">
-							<PeopleCard 
-								users={currentUsers} 
-								tasks={tasks} 
-								pending_users={currentPendingUsers} 
-								house_id={house._id} 
+							<PeopleCard
+								users={currentUsers}
+								tasks={tasks}
+								pending_users={currentPendingUsers}
+								house_id={house._id}
 								onAcceptUser={onAcceptUser}
 								onRejectUser={onRejectUser}
 							/>

@@ -3,6 +3,7 @@ import { setUser } from "@/redux/slices/user.slice";
 import { deleteUserInfo } from "@/redux/thunks/user.thunk";
 import jwt from "jsonwebtoken";
 import { UserI } from "@/dtos";
+import { decodeJwt } from "jose";
 
 export const loginUser =
 	(reqUser: { email: string; password: string }): any =>
@@ -86,7 +87,7 @@ export const refreshToken = async (refreshToken: string | undefined): Promise<an
 			body: JSON.stringify({ refreshToken }),
 		});
 		const data = await response.json();
-		const { token } = data;
+		const token = response.headers.get("auth-token");
 		if (token) {
 			const unEncryptedToken: any = jwt.decode(token);
 			setCookie("auth-token", token, new Date(), null, unEncryptedToken.exp * 1000 - Date.now());
@@ -96,3 +97,26 @@ export const refreshToken = async (refreshToken: string | undefined): Promise<an
 		return error;
 	}
 };
+
+export async function edgeRefreshToken(refreshTokenCookie: string | undefined) {
+	console.log("refreshTokenCookie", refreshTokenCookie);
+	try {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/refreshToken`, {
+			method: "POST",
+			headers: {
+				Accept: "*/*",
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ refreshToken: refreshTokenCookie }),
+		});
+		const data = await response.json();
+		const token = response.headers.get("auth-token");
+		let unEncryptedToken: any;
+		if (token) {
+			unEncryptedToken = decodeJwt(token);
+		}
+		return { newToken: token, unEncryptedToken };
+	} catch (error) {
+		console.log(error);
+	}
+}

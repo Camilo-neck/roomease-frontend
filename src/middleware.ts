@@ -4,7 +4,7 @@ import { decodeJwt } from "jose";
 import { setCookie } from "./utils/cookie";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
-async function edgeRefreshToken(refreshTokenCookie: string | undefined, req: NextRequest) {
+async function edgeRefreshToken(refreshTokenCookie: string | undefined) {
 	if (!refreshTokenCookie) return;
 	console.log("refreshTokenCookie", refreshTokenCookie);
 	try {
@@ -38,7 +38,7 @@ export async function middleware(req: NextRequest) {
 	if (!token) {
 		const refreshTokenCookie = req.cookies.get("refresh-token")?.value;
 		if (refreshTokenCookie) {
-			const { newToken, unEncryptedToken } = (await edgeRefreshToken(refreshTokenCookie, req)) as any;
+			const { newToken, unEncryptedToken } = (await edgeRefreshToken(refreshTokenCookie)) as any;
 			console.log("newToken", unEncryptedToken);
 			if (newToken) {
 				token = newToken;

@@ -15,6 +15,7 @@ import jwt from "jsonwebtoken";
 import { fetchUserData } from "@/helpers/user.helpers";
 import { UserI } from "@/dtos";
 import ProfileCard from "@/components/profileCard";
+import { edgeRefreshToken } from "@/helpers/auth.helpers";
 
 const Profile = ({ userData }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const [userInfo, setUserInfo] = useState<UserI>(userData ? userData : ({} as UserI));
@@ -57,7 +58,12 @@ export const getServerSideProps: GetServerSideProps<{
 	userData?: UserI;
 	message?: string;
 }> = async (ctx: GetServerSidePropsContext) => {
-	const cookie = ctx.req.cookies["auth-token"];
+	let cookie = ctx.req.cookies["auth-token"];
+	const refreshToken = ctx.req.cookies["refresh-token"];
+	if (refreshToken && !cookie) {
+		const res = await edgeRefreshToken(refreshToken);
+		cookie = res ?  res.newToken as string : 'null';
+	}
 	if (!cookie) {
 		return {
 			redirect: {
@@ -69,7 +75,7 @@ export const getServerSideProps: GetServerSideProps<{
 	ctx.res.setHeader("Cache-Control", "public, s-maxage=30, stale-while-revalidate=59");
 	const decodedToken = jwt.decode(cookie) as { _id: string };
 	const uid = decodedToken?._id;
-	const userData = await fetchUserData(uid, cookie);
+	const userData = await fetchUserData(uid, cookie, refreshToken);
 	if (userData.message) {
 		return {
 			props: {

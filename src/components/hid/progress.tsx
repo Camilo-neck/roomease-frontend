@@ -18,9 +18,7 @@ const Progress = ({ currentUserTasks, tasks }: { currentUserTasks: TaskI[]; task
 						className="flex-grow rounded-lg col-span-5 h-2"
 						value={getUserTaskProgress(currentUserTasks)}
 					/> */}
-					<LiquidProgress
-						percent={getUserTaskProgress(currentUserTasks)/100}
-					/>
+					<LiquidProgress percent={getUserTaskProgress(currentUserTasks) / 100} shape="rect" />
 				</div>
 				<div className="flex flex-col items-center gap-2">
 					<p className="self-start font-semibold text-neutral-20">Progreso de la casa:</p>
@@ -29,9 +27,7 @@ const Progress = ({ currentUserTasks, tasks }: { currentUserTasks: TaskI[]; task
 						className="flex-grow rounded-lg h-2 col-span-5"
 						value={getHouseTaskProgress(tasks)}
 					/> */}
-					<LiquidProgress
-						percent={getHouseTaskProgress(tasks)/100}
-					/>
+					<LiquidProgress percent={getHouseTaskProgress(tasks) / 100} shape="rect" />
 				</div>
 			</div>
 		</div>
