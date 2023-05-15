@@ -1,5 +1,5 @@
 // Material UI
-import { Card, Paper, Stack, Typography, Divider, Avatar, Grid } from "@mui/material";
+import { Card, Paper, Stack, Typography, Divider, Avatar, Grid, CardActions, Button } from "@mui/material";
 
 // Utils
 import { getAge } from "@/utils/getAge";
@@ -12,9 +12,10 @@ interface ProfileCardProps {
 	birthDate: Date;
 	phone: string;
 	tags: string[];
+	openEditProfileModal: () => void;
 }
 
-const ProfileCard = ({ name, email, description, birthDate, phone, tags }: ProfileCardProps) => {
+const ProfileCard = ({ name, email, description, birthDate, phone, tags, openEditProfileModal }: ProfileCardProps) => {
 	return (
 		<Card className="w-full min-h-[650px] h-full rounded-lg shadow-lg">
 			<Stack alignItems={"center"} style={{ position: "relative" }}>
@@ -59,6 +60,16 @@ const ProfileCard = ({ name, email, description, birthDate, phone, tags }: Profi
 					</Grid>
 				</div>
 			</Stack>
+			<CardActions className="flex flex-col items-center p-3 w-full">
+					<Button
+						onClick={openEditProfileModal}
+						variant="outlined"
+						className="bg-secondary-90/70 hover:bg-secondary-90/90 active:bg-secondary-80/80 rounded-2xl"
+						size="small"
+					>
+						Editar
+					</Button>
+			</CardActions>
 		</Card>
 	);
 };

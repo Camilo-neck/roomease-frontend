@@ -23,7 +23,7 @@ import ClearSharpIcon from "@mui/icons-material/ClearSharp";
 import { acceptPendingUser, rejectPendingUser } from "@/helpers/houses.helpers";
 import { stringAvatar } from "@/utils/avatar.utils";
 import { TaskI, UserI } from "@/dtos";
-import MiniProfileCard from "../miniProfileCard";
+import MiniProfileCard from "../profile/miniProfileCard";
 import { fetchUserData } from "@/helpers/user.helpers";
 import { useCookies } from "@/hooks/useCookie";
 

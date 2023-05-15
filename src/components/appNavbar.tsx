@@ -66,7 +66,9 @@ const AppNavbar = ({ sidebarWidth }: { sidebarWidth?: number }) => {
 						}}
 					>
 						<MenuItem className="text-primary-20 hover:text-primary-30 focus:text-primary-30 ">
-							<Link href={"/app/profile"}>Ver perfil</Link>
+							<Link href={"/app/profile"} className="w-full">
+								Ver perfil
+							</Link>
 						</MenuItem>
 						<MenuItem
 							onClick={async () => {

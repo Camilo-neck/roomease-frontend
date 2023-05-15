@@ -22,26 +22,27 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { selectUser } from "@/redux/slices/user.slice";
-import { HouseEditI } from "@/dtos/houseEdit";
+import { UserEditI } from "@/dtos/userEdit";
 
 let initialState = {
 	name: "",
+	email: "",
+	phone: "",
 	description: "",
-	address: "",
-	tags: "",
-	house_picture: "",
+    tags: "",
+	profile_picture: "",
 };
 
-export default function EditHouseModal({
+export default function EditProfileModal({
 	isOpen,
 	onClose,
 	onSubmit,
-	house,
+	userInfo,
 }: {
 	isOpen: boolean;
 	onClose: () => void;
 	onSubmit: (data: any) => void;
-	house: HouseEditI;
+	userInfo: UserEditI;
 }) {
 	const user = useSelector(selectUser);
 	const {
@@ -50,7 +51,8 @@ export default function EditHouseModal({
 		handleSubmit,
 		watch,
 		formState: { errors },
-	} = useForm({ defaultValues: house });
+	} = useForm({ defaultValues: userInfo });
+    initialState = userInfo;
 	const [image, setImage] = useState<string | null>(null);
 	const [imageLoading, setImageLoading] = useState<boolean>(false);
 	const formRef = useRef<HTMLFormElement | null>(null);
@@ -119,7 +121,7 @@ export default function EditHouseModal({
 
 	return (
 		<Dialog open={isOpen} onClose={handleClose} className="rounded-2xl">
-			<DialogTitle>Editar información de la casa</DialogTitle>
+			<DialogTitle>Editar mi información</DialogTitle>
 			<DialogContent>
 				<form ref={formRef} onSubmit={handleSubmit(handleOnSubmit)}>
 					<TextField
@@ -132,10 +134,38 @@ export default function EditHouseModal({
 						}}
 						margin="dense"
 						id="name"
-						label="Nombre de la casa"
+						label="Nombre"
 						type="text"
 						fullWidth
 						{...register("name")}
+					/>
+                    <TextField
+						className="rounded-xl"
+						sx={{
+							"& .MuiOutlinedInput-root": {
+								borderRadius: "1rem",
+							},
+						}}
+						margin="dense"
+						id="email"
+						label="Correo electrónico"
+						type="text"
+						fullWidth
+						{...register("email")}
+					/>
+                    <TextField
+						className="rounded-xl"
+						sx={{
+							"& .MuiOutlinedInput-root": {
+								borderRadius: "1rem",
+							},
+						}}
+						margin="dense"
+						id="phone"
+						label="Teléfono"
+						type="text"
+						fullWidth
+						{...register("phone")}
 					/>
 					<TextField
 						className="rounded-xl"
@@ -161,20 +191,6 @@ export default function EditHouseModal({
 							},
 						}}
 						margin="dense"
-						id="address"
-						label="Dirección"
-						type="text"
-						fullWidth
-						{...register("address")}
-					/>
-					<TextField
-						className="rounded-xl"
-						sx={{
-							"& .MuiOutlinedInput-root": {
-								borderRadius: "1rem",
-							},
-						}}
-						margin="dense"
 						id="tags"
 						label="Etiquetas"
 						type="text"
@@ -190,7 +206,7 @@ export default function EditHouseModal({
 							style={{ display: "none" }}
 							id="raised-button-file"
 							type="file"
-							{...register("house_picture", {
+							{...register("profile_picture", {
 								onChange: async (e) => {
 									const file = e.target.files[0];
 									if (file) await loadImageToFirebase(file);
@@ -204,7 +220,7 @@ export default function EditHouseModal({
 								className="rounded-full"
 								startIcon={<AddPhotoAlternateRoundedIcon />}
 							>
-								{image ? "Cambiar imagen" : "Carga la imagen de tu casa"}
+								{image ? "Cambiar imagen" : "Subir foto de perfil"}
 							</Button>
 						</label>
 						{imageLoading ? <CircularProgress size={24} /> : <p className="max-w-32 truncate text-ellipsis">{image}</p>}
