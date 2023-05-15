@@ -4,6 +4,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import EventRepeatIcon from "@mui/icons-material/EventRepeat";
 import { stringAvatar } from "@/utils/avatar.utils";
+import { recurrenceToDays } from "@/utils/recurrenceToDays";
 
 function formatHour(hour: number) {
 	return hour < 10 ? "0" + hour : hour;
@@ -60,8 +61,12 @@ const Task = ({
 						<Avatar key={user._id} {...stringAvatar(user.name)} />
 					))}
 				</AvatarGroup>
-				<p>{getHours(new Date(task.start_date), new Date(task.end_date))}</p>
-				{task.repeat && <EventRepeatIcon htmlColor="#C5533F" fontSize="inherit" className="ml-2" />}
+				<p className="pl-1">{getHours(new Date(task.start_date), new Date(task.end_date))}</p>
+				{task.repeat && task.days &&
+				<>
+					<EventRepeatIcon htmlColor="#C5533F" fontSize="inherit" className="ml-2" />
+					<p className="ml-1">{recurrenceToDays(task.days!)}</p>
+				</>}
 			</div>
 		</div>
 		<div className="grid grid-cols-2 h-fit">
