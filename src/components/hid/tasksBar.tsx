@@ -17,7 +17,7 @@ const TasksBar = ({
 	onDelete: (tid: string) => void;
 }) => {
 	return (
-		<div className="w-[30%] p-1 bg-primary-100 rounded-md">
+		<div className="w-[30%] p-1 bg-primary-100 rounded-md rounded-b-none">
 			<div className="flex flex-col-reverse md:flex-row items-start md:items-center mx-5 my-2">
 				<p className="text-lg font-semibold flex-grow text-primary-30">Mis tareas:</p>
 				<IconButton

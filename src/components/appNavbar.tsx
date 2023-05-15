@@ -40,6 +40,14 @@ const AppNavbar = ({ sidebarWidth }: { sidebarWidth?: number }) => {
 				</div>
 				<div className="flex-grow mr-4"></div>
 				<div className="flex flex-row gap-3 mr-5">
+					<IconButton>
+						<NotificationsOulinedIcon className="text-primary-20" />
+					</IconButton>
+					<Link href="/app/houses">
+						<IconButton>
+							<HomeOutlinedIcon className="text-primary-20" />
+						</IconButton>
+					</Link>
 					<IconButton onClick={handleUserPopoverOpen}>
 						<AccountBoxOutlinedIcon className="text-primary-20" />
 					</IconButton>
@@ -70,14 +78,6 @@ const AppNavbar = ({ sidebarWidth }: { sidebarWidth?: number }) => {
 							Cerrar sesión
 						</MenuItem>
 					</Menu>
-					<Link href="/app/houses">
-						<IconButton>
-							<HomeOutlinedIcon className="text-primary-20" />
-						</IconButton>
-					</Link>
-					<IconButton>
-						<NotificationsOulinedIcon className="text-primary-20" />
-					</IconButton>
 				</div>
 			</Box>
 			<hr className="border border-neutral_variant-80 w-full" />

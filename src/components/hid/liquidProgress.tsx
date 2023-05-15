@@ -10,7 +10,7 @@ interface LiquidProgressProps {
 
 const LiquidProgress = ({ percent, shape }: LiquidProgressProps) => {
 	const config: any = {
-		height: 300,
+		height: 50,
 		width: 300,
 		autoFit: false,
 		percent: percent,

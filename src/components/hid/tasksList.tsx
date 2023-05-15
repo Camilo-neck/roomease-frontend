@@ -28,11 +28,11 @@ const Task = ({
 	onDelete: (tid: string) => void;
 }) => (
 	<div
-		className={`flex flex-row m-1 mr-2 ${
+		className={`flex flex-col m-1 mr-2 ${
 			task.done ? "bg-primary-90/90" : "bg-neutral-95"
 		} p-2 rounded-xl shadow-sm transition-all duration-300`}
 	>
-		<div className="flex flex-col gap-1 w-full">
+		<div className="flex flex-row">
 			<FormControlLabel
 				control={
 					<Checkbox
@@ -47,35 +47,37 @@ const Task = ({
 				label={<p className="font-semibold">{task.name}</p>}
 				className="flex-grow"
 			/>
-			<div className="flex text-xs ml-1">
-				<AvatarGroup
-					max={3}
-					sx={{
-						"& .MuiAvatar-root": {
-							width: 14,
-							height: 14,
-						},
-					}}
-				>
-					{task.users.map((user) => (
-						<Avatar key={user._id} {...stringAvatar(user.name)} />
-					))}
-				</AvatarGroup>
-				<p className="pl-1">{getHours(new Date(task.start_date), new Date(task.end_date))}</p>
-				{task.repeat && task.days &&
+			<div className="grid grid-cols-2 h-fit min-w-[50px] max-w-[50px]">
+				<IconButton onClick={async () => await onEdit(task._id)}>
+					<EditIcon color="primary" />
+				</IconButton>
+				<IconButton onClick={async () => await onDelete(task._id)}>
+					<DeleteIcon color="error" />
+				</IconButton>
+			</div>
+		</div>
+
+		<div className="flex text-xs ml-1 pt-1">
+			<AvatarGroup
+				max={3}
+				sx={{
+					"& .MuiAvatar-root": {
+						width: 14,
+						height: 14,
+					},
+				}}
+			>
+				{task.users.map((user) => (
+					<Avatar key={user._id} {...stringAvatar(user.name)} />
+				))}
+			</AvatarGroup>
+			<p className="pl-1">{getHours(new Date(task.start_date), new Date(task.end_date))}</p>
+			{task.repeat && task.days && (
 				<>
 					<EventRepeatIcon htmlColor="#C5533F" fontSize="inherit" className="ml-2" />
 					<p className="ml-1">{recurrenceToDays(task.days!)}</p>
-				</>}
-			</div>
-		</div>
-		<div className="grid grid-cols-2 h-fit">
-			<IconButton onClick={async () => await onEdit(task._id)}>
-				<EditIcon color="primary" />
-			</IconButton>
-			<IconButton onClick={async () => await onDelete(task._id)}>
-				<DeleteIcon color="error" />
-			</IconButton>
+				</>
+			)}
 		</div>
 	</div>
 );

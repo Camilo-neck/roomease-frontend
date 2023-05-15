@@ -24,11 +24,11 @@ import CreateTaskModal from "@/components/hid/createTaskModal";
 import { useCookies } from "@/hooks/useCookie";
 import Sidebar from "@/components/hid/sidebar";
 import TasksBar from "@/components/hid/tasksBar";
-import Progress from "@/components/hid/progress";
 import { edgeRefreshToken, refreshToken } from "@/helpers/auth.helpers";
 import dayjs from "dayjs";
 import EditHouseModal from "@/components/house/editHouseModal";
 import { editHouse } from "@/helpers/houses.helpers";
+import ProgressBars from "@/components/hid/progress";
 
 const sidebarWidth = 290;
 
@@ -206,8 +206,8 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 					house_picture: house.house_picture,
 				}}
 			/>
-			<main className="bg-[#FAFDFD] h-screen">
-				<div className="bg-primary-40/5 h-screen flex flex-col items-center">
+			<main className="bg-[#FAFDFD] h-full">
+				<div className="bg-primary-40/5 min-h-screen h-full flex flex-col items-center">
 					{/* Upper bar*/}
 					<AppNavbar sidebarWidth={isMobile ? 0 : sidebarWidth} />
 					{/*Main*/}
@@ -227,17 +227,16 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 						<Box
 							sx={{
 								flexGrow: 1,
-								p: 4,
 								width: { md: `calc(100% - ${sidebarWidth}px)` },
 							}}
 							component="main"
-							className="h-[90vh]"
+							className="h-full p-3 pl-8"
 						>
 							<Button onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)} className="block md:hidden">
 								Toggle
 							</Button>
-							<div className="flex flex-col">
-								<div className="flex flex-row">
+							<div className="flex flex-col h-full pr-3">
+								<div className="flex flex-row min-h-[500px] h-[80%]">
 									<TasksBar
 										currentUserTasks={currentUserTasks}
 										onCreateTask={() => setIsCreateTaskModalOpen(true)}
@@ -255,12 +254,12 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 											setCurrentTasks(await getTasksByHouse(house._id, token, refreshToken));
 										}}
 									/>
-									<div className="overflow-y-auto h-[70vh] w-full">
+									<div className="overflow-y-auto w-full max-h-[70vh] min-h-[500px]">
 										<MyScheduler data={getData()} isAdaptable={isMobile} />
 									</div>
 								</div>
-								<div>
-									<Progress currentUserTasks={currentUserTasks} tasks={currentTasks} />
+								<div className="h-full">
+									<ProgressBars currentUserTasks={currentUserTasks} tasks={currentTasks} />
 								</div>
 							</div>
 						</Box>
