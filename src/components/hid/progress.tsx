@@ -2,7 +2,6 @@ import { TaskI } from "@/dtos";
 import { LinearProgress } from "@mui/material";
 
 import { get_week_tasks } from "@/utils/weekTasks";
-import { Progress } from "antd";
 
 import { getUserTaskProgress, getHouseTaskProgress } from "@/utils/progress";
 import LiquidProgress from "./liquidProgress";
@@ -23,11 +22,6 @@ const ProgressBars = ({ currentUserTasks, tasks }: { currentUserTasks: TaskI[]; 
 						<p className="text-sm text-neutral-20">{Math.round(getUserTaskProgress(currentUserTasks))}%</p>
 					</div>
 					{/* <LiquidProgress percent={getUserTaskProgress(currentUserTasks) / 100} shape="rect" /> */}
-					{/* <Progress
-						status="active"
-						percent={getUserTaskProgress(tasks) / 100}
-						strokeColor={{ from: "#108ee9", to: "#87d068" }}
-					/> */}
 				</div>
 				<div className="flex flex-row items-center gap-2">
 					<p className="self-start font-semibold text-neutral-20 w-[20%]">Progreso de la casa:</p>
@@ -40,11 +34,6 @@ const ProgressBars = ({ currentUserTasks, tasks }: { currentUserTasks: TaskI[]; 
 						<p className="text-sm text-neutral-20">{Math.round(getHouseTaskProgress(tasks))}%</p>
 					</div>
 					{/* <LiquidProgress percent={getHouseTaskProgress(tasks) / 100} shape="rect" /> */}
-					{/* <Progress
-						status="active"
-						percent={getHouseTaskProgress(tasks) / 100}
-						strokeColor={{ from: "#108ee9", to: "#87d068" }}
-					/> */}
 				</div>
 			</div>
 		</div>
