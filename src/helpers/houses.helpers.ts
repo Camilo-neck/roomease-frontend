@@ -6,19 +6,19 @@ import { edgeRefreshToken, refreshToken } from "./auth.helpers";
 export const fetchHouses = async (uid: string, token: string, rft: string | undefined) => {
 	try {
 		const houses = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/houses`, {
-		method: "GET",
-		headers: {
-			Accept: "*/*",
-			"Content-Type": "application/json",
-			"auth-token": token,
-		},
-		}).then((res) => res.json())
+			method: "GET",
+			headers: {
+				Accept: "*/*",
+				"Content-Type": "application/json",
+				"auth-token": token,
+			},
+		}).then((res) => res.json());
 		return houses ? houses : [];
 	} catch (err: any) {
 		if (err.status === 401) {
 			const refreshTokenCookie = rft ? rft : getCookie("refresh-token");
 			if (refreshTokenCookie) {
-				const newToken = await edgeRefreshToken(refreshTokenCookie).then(data => data?.newToken);
+				const newToken = await edgeRefreshToken(refreshTokenCookie).then((data) => data?.newToken);
 				const houses: HouseI[] = await fetchHouses(uid, newToken as string, rft);
 				return houses ? houses : [];
 			}
@@ -27,7 +27,6 @@ export const fetchHouses = async (uid: string, token: string, rft: string | unde
 		console.log(err);
 		return [];
 	}
-
 };
 
 export const getHouse = async (houseId: string, token: string, rft: string | undefined) => {
@@ -38,13 +37,13 @@ export const getHouse = async (houseId: string, token: string, rft: string | und
 			"Content-Type": "application/json",
 			"auth-token": token,
 		},
-	})
-	
+	});
+
 	if (response.status !== 200) {
 		if (response.status === 401) {
 			const refreshTokenCookie = rft ? rft : getCookie("refresh-token");
 			if (refreshTokenCookie) {
-				const newToken = await edgeRefreshToken(refreshTokenCookie).then(data => data?.newToken);
+				const newToken = await edgeRefreshToken(refreshTokenCookie).then((data) => data?.newToken);
 				const house: HouseI = await getHouse(houseId, newToken as string, rft);
 				return house ? house : {};
 			} else {
@@ -60,7 +59,6 @@ export const getHouse = async (houseId: string, token: string, rft: string | und
 };
 
 export const createHouse = async (token: string, house: HouseI): Promise<any> => {
-
 	if (!house.house_picture) {
 		house.house_picture =
 			"https://images.adsttc.com/media/images/5d34/e507/284d/d109/5600/0240/large_jpg/_FI.jpg?1563747560";
@@ -91,7 +89,7 @@ export const createHouse = async (token: string, house: HouseI): Promise<any> =>
 	return response;
 };
 
-export const editHouse = async (token:string, house: HouseI, house_id: string): Promise<any> => {
+export const editHouse = async (token: string, house: HouseI, house_id: string): Promise<any> => {
 	if (!house.house_picture) {
 		house.house_picture =
 			"https://images.adsttc.com/media/images/5d34/e507/284d/d109/5600/0240/large_jpg/_FI.jpg?1563747560";
@@ -121,7 +119,7 @@ export const editHouse = async (token:string, house: HouseI, house_id: string): 
 	return response;
 };
 
-export const joinHouse = async (token: string,  house_code: string): Promise<any> => {
+export const joinHouse = async (token: string, house_code: string): Promise<any> => {
 	const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/houses/join/${house_code.replace("#", "_")}`, {
 		method: "PUT",
 		headers: {
@@ -145,7 +143,7 @@ export const joinHouse = async (token: string,  house_code: string): Promise<any
 	return response;
 };
 
-export const acceptPendingUser = async (token:string, houseId: string, userId: string) => {
+export const acceptPendingUser = async (token: string, houseId: string, userId: string) => {
 	const payload = {
 		userId,
 		accept: true,

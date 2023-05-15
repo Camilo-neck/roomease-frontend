@@ -62,7 +62,7 @@ export const getServerSideProps: GetServerSideProps<{
 	const refreshToken = ctx.req.cookies["refresh-token"];
 	if (refreshToken && !cookie) {
 		const res = await edgeRefreshToken(refreshToken);
-		cookie = res ?  res.newToken as string : 'null';
+		cookie = res ? (res.newToken as string) : "null";
 	}
 	if (!cookie) {
 		return {

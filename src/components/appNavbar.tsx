@@ -4,6 +4,7 @@ import { Box, IconButton, Menu, MenuItem } from "@mui/material";
 import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import NotificationsOulinedIcon from "@mui/icons-material/NotificationsOutlined";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "@/helpers/auth.helpers";
@@ -75,7 +76,7 @@ const AppNavbar = ({ sidebarWidth }: { sidebarWidth?: number }) => {
 						</IconButton>
 					</Link>
 					<IconButton>
-						<SettingsOutlinedIcon className="text-primary-20" />
+						<NotificationsOulinedIcon className="text-primary-20" />
 					</IconButton>
 				</div>
 			</Box>

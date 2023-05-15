@@ -61,10 +61,12 @@ const NestedList = ({
 
 	useEffect(() => {
 		if (anchorEl) {
-			fetchUserData(currentUser?._id as string, getCookie("auth-token") as string, getCookie('refreshToken')).then((res) => {
-				setPopoverUser(res);
-				console.log(res);
-			});
+			fetchUserData(currentUser?._id as string, getCookie("auth-token") as string, getCookie("refreshToken")).then(
+				(res) => {
+					setPopoverUser(res);
+					console.log(res);
+				},
+			);
 			setPopoverUserTasks(getUserTasks(currentUser as UserI));
 		}
 	}, [anchorEl]);
@@ -161,7 +163,7 @@ const NestedList = ({
 														size="small"
 														aria-label="accept"
 														onClick={async () => {
-															await acceptPendingUser(getCookie('auth-token') as string ,house_id, user._id);
+															await acceptPendingUser(getCookie("auth-token") as string, house_id, user._id);
 															onAcceptUser(user);
 														}}
 													>
