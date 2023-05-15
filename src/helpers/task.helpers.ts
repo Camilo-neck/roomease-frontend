@@ -15,7 +15,7 @@ export const getTasksByUser = async (hid: string, uid: string, token: string, rf
 		if (res.status === 401) {
 			const refreshTokenCookie = rft ? rft : getCookie("refresh-token");
 			if (refreshTokenCookie) {
-				const newToken = await edgeRefreshToken(refreshTokenCookie).then(data => data?.newToken);
+				const newToken = await edgeRefreshToken(refreshTokenCookie).then((data) => data?.newToken);
 				const tasks: TaskI[] = await getTasksByUser(hid, uid, newToken as string, rft);
 				return tasks ? tasks : [];
 			}
@@ -43,7 +43,7 @@ export const getTasksByHouse = async (hid: string, token: string, rft: string | 
 		if (res.status === 401) {
 			const refreshTokenCookie = rft ? rft : getCookie("refresh-token");
 			if (refreshTokenCookie) {
-				const newToken = await edgeRefreshToken(refreshTokenCookie).then(data => data?.newToken);
+				const newToken = await edgeRefreshToken(refreshTokenCookie).then((data) => data?.newToken);
 				const tasks: TaskI[] = await getTasksByHouse(hid, newToken as string, rft);
 				return tasks ? tasks : [];
 			}
@@ -72,7 +72,7 @@ export const createTask = async (task: TaskI, token: string, rft: string | undef
 		if (res.status === 401) {
 			const refreshTokenCookie = rft ? rft : getCookie("refresh-token");
 			if (refreshTokenCookie) {
-				const newToken = await edgeRefreshToken(refreshTokenCookie).then(data => data?.newToken);
+				const newToken = await edgeRefreshToken(refreshTokenCookie).then((data) => data?.newToken);
 				const newTask: TaskI = await createTask(task, newToken as string, rft);
 				return newTask ? newTask : null;
 			}
@@ -100,7 +100,7 @@ export const checkTask = async (tid: string, token: string, rft: string | undefi
 		if (res.status === 401) {
 			const refreshTokenCookie = rft ? rft : getCookie("refresh-token");
 			if (refreshTokenCookie) {
-				const newToken = await edgeRefreshToken(refreshTokenCookie).then(data => data?.newToken);
+				const newToken = await edgeRefreshToken(refreshTokenCookie).then((data) => data?.newToken);
 				const task: TaskI = await checkTask(tid, newToken as string, rft);
 				return task ? task : null;
 			}
@@ -129,7 +129,7 @@ export const updateTask = async (tid: string, task: TaskI, token: string, rft: s
 		if (res.status === 401) {
 			const refreshTokenCookie = rft ? rft : getCookie("refresh-token");
 			if (refreshTokenCookie) {
-				const newToken = await edgeRefreshToken(refreshTokenCookie).then(data => data?.newToken);
+				const newToken = await edgeRefreshToken(refreshTokenCookie).then((data) => data?.newToken);
 				const newTask: TaskI = await updateTask(tid, task, newToken as string, rft);
 				return newTask ? newTask : null;
 			}
@@ -157,7 +157,7 @@ export const deleteTask = async (tid: string, token: string, rft: string | undef
 		if (res.status === 401) {
 			const refreshTokenCookie = rft ? rft : getCookie("refresh-token");
 			if (refreshTokenCookie) {
-				const newToken = await edgeRefreshToken(refreshTokenCookie).then(data => data?.newToken);
+				const newToken = await edgeRefreshToken(refreshTokenCookie).then((data) => data?.newToken);
 				const task: TaskI = await deleteTask(tid, newToken as string, rft);
 				return task ? task : null;
 			}

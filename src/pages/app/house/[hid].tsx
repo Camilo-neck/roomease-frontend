@@ -126,7 +126,7 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 	};
 	const onCreateTask = async (data: TaskI) => {
 		const token = getCookie("auth-token");
-		const refreshToken = getCookie("refresh-token")
+		const refreshToken = getCookie("refresh-token");
 		const task = formatFormTask(data);
 		await createTask(task, token as string, refreshToken);
 		setCurrentUserTasks(await getTasksByUser(house._id, user._id, token as string, refreshToken));
@@ -134,7 +134,7 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 	};
 	const onUpdateTask = async (data: TaskI) => {
 		const token = getCookie("auth-token");
-		const refreshToken = getCookie("refresh-token")
+		const refreshToken = getCookie("refresh-token");
 		const task = formatFormTask(data);
 		console.log(task);
 		await updateTask(task._id, task, token as string, refreshToken);
@@ -281,7 +281,7 @@ export const getServerSideProps: GetServerSideProps<{
 	const refreshToken = ctx.req.cookies["refresh-token"];
 	if (refreshToken && !auth_token) {
 		const res = await edgeRefreshToken(refreshToken);
-		auth_token = res ?  res.newToken as string : 'null';
+		auth_token = res ? (res.newToken as string) : "null";
 	}
 	const decodedToken = jwt.decode(auth_token) as { _id: string };
 	ctx.res.setHeader("Cache-Control", "public, s-maxage=30, stale-while-revalidate=59");
