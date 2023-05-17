@@ -123,10 +123,10 @@ const NestedList = ({
 			<Collapse in={open1} timeout="auto" unmountOnExit>
 				<List component="div" disablePadding>
 					{users.map((user, id) => (
-						<ListItem className="p-1 pl-5" key={id}>
+						<ListItem className="p-1 pl-2 pr-2" key={id}>
 							<Chip
-								variant="outlined"
-								className="text-xs text-left rounded-xl"
+								//variant="outlined"
+								className=" flex justify-start text-xs text-left rounded-xl w-full"
 								label={user.name}
 								avatar={<Avatar alt={user.name} src={user.profile_picture} {...stringAvatar(user.name)} />}
 								onClick={async (e) => {
@@ -151,53 +151,63 @@ const NestedList = ({
 					</ListItemButton>
 					<Collapse in={open2} timeout="auto" unmountOnExit>
 						<List component="div" disablePadding>
-							{pending_users.map((user, id) => (
-								<>
-									<div className="flex flex-col">
-										<ListItem
-											className="p-1 pl-5"
-											key={user._id}
-											secondaryAction={
-												<>
-													<IconButton
-														size="small"
-														aria-label="accept"
-														onClick={async () => {
-															await acceptPendingUser(getCookie("auth-token") as string, house_id, user._id);
-															onAcceptUser(user);
+							{pending_users.length === 0 ? (
+								<div className="pl-3 pr-3">
+									<Chip
+									label="No hay pendientes"
+									className="text-xs text-left rounded-xl w-full"
+									/>
+								</div>
+								) : (
+									pending_users.map((user, id) => (
+										<>
+											<div className="flex flex-col">
+												<ListItem
+													className="p-1 pl-5"
+													key={user._id}
+													secondaryAction={
+														<>
+															<IconButton
+																size="small"
+																aria-label="accept"
+																onClick={async () => {
+																	await acceptPendingUser(getCookie("auth-token") as string, house_id, user._id);
+																	onAcceptUser(user);
+																}}
+															>
+																<CheckIcon htmlColor="green" fontSize="small" />
+															</IconButton>
+															<IconButton
+																size="small"
+																edge="end"
+																aria-label="reject"
+																onClick={async () => {
+																	await rejectPendingUser(house_id, user._id);
+																	onRejectUser(user);
+																}}
+															>
+																<ClearSharpIcon htmlColor="red" fontSize="small" />
+															</IconButton>
+														</>
+													}
+												>
+													<Chip
+														variant="outlined"
+														className="text-xs text-left rounded-xl"
+														label={user.name}
+														avatar={<Avatar alt={user.name} src={user.profile_picture} {...stringAvatar(user.name)} />}
+														onClick={async (e) => {
+															setCurrentUser(user);
+															handlePopoverClick(e);
 														}}
-													>
-														<CheckIcon htmlColor="green" fontSize="small" />
-													</IconButton>
-													<IconButton
-														size="small"
-														edge="end"
-														aria-label="reject"
-														onClick={async () => {
-															await rejectPendingUser(house_id, user._id);
-															onRejectUser(user);
-														}}
-													>
-														<ClearSharpIcon htmlColor="red" fontSize="small" />
-													</IconButton>
-												</>
-											}
-										>
-											<Chip
-												variant="outlined"
-												className="text-xs text-left rounded-xl"
-												label={user.name}
-												avatar={<Avatar alt={user.name} src={user.profile_picture} {...stringAvatar(user.name)} />}
-												onClick={async (e) => {
-													setCurrentUser(user);
-													handlePopoverClick(e);
-												}}
-												clickable
-											/>
-										</ListItem>
-									</div>
-								</>
-							))}
+														clickable
+													/>
+												</ListItem>
+											</div>
+										</>
+									))
+								)
+							}
 						</List>
 					</Collapse>
 				</>
