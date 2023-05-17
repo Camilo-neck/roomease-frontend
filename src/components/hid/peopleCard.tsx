@@ -124,12 +124,13 @@ const NestedList = ({
 			<Collapse in={open1} timeout="auto" unmountOnExit>
 				<List component="div" disablePadding>
 					{users.map((user, id) => (
+						// console.log(user),
 						<ListItem className="p-1 pl-5" key={id}>
 							<Chip
 								variant="outlined"
 								className="text-xs text-left rounded-xl"
 								label={user.name}
-								avatar={<Avatar {...stringAvatar(user.name)} />}
+								avatar={<Avatar alt={user.name} src={user.profile_picture} {...stringAvatar(user.name)} />}
 								onClick={async (e) => {
 									setCurrentUser(user);
 									handlePopoverClick(e);
@@ -137,7 +138,8 @@ const NestedList = ({
 								clickable
 							/>
 						</ListItem>
-					))}
+					))
+					}
 				</List>
 			</Collapse>
 			{pending_users && (
@@ -187,7 +189,7 @@ const NestedList = ({
 												variant="outlined"
 												className="text-xs text-left rounded-xl"
 												label={user.name}
-												avatar={<Avatar {...stringAvatar(user.name)} />}
+												avatar={<Avatar alt={user.name} src={user.profile_picture} {...stringAvatar(user.name)} />}
 												onClick={async (e) => {
 													setCurrentUser(user);
 													handlePopoverClick(e);

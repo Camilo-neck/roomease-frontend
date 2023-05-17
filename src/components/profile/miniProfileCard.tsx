@@ -15,6 +15,7 @@ const MiniProfileCard = ({ user, userTasks }: { user: UserI; userTasks: TaskI[] 
 			<Stack alignItems={"center"} className="w-full h-full" style={{ position: "relative" }}>
 				<div className="flex flex-row gap-2">
 					<Avatar
+						alt={user?.name} src={user?.profile_picture}
 						{...stringAvatar(user ? user?.name : " ", 96, 30)}
 						style={{
 							border: "4px solid white",
