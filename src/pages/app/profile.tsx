@@ -34,7 +34,7 @@ const Profile = ({ userData }: InferGetServerSidePropsType<typeof getServerSideP
 	const closeEditProfileModal = () => {
 		setEditProfileModalOpen(false);
 	};
-	
+
 	const onEditProfileModalSubmit = async (data: UserI) => {
 		const token = getCookie("auth-token");
 		const refreshToken = getCookie("refresh-token");
@@ -139,4 +139,3 @@ export default Profile;
 function setErrorMessage(message: any) {
 	throw new Error("Function not implemented.");
 }
-

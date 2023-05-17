@@ -3,6 +3,6 @@ export interface UserEditI {
 	email: string;
 	phone: string;
 	description: string;
-    tags: string;
+	tags: string;
 	profile_picture: string;
 }

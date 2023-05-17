@@ -61,14 +61,14 @@ const ProfileCard = ({ name, email, description, birthDate, phone, tags, openEdi
 				</div>
 			</Stack>
 			<CardActions className="flex flex-col items-center p-3 w-full">
-					<Button
-						onClick={openEditProfileModal}
-						variant="outlined"
-						className="bg-secondary-90/70 hover:bg-secondary-90/90 active:bg-secondary-80/80 rounded-2xl"
-						size="small"
-					>
-						Editar
-					</Button>
+				<Button
+					onClick={openEditProfileModal}
+					variant="outlined"
+					className="bg-secondary-90/70 hover:bg-secondary-90/90 active:bg-secondary-80/80 rounded-2xl"
+					size="small"
+				>
+					Editar
+				</Button>
 			</CardActions>
 		</Card>
 	);

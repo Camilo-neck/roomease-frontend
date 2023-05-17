@@ -34,8 +34,7 @@ export const fetchUserData = async (uid: string, token: string, rft: string | un
 
 export const editUserData = async (token: string, user: UserI, uid: string): Promise<any> => {
 	if (!user.profile_picture) {
-		user.profile_picture =
-			"";
+		user.profile_picture = "";
 	}
 	const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${uid}`, {
 		method: "PUT",
@@ -44,7 +43,7 @@ export const editUserData = async (token: string, user: UserI, uid: string): Pro
 			"Content-Type": "application/json",
 			"auth-token": token,
 		},
-		body: JSON.stringify({ ...user}),
+		body: JSON.stringify({ ...user }),
 	});
 
 	if (response.status !== 200) {

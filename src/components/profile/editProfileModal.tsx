@@ -29,7 +29,7 @@ let initialState = {
 	email: "",
 	phone: "",
 	description: "",
-    tags: "",
+	tags: "",
 	profile_picture: "",
 };
 
@@ -52,7 +52,7 @@ export default function EditProfileModal({
 		watch,
 		formState: { errors },
 	} = useForm({ defaultValues: userInfo });
-    initialState = userInfo;
+	initialState = userInfo;
 	const [image, setImage] = useState<string | null>(null);
 	const [imageLoading, setImageLoading] = useState<boolean>(false);
 	const formRef = useRef<HTMLFormElement | null>(null);
@@ -139,7 +139,7 @@ export default function EditProfileModal({
 						fullWidth
 						{...register("name")}
 					/>
-                    <TextField
+					<TextField
 						className="rounded-xl"
 						sx={{
 							"& .MuiOutlinedInput-root": {
@@ -153,7 +153,7 @@ export default function EditProfileModal({
 						fullWidth
 						{...register("email")}
 					/>
-                    <TextField
+					<TextField
 						className="rounded-xl"
 						sx={{
 							"& .MuiOutlinedInput-root": {

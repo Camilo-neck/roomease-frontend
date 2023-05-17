@@ -41,11 +41,7 @@ export default function EditHouseModal({
 	isOpen: boolean;
 	onClose: () => void;
 	onSubmit: (data: any) => void;
-<<<<<<< HEAD
 	house: HouseEditI;
-=======
-	house: HouseI;
->>>>>>> 0ac3af9 (Prettier)
 }) {
 	const user = useSelector(selectUser);
 	const {
