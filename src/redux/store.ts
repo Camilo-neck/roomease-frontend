@@ -4,14 +4,14 @@ import { Action } from "redux";
 
 import userReducer from "./slices/user.slice";
 
-
-export const store = () => configureStore({
-	reducer: {
-		// Add your reducers here
-		user: userReducer,
-	},
-	devTools: true,
-});
+export const store = () =>
+	configureStore({
+		reducer: {
+			// Add your reducers here
+			user: userReducer,
+		},
+		devTools: true,
+	});
 
 export type AppStore = ReturnType<typeof store>;
 export type AppState = ReturnType<AppStore["getState"]>;

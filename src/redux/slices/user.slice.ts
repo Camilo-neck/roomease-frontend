@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import { createSlice } from '@reduxjs/toolkit';
-import { HYDRATE } from 'next-redux-wrapper';
+import { createSlice } from "@reduxjs/toolkit";
+import { HYDRATE } from "next-redux-wrapper";
 
 export const UserSlice = createSlice({
-	name: 'user',
+	name: "user",
 	initialState: {
-		"_id": null,
-		"name": null,
-		"email": null,
+		_id: null,
+		name: null,
+		email: null,
 	},
 	reducers: {
 		setUser: (state, action) => {
-			state._id = action.payload.id;
+			state._id = action.payload._id;
 			state.name = action.payload.name;
 			state.email = action.payload.email;
 		},
@@ -20,7 +20,7 @@ export const UserSlice = createSlice({
 			state._id = null;
 			state.name = null;
 			state.email = null;
-		}
+		},
 	},
 	extraReducers: {
 		[HYDRATE]: (state, action) => {
@@ -31,8 +31,8 @@ export const UserSlice = createSlice({
 				};
 			}
 			return state;
-		}
-	}
+		},
+	},
 });
 
 export const { setUser, deleteUser } = UserSlice.actions;
