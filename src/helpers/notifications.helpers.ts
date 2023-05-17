@@ -4,12 +4,12 @@ import { edgeRefreshToken } from "./auth.helpers";
 
 export async function getNotifications(token: string, rft: string | undefined) {
 	const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/notifications`, {
-		method: 'GET',
+		method: "GET",
 		headers: {
-			'Content-Type': 'application/json',
-			'auth-token': token,
+			"Content-Type": "application/json",
+			"auth-token": token,
 		},
-	})
+	});
 
 	if (!response.ok) {
 		if (response.status === 401) {
@@ -23,18 +23,18 @@ export async function getNotifications(token: string, rft: string | undefined) {
 		}
 	}
 
-	const data = await response.json()
-	return data
+	const data = await response.json();
+	return data;
 }
 
 export async function readNotification(token: string, rft: string | undefined, notificationId: string) {
 	const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/notifications/${notificationId}`, {
-		method: 'PUT',
+		method: "PUT",
 		headers: {
-			'Content-Type': 'application/json',
-			'auth-token': token,
+			"Content-Type": "application/json",
+			"auth-token": token,
 		},
-	})
+	});
 
 	if (!response.ok) {
 		if (response.status === 401) {
@@ -48,18 +48,18 @@ export async function readNotification(token: string, rft: string | undefined, n
 		}
 	}
 
-	const data = await response.json()
-	return data
+	const data = await response.json();
+	return data;
 }
 
 export async function deleteNotification(token: string, rft: string | undefined, notificationId: string) {
 	const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/notifications/${notificationId}`, {
-		method: 'DELETE',
+		method: "DELETE",
 		headers: {
-			'Content-Type': 'application/json',
-			'auth-token': token,
+			"Content-Type": "application/json",
+			"auth-token": token,
 		},
-	})
+	});
 
 	if (!response.ok) {
 		if (response.status === 401) {
@@ -73,6 +73,6 @@ export async function deleteNotification(token: string, rft: string | undefined,
 		}
 	}
 
-	const data = await response.json()
-	return data
+	const data = await response.json();
+	return data;
 }

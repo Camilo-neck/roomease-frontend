@@ -52,11 +52,12 @@ export default function EditProfileModal({
 		watch,
 		formState: { errors },
 	} = useForm({ defaultValues: userInfo });
-	initialState = userInfo;
+	
 	const [image, setImage] = useState<string | null>(null);
 	const [imageLoading, setImageLoading] = useState<boolean>(false);
 	const formRef = useRef<HTMLFormElement | null>(null);
 	const [open, setOpen] = useState(false);
+	initialState = userInfo;
 
 	const handleClickOpen = () => {
 		setOpen(true);
@@ -71,7 +72,7 @@ export default function EditProfileModal({
 	const handleOnSubmit = async (data: any) => {
 		const tmpData = Object.assign({}, data);
 		tmpData.tags = tmpData.tags.split(",").map((tag: string) => tag.trim());
-
+		initialState = data;
 		onSubmit(tmpData);
 		handleClose();
 	};
