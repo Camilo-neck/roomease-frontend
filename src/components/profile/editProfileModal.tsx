@@ -27,7 +27,6 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 let initialState = {
 	name: "",
-	email: "",
 	phone: "",
 	description: "",
 	password: "",
@@ -127,7 +126,7 @@ export default function EditProfileModal({
 
 	return (
 		<Dialog open={isOpen} onClose={handleClose} className="rounded-2xl">
-			<DialogTitle>Editar mi información</DialogTitle>
+			<DialogTitle className="flex justify-center">Editar mi información</DialogTitle>
 			<DialogContent>
 				<form ref={formRef} onSubmit={handleSubmit(handleOnSubmit)}>
 					<TextField
@@ -144,20 +143,6 @@ export default function EditProfileModal({
 						type="text"
 						fullWidth
 						{...register("name")}
-					/>
-					<TextField
-						className="rounded-xl"
-						sx={{
-							"& .MuiOutlinedInput-root": {
-								borderRadius: "1rem",
-							},
-						}}
-						margin="dense"
-						id="email"
-						label="Correo electrónico"
-						type="text"
-						fullWidth
-						{...register("email")}
 					/>
 					<TextField
 						className="rounded-xl"
@@ -188,21 +173,6 @@ export default function EditProfileModal({
 						multiline
 						rows={4}
 						{...register("description")}
-					/>
-					<TextField
-						className="rounded-xl"
-						sx={{
-							"& .MuiOutlinedInput-root": {
-								borderRadius: "1rem",
-							},
-						}}
-						margin="dense"
-						id="password"
-						label="Contraseña"
-						type="text"
-						fullWidth
-						rows={4}
-						{...register("password")}
 					/>
 					{/* <div>
 						<Controller
@@ -270,6 +240,21 @@ export default function EditProfileModal({
 						{...register("tags", {
 							pattern: /([a-zA-Z0-9]+,?\s?)+/,
 						})}
+					/>
+					<TextField
+						className="rounded-xl"
+						sx={{
+							"& .MuiOutlinedInput-root": {
+								borderRadius: "1rem",
+							},
+						}}
+						margin="dense"
+						id="password"
+						label="Contraseña"
+						type="text"
+						fullWidth
+						rows={4}
+						{...register("password", { required: "Debes ingresar la contraseña" })}
 					/>
 					<div className="flex flex-row items-center gap-4 mt-2">
 						<input

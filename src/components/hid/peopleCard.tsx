@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { Button, Chip, IconButton, ListItem, Popover } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import ListSubheader from "@mui/material/ListSubheader";
 import List from "@mui/material/List";
@@ -124,7 +123,6 @@ const NestedList = ({
 			<Collapse in={open1} timeout="auto" unmountOnExit>
 				<List component="div" disablePadding>
 					{users.map((user, id) => (
-						// console.log(user),
 						<ListItem className="p-1 pl-5" key={id}>
 							<Chip
 								variant="outlined"

@@ -18,8 +18,6 @@ import ProfileCard from "@/components/profile/profileCard";
 import { edgeRefreshToken } from "@/helpers/auth.helpers";
 import { getCookie } from "@/utils/cookie";
 import EditProfileModal from "@/components/profile/editProfileModal";
-import { useSelector } from "react-redux";
-import { selectUser } from "@/redux/slices/user.slice";
 
 const Profile = ({ userData }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const [userInfo, setUserInfo] = useState<UserI>(userData ? userData : ({} as UserI));
@@ -65,7 +63,6 @@ const Profile = ({ userData }: InferGetServerSidePropsType<typeof getServerSideP
 				isOpen={editProfileModalOpen}
 				userInfo={{
 					name: userInfo.name,
-					email: userInfo.email,
 					phone: userInfo.phone,
 					description: userInfo.description,
 					password: userInfo.password,
