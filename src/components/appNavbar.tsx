@@ -4,7 +4,7 @@ import { Box, IconButton, Menu, MenuItem, Popover, Switch } from "@mui/material"
 import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import NotificationsOulinedIcon from "@mui/icons-material/NotificationsOutlined";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "@/helpers/auth.helpers";
@@ -24,13 +24,13 @@ const AppNavbar = ({ sidebarWidth }: { sidebarWidth?: number }) => {
 	const notificationsPopoverOpen = Boolean(notificationsPopoverAnchorEl);
 	const notificationsPopoverId = notificationsPopoverOpen ? "notifications-popover" : undefined;
 	const [notifications, setNotifications] = useState<NotificationI[]>([]);
-	const [ currentNotifications, setCurrentNotifications ] = useState<NotificationI[]>([]);
-	const [ onlyNotSeen, setOnlyNotSeen ] = useState<boolean>(false);
+	const [currentNotifications, setCurrentNotifications] = useState<NotificationI[]>([]);
+	const [onlyNotSeen, setOnlyNotSeen] = useState<boolean>(false);
 
 	useEffect(() => {
 		async function fetchNotifications() {
-			const token = getCookie("auth-token")
-			const refreshTokenCookie = getCookie("refresh-token")
+			const token = getCookie("auth-token");
+			const refreshTokenCookie = getCookie("refresh-token");
 			const res = await getNotifications(token, refreshTokenCookie);
 			setNotifications(res);
 		}
@@ -38,7 +38,9 @@ const AppNavbar = ({ sidebarWidth }: { sidebarWidth?: number }) => {
 	}, []);
 
 	useEffect(() => {
-		setCurrentNotifications(notifications.filter((notification) => onlyNotSeen ? notification.read === !onlyNotSeen : true));
+		setCurrentNotifications(
+			notifications.filter((notification) => (onlyNotSeen ? notification.read === !onlyNotSeen : true)),
+		);
 	}, [notifications, onlyNotSeen]);
 
 	const handleUserPopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -129,58 +131,65 @@ const AppNavbar = ({ sidebarWidth }: { sidebarWidth?: number }) => {
 							<p className="text-primary-10 text-lg flex-grow">Notificaciones</p>
 							<div>
 								<span>Sin leer</span>
-								<Switch 
-								value={onlyNotSeen}
-								onChange={()=> {
-									setOnlyNotSeen(!onlyNotSeen)
-									setCurrentNotifications(notifications.filter((notification) => onlyNotSeen ? notification.read === !onlyNotSeen : true));
-									console.log(notifications)
-								}} />
+								<Switch
+									value={onlyNotSeen}
+									onChange={() => {
+										setOnlyNotSeen(!onlyNotSeen);
+										setCurrentNotifications(
+											notifications.filter((notification) => (onlyNotSeen ? notification.read === !onlyNotSeen : true)),
+										);
+										console.log(notifications);
+									}}
+								/>
 							</div>
-
 						</div>
 						<hr />
-						{
-						currentNotifications.length === 0 ?
-						<p className="text-neutral-50 text-center m-3">No hay notificaciones { onlyNotSeen ? 'sin leer' : '' }</p>
-						:
-						currentNotifications.map((notification) => (
-							<MenuItem 
-								key={notification._id}
-								onClick={async () => {
-									const token = getCookie("auth-token")
-									const refreshTokenCookie = getCookie("refresh-token")
-									await readNotification(token, refreshTokenCookie, notification._id);
-									setNotifications(notifications.map((n) => {
-										if (n._id === notification._id) {
-											n.read = true;
-										}
-										return n;
-									}));
-								}}
-								className={
-									`${notification.read ? 'bg-white' : 'bg-neutral-95'} text-primary-20 
-									hover:text-primary-30 focus:text-primary-30 
-								`}>
-								<div className="flex flex-row w-full min-w-max">
-									<div className="flex-grow w-[23rem] break-words">
-										<p className="font-semibold">{notification.title}</p>
-										<p>{notification.description}</p>
-										<p className={`text-neutral-40 text-xs ${!notification.read ? '' : 'hidden'}`}>Da clic para marcar como visto</p>
-									</div>
-									<IconButton 
+						{currentNotifications.length === 0 ? (
+							<p className="text-neutral-50 text-center m-3">No hay notificaciones {onlyNotSeen ? "sin leer" : ""}</p>
+						) : (
+							currentNotifications.map((notification) => (
+								<MenuItem
+									key={notification._id}
 									onClick={async () => {
-										const token = getCookie("auth-token")
-										const refreshTokenCookie = getCookie("refresh-token")
-										await deleteNotification(token, refreshTokenCookie, notification._id);
-										setNotifications(notifications.filter((n) => n._id !== notification._id));
+										const token = getCookie("auth-token");
+										const refreshTokenCookie = getCookie("refresh-token");
+										await readNotification(token, refreshTokenCookie, notification._id);
+										setNotifications(
+											notifications.map((n) => {
+												if (n._id === notification._id) {
+													n.read = true;
+												}
+												return n;
+											}),
+										);
 									}}
-									className="h-fit">
-										<CloseIcon />
-									</IconButton>
-								</div>
-							</MenuItem>
-						))}
+									className={`${notification.read ? "bg-white" : "bg-neutral-95"} text-primary-20 
+									hover:text-primary-30 focus:text-primary-30 
+								`}
+								>
+									<div className="flex flex-row w-full min-w-max">
+										<div className="flex-grow w-[23rem] break-words">
+											<p className="font-semibold">{notification.title}</p>
+											<p>{notification.description}</p>
+											<p className={`text-neutral-40 text-xs ${!notification.read ? "" : "hidden"}`}>
+												Da clic para marcar como visto
+											</p>
+										</div>
+										<IconButton
+											onClick={async () => {
+												const token = getCookie("auth-token");
+												const refreshTokenCookie = getCookie("refresh-token");
+												await deleteNotification(token, refreshTokenCookie, notification._id);
+												setNotifications(notifications.filter((n) => n._id !== notification._id));
+											}}
+											className="h-fit"
+										>
+											<CloseIcon />
+										</IconButton>
+									</div>
+								</MenuItem>
+							))
+						)}
 					</Popover>
 				</div>
 			</Box>

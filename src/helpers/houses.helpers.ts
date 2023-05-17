@@ -89,7 +89,7 @@ export const createHouse = async (token: string, house: HouseI): Promise<any> =>
 	return response;
 };
 
-export const editHouse = async (token:string, house: HouseI, house_id: string): Promise<any> => {
+export const editHouse = async (token: string, house: HouseI, house_id: string): Promise<any> => {
 	if (!house.house_picture) {
 		house.house_picture =
 			"https://images.adsttc.com/media/images/5d34/e507/284d/d109/5600/0240/large_jpg/_FI.jpg?1563747560";

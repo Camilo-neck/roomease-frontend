@@ -20,11 +20,11 @@ const initialState = {
 	description: "",
 	house_id: "",
 	users_id: [],
-	start_date: new Date(),
-	end_date: new Date(),
+	start_date: dayjs(),
+	end_date: dayjs(),
 	repeat: false,
 	days: [],
-	until_date: "",
+	until_date: dayjs(),
 };
 
 const CreateTaskModal = ({
