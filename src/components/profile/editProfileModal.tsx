@@ -7,7 +7,7 @@ import { getDownloadURL, ref, uploadBytes, uploadBytesResumable } from "firebase
 // Material UI
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-import TextField from "@mui/material/TextField";
+import TextField, { TextFieldProps } from "@mui/material/TextField";
 import CircularProgress from "@mui/material/CircularProgress";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -19,16 +19,19 @@ import DialogTitle from "@mui/material/DialogTitle";
 import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
 import CloseIcon from "@mui/icons-material/Close";
 
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { selectUser } from "@/redux/slices/user.slice";
 import { UserEditI } from "@/dtos/userEdit";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 let initialState = {
 	name: "",
 	email: "",
 	phone: "",
 	description: "",
+	password: "",
+	birth_date: "",
 	tags: "",
 	profile_picture: "",
 };
@@ -49,6 +52,7 @@ export default function EditProfileModal({
 		register,
 		reset,
 		handleSubmit,
+		control,
 		watch,
 		formState: { errors },
 	} = useForm({ defaultValues: userInfo });
@@ -72,6 +76,7 @@ export default function EditProfileModal({
 	const handleOnSubmit = async (data: any) => {
 		const tmpData = Object.assign({}, data);
 		tmpData.tags = tmpData.tags.split(",").map((tag: string) => tag.trim());
+		tmpData.birth_date = Date.parse(tmpData.birth_date);
 		initialState = data;
 		onSubmit(tmpData);
 		handleClose();
@@ -112,7 +117,7 @@ export default function EditProfileModal({
 						setImage(file.name);
 						reset((formValues) => ({
 							...formValues,
-							house_picture: downloadURL,
+							profile_picture: downloadURL,
 						}));
 						setImageLoading(false);
 					});
@@ -183,6 +188,71 @@ export default function EditProfileModal({
 						multiline
 						rows={4}
 						{...register("description")}
+					/>
+					<TextField
+						className="rounded-xl"
+						sx={{
+							"& .MuiOutlinedInput-root": {
+								borderRadius: "1rem",
+							},
+						}}
+						margin="dense"
+						id="password"
+						label="Contraseña"
+						type="text"
+						fullWidth
+						rows={4}
+						{...register("password")}
+					/>
+					{/* <div>
+						<Controller
+							control={control}
+							name="birth_date"
+							render={({ field: { ref, onBlur, name, ...field }, fieldState }) => (
+								<DatePicker
+									{...field}
+									inputRef={ref}
+									label="Fecha de nacimiento"
+									slotProps={{
+										textField: {
+											variant: "outlined",
+										},
+									}}
+									slots={{
+										textField: (inputProps: JSX.IntrinsicAttributes & TextFieldProps) => (
+											<TextField
+												{...inputProps}
+												onBlur={onBlur}
+												name={name}
+												className="bg-indigo-400/10 rounded-2xl w-full"
+												sx={{
+													"& .MuiOutlinedInput-root": {
+														borderRadius: "16px",
+													},
+												}}
+												error={!!fieldState.error}
+												helperText={fieldState.error?.message}
+											/>
+										),
+									}}
+								/>
+							)}
+						/>
+					</div> */}
+					<TextField
+						className="rounded-xl"
+						sx={{
+							"& .MuiOutlinedInput-root": {
+								borderRadius: "1rem",
+							},
+						}}
+						margin="dense"
+						id="birthdate"
+						label="Fecha de nacimiento"
+						type="text"
+						fullWidth
+						rows={4}
+						{...register("birth_date")}
 					/>
 					<TextField
 						className="rounded-xl"

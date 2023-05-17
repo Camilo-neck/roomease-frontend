@@ -12,15 +12,18 @@ interface ProfileCardProps {
 	birthDate: Date;
 	phone: string;
 	tags: string[];
+	profile_picture: string;
 	openEditProfileModal: () => void;
 }
 
-const ProfileCard = ({ name, email, description, birthDate, phone, tags, openEditProfileModal }: ProfileCardProps) => {
+const ProfileCard = ({ name, email, description, birthDate, phone, tags, profile_picture, openEditProfileModal }: ProfileCardProps) => {
 	return (
 		<Card className="w-full min-h-[650px] h-full rounded-lg shadow-lg">
 			<Stack alignItems={"center"} style={{ position: "relative" }}>
 				<div className="bg-gradient-to-t from-primary-50 to-secondary-60 w-full min-h-[150px]"></div>
 				<Avatar
+					alt={name}
+					src={profile_picture}
 					{...stringAvatar(name, 120, 40)}
 					style={{
 						position: "absolute",

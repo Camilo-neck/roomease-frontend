@@ -68,6 +68,8 @@ const Profile = ({ userData }: InferGetServerSidePropsType<typeof getServerSideP
 					email: userInfo.email,
 					phone: userInfo.phone,
 					description: userInfo.description,
+					password: userInfo.password,
+					birth_date: userInfo.birth_date.toString(),
 					tags: userInfo.tags.join(","),
 					profile_picture: userInfo.profile_picture,
 				}}
@@ -88,6 +90,7 @@ const Profile = ({ userData }: InferGetServerSidePropsType<typeof getServerSideP
 									birthDate={userInfo.birth_date}
 									phone={userInfo.phone}
 									tags={userInfo.tags}
+									profile_picture={userInfo.profile_picture}
 									openEditProfileModal={openEditProfileModal}
 								></ProfileCard>
 							</Stack>

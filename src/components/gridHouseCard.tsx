@@ -40,7 +40,7 @@ const GridHouseCard = ({
 								height: 24,
 							},
 						}}
-						className="flex flex-grow items-center justify-end p-1 text-sm"
+						className="flex flex-grow items-center justify-end p-1"
 					>
 						{users.map((user) => {
 							return user.profile_picture && user.profile_picture !== "" ? (
