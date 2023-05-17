@@ -38,6 +38,7 @@ const GridHouseCard = ({
 							"& .MuiAvatar-root": {
 								width: 24,
 								height: 24,
+								fontSize: 10,
 							},
 						}}
 						className="flex flex-grow items-center justify-end p-1"
