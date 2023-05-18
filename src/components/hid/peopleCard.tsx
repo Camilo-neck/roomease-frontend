@@ -33,6 +33,8 @@ const NestedList = ({
 	pending_users,
 	house_id,
 	tasks,
+	isOwner,
+	OwnerId,
 	onAcceptUser,
 	onRejectUser,
 }: {
@@ -40,6 +42,8 @@ const NestedList = ({
 	house_id: string;
 	pending_users?: UserI[];
 	tasks: TaskI[];
+	isOwner: boolean;
+	OwnerId: string;
 	onAcceptUser: (user: UserI) => void;
 	onRejectUser: (user: UserI) => void;
 }) => {
@@ -49,6 +53,7 @@ const NestedList = ({
 	const [popoverUserTasks, setPopoverUserTasks] = useState<TaskI[]>([]);
 	const [currentUser, setCurrentUser] = useState<UserI | null>(null);
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+	const [pending, setPending] = useState<boolean>(false);
 	const { getCookie } = useCookies();
 
 	const handleClick1 = () => {
@@ -111,7 +116,7 @@ const NestedList = ({
 				}}
 				className="w-96"
 			>
-				<MiniProfileCard user={popoverUser as UserI} userTasks={popoverUserTasks} />
+				<MiniProfileCard user={popoverUser as UserI} userTasks={popoverUserTasks} isPendingUser={pending} isOwner={isOwner} OwnerId={OwnerId} />
 			</Popover>
 			<ListItemButton className="p-1" onClick={handleClick1}>
 				<ListItemIcon>
@@ -125,12 +130,12 @@ const NestedList = ({
 					{users.map((user, id) => (
 						<ListItem className="p-1 pl-2 pr-2" key={id}>
 							<Chip
-								//variant="outlined"
-								className=" flex justify-start text-xs text-left rounded-xl w-full"
+								className="flex justify-start text-xs text-left rounded-xl w-full"
 								label={user.name}
 								avatar={<Avatar alt={user.name} src={user.profile_picture} {...stringAvatar(user.name)} />}
 								onClick={async (e) => {
 									setCurrentUser(user);
+									setPending(false);
 									handlePopoverClick(e);
 								}}
 								clickable
@@ -163,19 +168,20 @@ const NestedList = ({
 										<>
 											<div className="flex flex-col">
 												<ListItem
-													className="p-1 pl-5"
+													className="p-1 pl-2 pr-4"
 													key={user._id}
 													secondaryAction={
 														<>
 															<IconButton
 																size="small"
+																edge="end"
 																aria-label="accept"
 																onClick={async () => {
 																	await acceptPendingUser(getCookie("auth-token") as string, house_id, user._id);
 																	onAcceptUser(user);
 																}}
 															>
-																<CheckIcon htmlColor="green" fontSize="small" />
+																<CheckIcon className="text-primary-50 text-[1rem]"/>
 															</IconButton>
 															<IconButton
 																size="small"
@@ -186,18 +192,18 @@ const NestedList = ({
 																	onRejectUser(user);
 																}}
 															>
-																<ClearSharpIcon htmlColor="red" fontSize="small" />
+																<ClearSharpIcon className="text-tertiary-50 text-[1rem]" />
 															</IconButton>
 														</>
 													}
 												>
 													<Chip
-														variant="outlined"
-														className="text-xs text-left rounded-xl"
+														className="flex justify-start text-xs text-left rounded-xl w-[75%] overflow-hidden whitespace-nowrap"
 														label={user.name}
 														avatar={<Avatar alt={user.name} src={user.profile_picture} {...stringAvatar(user.name)} />}
 														onClick={async (e) => {
 															setCurrentUser(user);
+															setPending(true);
 															handlePopoverClick(e);
 														}}
 														clickable
@@ -221,6 +227,8 @@ const PeopleCard = ({
 	pending_users,
 	house_id,
 	tasks,
+	isOwner,
+	Owner,
 	onAcceptUser,
 	onRejectUser,
 }: {
@@ -228,6 +236,8 @@ const PeopleCard = ({
 	pending_users?: UserI[];
 	house_id: string;
 	tasks: TaskI[];
+	isOwner: boolean;
+	Owner: string;
 	onAcceptUser: (user: UserI) => void;
 	onRejectUser: (user: UserI) => void;
 }) => {
@@ -241,6 +251,8 @@ const PeopleCard = ({
 					users={expanded ? users : users.slice(0, 4)}
 					pending_users={expanded ? pending_users : pending_users?.slice(0, 4)}
 					house_id={house_id}
+					isOwner={isOwner}
+					OwnerId={Owner}
 					onAcceptUser={onAcceptUser}
 					onRejectUser={onRejectUser}
 				/>

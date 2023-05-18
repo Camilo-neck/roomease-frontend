@@ -73,6 +73,8 @@ const Sidebar = ({
 								users={currentUsers}
 								pending_users={currentPendingUsers}
 								house_id={house._id}
+								isOwner={isOwner}
+								Owner={house.owner}
 								onAcceptUser={onAcceptUser}
 								onRejectUser={onRejectUser}
 							/>
@@ -138,6 +140,8 @@ const Sidebar = ({
 								tasks={tasks}
 								pending_users={currentPendingUsers}
 								house_id={house._id}
+								isOwner={isOwner}
+								Owner={house.owner}
 								onAcceptUser={onAcceptUser}
 								onRejectUser={onRejectUser}
 							/>
