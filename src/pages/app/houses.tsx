@@ -181,7 +181,6 @@ export const getServerSideProps: GetServerSideProps<{
 			},
 		};
 	}
-	ctx.res.setHeader("Cache-Control", "public, s-maxage=30, stale-while-revalidate=59");
 	const decodedToken = jwt.decode(cookie) as { _id: string };
 	const uid = decodedToken?._id;
 	const refreshToken = ctx.req.cookies["refresh-token"];
