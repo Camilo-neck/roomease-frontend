@@ -19,10 +19,10 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
 		// 	</div>
 		// </div>
 		<div className="bg-[#FAFDFD]">
-			<section className="bg-primary-40/10 min-h-screen flex items-center justify-center">
+			<section className="bg-primary-40/10 min-h-screen flex items-center justify-center p-5">
 				{/*Login container */}
 				<div className="bg-[#FAFDFD] rounded-2xl">
-					<div className="bg-primary-90/5 md:h-auto h-[70vh] flex items-center rounded-2xl shadow-xl shadow-black/40 max-w-4xl p-5 ">
+					<div className="bg-primary-90/5 md:h-auto h-full flex items-center rounded-2xl shadow-xl shadow-black/40 max-w-4xl p-5 ">
 						{/*Login form */}
 						<div className="md:w-1/2 px-8 transition-all ease-in-out duration-300">{children}</div>
 						{/*Login image */}

@@ -37,6 +37,7 @@ const NestedList = ({
 	OwnerId,
 	onAcceptUser,
 	onRejectUser,
+	onKickUser,
 }: {
 	users: UserI[];
 	house_id: string;
@@ -46,6 +47,7 @@ const NestedList = ({
 	OwnerId: string;
 	onAcceptUser: (user: UserI) => void;
 	onRejectUser: (user: UserI) => void;
+	onKickUser: (user: UserI) => void;
 }) => {
 	const [open1, setOpen1] = useState(true);
 	const [open2, setOpen2] = useState(true);
@@ -116,7 +118,16 @@ const NestedList = ({
 				}}
 				className="w-96"
 			>
-				<MiniProfileCard user={popoverUser as UserI} userTasks={popoverUserTasks} isPendingUser={pending} isOwner={isOwner} OwnerId={OwnerId} />
+				<MiniProfileCard
+					user={popoverUser as UserI}
+					userTasks={popoverUserTasks}
+					isPendingUser={pending}
+					isOwner={isOwner}
+					OwnerId={OwnerId}
+					houseId={house_id}
+					onKickUser={onKickUser}
+					onClose={handlePopoverClose}
+				/>
 			</Popover>
 			<ListItemButton className="p-1" onClick={handleClick1}>
 				<ListItemIcon>
@@ -141,8 +152,7 @@ const NestedList = ({
 								clickable
 							/>
 						</ListItem>
-					))
-					}
+					))}
 				</List>
 			</Collapse>
 			{pending_users && (
@@ -158,62 +168,58 @@ const NestedList = ({
 						<List component="div" disablePadding>
 							{pending_users.length === 0 ? (
 								<div className="pl-3 pr-3">
-									<Chip
-									label="No hay pendientes"
-									className="text-xs text-left rounded-xl w-full"
-									/>
+									<Chip label="No hay pendientes" className="text-xs text-left rounded-xl w-full" />
 								</div>
-								) : (
-									pending_users.map((user, id) => (
-										<>
-											<div className="flex flex-col">
-												<ListItem
-													className="p-1 pl-2 pr-4"
-													key={user._id}
-													secondaryAction={
-														<>
-															<IconButton
-																size="small"
-																edge="end"
-																aria-label="accept"
-																onClick={async () => {
-																	await acceptPendingUser(getCookie("auth-token") as string, house_id, user._id);
-																	onAcceptUser(user);
-																}}
-															>
-																<CheckIcon className="text-primary-50 text-[1rem]"/>
-															</IconButton>
-															<IconButton
-																size="small"
-																edge="end"
-																aria-label="reject"
-																onClick={async () => {
-																	await rejectPendingUser(house_id, user._id);
-																	onRejectUser(user);
-																}}
-															>
-																<ClearSharpIcon className="text-tertiary-50 text-[1rem]" />
-															</IconButton>
-														</>
-													}
-												>
-													<Chip
-														className="flex justify-start text-xs text-left rounded-xl w-[75%] overflow-hidden whitespace-nowrap"
-														label={user.name}
-														avatar={<Avatar alt={user.name} src={user.profile_picture} {...stringAvatar(user.name)} />}
-														onClick={async (e) => {
-															setCurrentUser(user);
-															setPending(true);
-															handlePopoverClick(e);
-														}}
-														clickable
-													/>
-												</ListItem>
-											</div>
-										</>
-									))
-								)
-							}
+							) : (
+								pending_users.map((user, id) => (
+									<>
+										<div className="flex flex-col">
+											<ListItem
+												className="p-1 pl-2 pr-4"
+												key={user._id}
+												secondaryAction={
+													<>
+														<IconButton
+															size="small"
+															edge="end"
+															aria-label="accept"
+															onClick={async () => {
+																await acceptPendingUser(getCookie("auth-token") as string, house_id, user._id);
+																onAcceptUser(user);
+															}}
+														>
+															<CheckIcon className="text-primary-50 text-[1rem]" />
+														</IconButton>
+														<IconButton
+															size="small"
+															edge="end"
+															aria-label="reject"
+															onClick={async () => {
+																await rejectPendingUser(house_id, user._id);
+																onRejectUser(user);
+															}}
+														>
+															<ClearSharpIcon className="text-tertiary-50 text-[1rem]" />
+														</IconButton>
+													</>
+												}
+											>
+												<Chip
+													className="flex justify-start text-xs text-left rounded-xl w-[75%] overflow-hidden whitespace-nowrap"
+													label={user.name}
+													avatar={<Avatar alt={user.name} src={user.profile_picture} {...stringAvatar(user.name)} />}
+													onClick={async (e) => {
+														setCurrentUser(user);
+														setPending(true);
+														handlePopoverClick(e);
+													}}
+													clickable
+												/>
+											</ListItem>
+										</div>
+									</>
+								))
+							)}
 						</List>
 					</Collapse>
 				</>
@@ -231,6 +237,7 @@ const PeopleCard = ({
 	Owner,
 	onAcceptUser,
 	onRejectUser,
+	onKickUser,
 }: {
 	users: UserI[];
 	pending_users?: UserI[];
@@ -240,6 +247,7 @@ const PeopleCard = ({
 	Owner: string;
 	onAcceptUser: (user: UserI) => void;
 	onRejectUser: (user: UserI) => void;
+	onKickUser: (user: UserI) => void;
 }) => {
 	const [expanded, setExpanded] = useState(false);
 
@@ -255,6 +263,7 @@ const PeopleCard = ({
 					OwnerId={Owner}
 					onAcceptUser={onAcceptUser}
 					onRejectUser={onRejectUser}
+					onKickUser={onKickUser}
 				/>
 			</CardContent>
 			<CardActions className="flex flex-col items-center pb-3 w-full">

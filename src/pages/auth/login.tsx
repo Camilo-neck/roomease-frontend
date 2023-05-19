@@ -87,7 +87,7 @@ const Login = () => {
 							className="bg-tertiary-50 
 						py-2
 						hover:bg-tertiary-50/90 active:bg-tertiary-50 
-						text-tertiary-99 shadow-none hover:shadow-md rounded-lg"
+						text-tertiary-99 shadow-none hover:shadow-md rounded-xl"
 						>
 							Iniciar Sesión
 						</Button>

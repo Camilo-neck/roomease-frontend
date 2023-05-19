@@ -40,6 +40,10 @@ const Sidebar = ({
 		setCurrentPendingUsers(currentPendingUsers.filter((pending_user) => pending_user._id !== user._id));
 	};
 
+	const onKickUser = (user: UserI) => {
+		setCurrentUsers(currentUsers.filter((kicked_user) => kicked_user._id !== user._id));
+	};
+
 	return (
 		<div>
 			<nav className={`md:w-[270px] md:flex-shrink-0`}>
@@ -77,6 +81,7 @@ const Sidebar = ({
 								Owner={house.owner}
 								onAcceptUser={onAcceptUser}
 								onRejectUser={onRejectUser}
+								onKickUser={onKickUser}
 							/>
 						</div>
 						<div className="w-full flex flex-col items-center">
@@ -144,6 +149,7 @@ const Sidebar = ({
 								Owner={house.owner}
 								onAcceptUser={onAcceptUser}
 								onRejectUser={onRejectUser}
+								onKickUser={onKickUser}
 							/>
 						</div>
 					</div>

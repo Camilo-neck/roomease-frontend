@@ -55,7 +55,7 @@ export default function EditProfileModal({
 		watch,
 		formState: { errors },
 	} = useForm({ defaultValues: userInfo });
-	
+
 	const [image, setImage] = useState<string | null>(null);
 	const [imageLoading, setImageLoading] = useState<boolean>(false);
 	const formRef = useRef<HTMLFormElement | null>(null);

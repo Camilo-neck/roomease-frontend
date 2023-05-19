@@ -16,7 +16,16 @@ interface ProfileCardProps {
 	openEditProfileModal: () => void;
 }
 
-const ProfileCard = ({ name, email, description, birthDate, phone, tags, profile_picture, openEditProfileModal }: ProfileCardProps) => {
+const ProfileCard = ({
+	name,
+	email,
+	description,
+	birthDate,
+	phone,
+	tags,
+	profile_picture,
+	openEditProfileModal,
+}: ProfileCardProps) => {
 	return (
 		<Card className="w-full min-h-[650px] h-full rounded-lg shadow-lg">
 			<Stack alignItems={"center"} style={{ position: "relative" }}>
