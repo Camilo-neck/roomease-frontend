@@ -101,7 +101,7 @@ const Sidebar = ({
 									router.push("/app/houses");
 								}}
 							>
-								Salir de casa
+								Salir de la casa
 							</Button>
 						</div>
 					</div>

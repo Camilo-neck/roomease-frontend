@@ -168,7 +168,7 @@ const NestedList = ({
 						<List component="div" disablePadding>
 							{pending_users.length === 0 ? (
 								<div className="pl-3 pr-3">
-									<Chip label="No hay pendientes" className="text-xs text-left rounded-xl w-full" />
+									<Chip label="No hay solicitudes pendientes" className="text-xs text-left rounded-xl w-full" />
 								</div>
 							) : (
 								pending_users.map((user, id) => (

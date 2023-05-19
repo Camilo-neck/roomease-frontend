@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Alert, Button, TextField, TextFieldProps } from "@mui/material";
+import { Alert, Button, TextField, TextFieldProps, Tooltip } from "@mui/material";
 import Link from "next/link";
 import { useRef } from "react";
 import { registerUser } from "@/helpers/auth.helpers";
@@ -22,6 +22,7 @@ const Register = () => {
 	const formRef = useRef<HTMLFormElement>(null);
 	const router = useRouter();
 	const [registerErrorMessage, setRegisterErrorMessage] = useState<string | null>(null);
+	const [showTooltip, setShowTooltip] = useState(false);
 
 	const onSubmit = async (data: any) => {
 		const tmp_data = Object.assign({}, data);
@@ -78,23 +79,37 @@ const Register = () => {
 							variant="outlined"
 							{...register("email", { required: "Debe ingresar su correo" })}
 						/>
-						<TextField
-							error={errors.tags ? true : false}
-							helperText="Debe ingresar etiquetas separada por comas"
-							type="text"
-							className="bg-indigo-400/10 rounded-2xl"
+						<Tooltip
+							open={showTooltip}
+							title="¡Las etiquetas ayudan a que los demás miembros te conozcan mejor! Ingresa tus etiquetas separadas por comas, ej: 'amigable, ordenado, etc'"
+							arrow
+							placement="top"
 							sx={{
-								"& .MuiOutlinedInput-root": {
-									borderRadius: "16px",
-								},
+								background: "rgba(0,0,0)",
 							}}
-							label="Etiquetas"
-							variant="outlined"
-							{...register("tags", {
-								required: true,
-								pattern: /^([a-z0-9\s]+,)*([a-z0-9\s]+){1}$/i,
-							})}
-						/>
+							>
+							<TextField
+								error={errors.tags ? true : false}
+								type="text"
+								className="bg-indigo-400/10 rounded-2xl"
+								sx={{
+									"& .MuiOutlinedInput-root": {
+										borderRadius: "16px",
+									},
+								}}
+								label="Etiquetas"
+								variant="outlined"
+								{...register("tags", {
+									required: true,
+									pattern: /^([a-z0-9\s]+,)*([a-z0-9\s]+){1}$/i,
+								})}
+								onMouseEnter={() => setShowTooltip(true)}
+								onMouseLeave={() => setShowTooltip(false)}
+							>
+									
+							</TextField>
+						</Tooltip>
+						
 						<div>
 							<Controller
 								control={control}
