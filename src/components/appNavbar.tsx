@@ -63,7 +63,7 @@ const AppNavbar = ({ sidebarWidth }: { sidebarWidth?: number }) => {
 		<>
 			<Box
 				sx={{
-					width: { md: `calc(100% - ${sidebarWidth}px)` },
+					width: { sm: `calc(100% - ${sidebarWidth}px)` },
 					ml: { sm: `${sidebarWidth}px` },
 				}}
 				className={`${sidebarWidth ? "min-w-full sm:min-w-min" : "w-full min-w-full"} items-center flex flex-row p-2`}
