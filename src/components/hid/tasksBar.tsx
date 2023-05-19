@@ -31,7 +31,7 @@ const TasksBar = ({
 			</div>
 			<hr />
 			{currentUserTasks.length === 0 ? (
-				<div className="flex flex-col items-center justify-center w-full">
+				<div className="flex flex-col items-center justify-center w-full h-[90%]">
 					<div className="flex items-center justify-center">
 						<img className="opacity-50 w-[30%]" src="/checklist-icon.png" alt="" />
 					</div>
