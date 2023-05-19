@@ -79,7 +79,7 @@ const ProfileCard = ({
 					className="bg-secondary-90/70 hover:bg-secondary-90/90 active:bg-secondary-80/80 rounded-2xl"
 					size="small"
 				>
-					Editar
+					Editar mi información
 				</Button>
 			</CardActions>
 		</Card>

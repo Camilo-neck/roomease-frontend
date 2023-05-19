@@ -230,13 +230,13 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 								width: { md: `calc(100% - ${sidebarWidth}px)` },
 							}}
 							component="main"
-							className="h-full p-3 pl-8"
+							className="h-full p-3 pl-8 overflow-x-auto"
 						>
 							<Button onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)} className="block md:hidden">
 								Toggle
 							</Button>
 							<div className="flex flex-col h-full pr-3">
-								<div className="flex flex-row min-h-[500px] h-[80%]">
+								<div className="flex flex-row min-h-[500px] max-h-[70vh] h-full">
 									<TasksBar
 										currentUserTasks={currentUserTasks}
 										onCreateTask={() => setIsCreateTaskModalOpen(true)}
@@ -258,7 +258,7 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 										<MyScheduler data={getData()} isAdaptable={isMobile} />
 									</div>
 								</div>
-								<div className="h-full">
+								<div className="w-full h-full">
 									<ProgressBars currentUserTasks={currentUserTasks} tasks={currentTasks} />
 								</div>
 							</div>
