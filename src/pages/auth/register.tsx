@@ -119,6 +119,7 @@ const Register = () => {
 										{...field}
 										inputRef={ref}
 										label="Fecha de nacimiento"
+										format="DD/MM/YYYY"
 										slotProps={{
 											textField: {
 												variant: "outlined",

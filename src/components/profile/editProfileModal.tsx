@@ -12,7 +12,6 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
 // MUI Icons
@@ -22,15 +21,15 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Controller, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { selectUser } from "@/redux/slices/user.slice";
-import { UserEditI } from "@/dtos/userEdit";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs from "dayjs";
 
 let initialState = {
 	name: "",
 	phone: "",
 	description: "",
 	password: "",
-	birth_date: "",
+	birth_date: dayjs(new Date()),
 	tags: "",
 	profile_picture: "",
 };
@@ -44,7 +43,7 @@ export default function EditProfileModal({
 	isOpen: boolean;
 	onClose: () => void;
 	onSubmit: (data: any) => void;
-	userInfo: UserEditI;
+	userInfo: typeof initialState;
 }) {
 	const user = useSelector(selectUser);
 	const {
@@ -60,6 +59,7 @@ export default function EditProfileModal({
 	const [imageLoading, setImageLoading] = useState<boolean>(false);
 	const formRef = useRef<HTMLFormElement | null>(null);
 	const [open, setOpen] = useState(false);
+	
 	initialState = userInfo;
 
 	const handleClickOpen = () => {
@@ -75,7 +75,6 @@ export default function EditProfileModal({
 	const handleOnSubmit = async (data: any) => {
 		const tmpData = Object.assign({}, data);
 		tmpData.tags = tmpData.tags.split(",").map((tag: string) => tag.trim());
-		tmpData.birth_date = Date.parse(tmpData.birth_date);
 		initialState = data;
 		onSubmit(tmpData);
 		handleClose();
@@ -174,7 +173,7 @@ export default function EditProfileModal({
 						rows={4}
 						{...register("description")}
 					/>
-					{/* <div>
+					<div>
 						<Controller
 							control={control}
 							name="birth_date"
@@ -183,6 +182,7 @@ export default function EditProfileModal({
 									{...field}
 									inputRef={ref}
 									label="Fecha de nacimiento"
+									format="DD/MM/YYYY"
 									slotProps={{
 										textField: {
 											variant: "outlined",
@@ -194,12 +194,16 @@ export default function EditProfileModal({
 												{...inputProps}
 												onBlur={onBlur}
 												name={name}
-												className="bg-indigo-400/10 rounded-2xl w-full"
+												className="bg-primary-100 rounded-2xl w-full"
 												sx={{
 													"& .MuiOutlinedInput-root": {
-														borderRadius: "16px",
+														borderRadius: "1rem",
 													},
 												}}
+												margin="dense"
+												type="text"
+												fullWidth
+												rows={4}
 												error={!!fieldState.error}
 												helperText={fieldState.error?.message}
 											/>
@@ -208,22 +212,8 @@ export default function EditProfileModal({
 								/>
 							)}
 						/>
-					</div> */}
-					<TextField
-						className="rounded-xl"
-						sx={{
-							"& .MuiOutlinedInput-root": {
-								borderRadius: "1rem",
-							},
-						}}
-						margin="dense"
-						id="birthdate"
-						label="Fecha de nacimiento"
-						type="text"
-						fullWidth
-						rows={4}
-						{...register("birth_date")}
-					/>
+						
+					</div>
 					<TextField
 						className="rounded-xl"
 						sx={{

@@ -18,6 +18,8 @@ import ProfileCard from "@/components/profile/profileCard";
 import { edgeRefreshToken } from "@/helpers/auth.helpers";
 import { getCookie } from "@/utils/cookie";
 import EditProfileModal from "@/components/profile/editProfileModal";
+import dayjs from "dayjs";
+import { format } from "path";
 
 const Profile = ({ userData }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const [userInfo, setUserInfo] = useState<UserI>(userData ? userData : ({} as UserI));
@@ -66,7 +68,7 @@ const Profile = ({ userData }: InferGetServerSidePropsType<typeof getServerSideP
 					phone: userInfo.phone,
 					description: userInfo.description,
 					password: userInfo.password,
-					birth_date: userInfo.birth_date.toString(),
+					birth_date: dayjs(userInfo.birth_date),
 					tags: userInfo.tags.join(","),
 					profile_picture: userInfo.profile_picture,
 				}}

@@ -32,7 +32,7 @@ import EmptyHouses from "@/components/emptyHouses";
 const Houses = ({ startHouses }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const user = useSelector(selectUser);
 	const dispatch = useDispatch();
-	const [view, setView] = useState("grid");
+	const [view, setView] = useState("list");
 	const [houses, setHouses] = useState<HouseI[]>(startHouses);
 	const [addPopoverAnchorEl, setAddPopoverAnchorEl] = useState<HTMLButtonElement | null>(null);
 	const [createHouseModalOpen, setCreateHouseModalOpen] = useState<boolean>(false);
