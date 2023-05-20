@@ -48,16 +48,6 @@ const AppNavbar = ({ sidebarWidth }: { sidebarWidth?: number }) => {
 			console.log(newNotification);
 			setNotifications((notifications) => [...notifications, newNotification]);
 		});
-		channel.bind("deleted", (deletedNotification: NotificationI) => {
-			setNotifications(notifications.filter((notification) => notification._id !== deletedNotification._id));
-		});
-		channel.bind("updated", (updatedNotification: NotificationI) => {
-			setNotifications(
-				notifications.map((notification) =>
-					notification._id === updatedNotification._id ? updatedNotification : notification,
-				),
-			);
-		});
 		return () => {
 			channel.unbind_all();
 			channel.unsubscribe();
