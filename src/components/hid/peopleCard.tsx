@@ -143,7 +143,7 @@ const NestedList = ({
 							<Chip
 								className="flex justify-start text-xs text-left rounded-xl w-full"
 								label={user.name}
-								avatar={<Avatar alt={user.name} src={user.profile_picture} {...stringAvatar(user.name)} />}
+								avatar={<Avatar style={{ color: 'white', fontSize:"11px" }} src={user.profile_picture} {...stringAvatar(user.name)} />}
 								onClick={async (e) => {
 									setCurrentUser(user);
 									setPending(false);
@@ -207,7 +207,7 @@ const NestedList = ({
 												<Chip
 													className="flex justify-start text-xs text-left rounded-xl w-[75%] overflow-hidden whitespace-nowrap"
 													label={user.name}
-													avatar={<Avatar alt={user.name} src={user.profile_picture} {...stringAvatar(user.name)} />}
+													avatar={<Avatar style={{color:'white', fontSize:"11px" }} alt={user.name} src={user.profile_picture} {...stringAvatar(user.name)} />}
 													onClick={async (e) => {
 														setCurrentUser(user);
 														setPending(true);

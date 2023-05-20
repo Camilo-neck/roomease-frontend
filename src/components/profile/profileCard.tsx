@@ -64,7 +64,7 @@ const ProfileCard = ({
 					<Grid container spacing={2} className="justify-center">
 						{tags.map((tag, id) => (
 							<Grid item key={id}>
-								<Paper className="text-sm p-1" style={{ backgroundColor: stringToColor(tag, true) }}>
+								<Paper className="text-sm p-1" style={{ backgroundColor: stringToColor(tag, true)}}>
 									{tag}
 								</Paper>
 							</Grid>

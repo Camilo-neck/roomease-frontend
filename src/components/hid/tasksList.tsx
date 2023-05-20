@@ -60,15 +60,18 @@ const Task = ({
 		<div className="flex text-xs ml-1 pt-1">
 			<AvatarGroup
 				max={3}
+				spacing={3}
 				sx={{
 					"& .MuiAvatar-root": {
 						width: 16,
 						height: 16,
+						fontSize: "0.5rem",
+						border: "none",
 					},
 				}}
 			>
 				{task.users.map((user) => (
-					<Avatar key={user._id} alt={user.name} src={user.profile_picture} {...stringAvatar(user.name,10,7.5)} />
+					<Avatar key={user._id} alt={user.name} src={user.profile_picture} {...stringAvatar(user.name)} />
 				))}
 			</AvatarGroup>
 			<p className="pl-1 flex items-center">{getHours(new Date(task.start_date), new Date(task.end_date))}</p>
