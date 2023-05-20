@@ -110,17 +110,20 @@ const MiniProfileCard = ({
 										color="error"
 										className="bg-error-90/70 hover:bg-error-90/90 active:bg-error-80/80 border border-error-50 rounded-2xl"
 										onClick={async () => {
-										const token = getCookie("auth-token");
-										await fetch(`${process.env.NEXT_PUBLIC_API_URL}/houses/kick/?user_id=${user?._id}&house_id=${houseId}`, {
-											method: "PUT",
-											headers: {
-												"Content-Type": "application/json",
-												"auth-token": token,
-											},
-										});
-										onKickUser(user);
-										onClose();
-									}}
+											const token = getCookie("auth-token");
+											await fetch(
+												`${process.env.NEXT_PUBLIC_API_URL}/houses/kick/?user_id=${user?._id}&house_id=${houseId}`,
+												{
+													method: "PUT",
+													headers: {
+														"Content-Type": "application/json",
+														"auth-token": token,
+													},
+												},
+											);
+											onKickUser(user);
+											onClose();
+										}}
 									>
 										Expulsar de la casa
 									</Button>

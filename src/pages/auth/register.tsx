@@ -48,7 +48,12 @@ const Register = () => {
 				<>
 					<h2 className="text-primary-20 text-3xl font-extrabold">Bienvenido a RoomEase</h2>
 					<p className="text-sm mt-4 text-neutral-40">Crea tu cuenta fácilmente</p>
-					<form id="registerForm" ref={formRef} className="flex flex-col gap-8 md:gap-5" onSubmit={handleSubmit(onSubmit)}>
+					<form
+						id="registerForm"
+						ref={formRef}
+						className="flex flex-col gap-8 md:gap-5"
+						onSubmit={handleSubmit(onSubmit)}
+					>
 						<TextField
 							error={errors.name ? true : false}
 							helperText={errors.fullname ? `${errors.fullname?.message}` : ""}
@@ -87,7 +92,7 @@ const Register = () => {
 							sx={{
 								background: "rgba(0,0,0)",
 							}}
-							>
+						>
 							<TextField
 								error={errors.tags ? true : false}
 								type="text"
@@ -105,11 +110,9 @@ const Register = () => {
 								})}
 								onMouseEnter={() => setShowTooltip(true)}
 								onMouseLeave={() => setShowTooltip(false)}
-							>
-									
-							</TextField>
+							></TextField>
 						</Tooltip>
-						
+
 						<div>
 							<Controller
 								control={control}

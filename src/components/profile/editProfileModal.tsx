@@ -59,7 +59,7 @@ export default function EditProfileModal({
 	const [imageLoading, setImageLoading] = useState<boolean>(false);
 	const formRef = useRef<HTMLFormElement | null>(null);
 	const [open, setOpen] = useState(false);
-	
+
 	initialState = userInfo;
 
 	const handleClickOpen = () => {
@@ -212,7 +212,6 @@ export default function EditProfileModal({
 								/>
 							)}
 						/>
-						
 					</div>
 					<TextField
 						className="rounded-xl"
@@ -230,21 +229,6 @@ export default function EditProfileModal({
 						{...register("tags", {
 							pattern: /([a-zA-Z0-9]+,?\s?)+/,
 						})}
-					/>
-					<TextField
-						className="rounded-xl"
-						sx={{
-							"& .MuiOutlinedInput-root": {
-								borderRadius: "1rem",
-							},
-						}}
-						margin="dense"
-						id="password"
-						label="Contraseña"
-						type="text"
-						fullWidth
-						rows={4}
-						{...register("password", { required: "Debes ingresar la contraseña" })}
 					/>
 					<div className="flex flex-row items-center gap-4 mt-2">
 						<input

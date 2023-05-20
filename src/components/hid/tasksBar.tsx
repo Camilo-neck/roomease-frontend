@@ -2,7 +2,6 @@ import { IconButton } from "@mui/material";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import TasksList from "./tasksList";
 import { TaskI } from "@/dtos";
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 const TasksBar = ({
 	currentUserTasks,
@@ -35,13 +34,13 @@ const TasksBar = ({
 					<div className="flex items-center justify-center">
 						<img className="opacity-50 w-[30%]" src="/checklist-icon.png" alt="" />
 					</div>
-					<p className="text-center text-primary-40 p-5">Todavía no tienes tareas.<br></br> ¡Empieza a planear tu semana!</p>
+					<p className="text-center text-primary-40 p-5">
+						Todavía no tienes tareas.<br></br> ¡Empieza a planear tu semana!
+					</p>
 				</div>
-				
 			) : (
 				<TasksList tasks={currentUserTasks} onChange={onListChange} onEdit={onEdit} onDelete={onDelete} />
 			)}
-			
 		</div>
 	);
 };
