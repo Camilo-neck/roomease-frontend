@@ -29,7 +29,7 @@ let initialState = {
 	phone: "",
 	description: "",
 	password: "",
-	birth_date: dayjs(new Date()),
+	birth_date: dayjs(),
 	tags: "",
 	profile_picture: "",
 };
