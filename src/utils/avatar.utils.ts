@@ -1,7 +1,6 @@
 import { Color } from "@mui/material";
 
 export function stringToColor(string: string, rgba: boolean = false): string {
-
 	let hash = 0;
 	let i;
 
