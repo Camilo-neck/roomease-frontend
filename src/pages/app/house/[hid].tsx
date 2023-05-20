@@ -283,10 +283,12 @@ export const getServerSideProps: GetServerSideProps<{
 		auth_token = res ? (res.newToken as string) : "null";
 	}
 	const decodedToken = jwt.decode(auth_token) as { _id: string };
-	ctx.res.setHeader("Cache-Control", "public, s-maxage=30, stale-while-revalidate=59");
 	const house = await getHouse(ctx.query.hid as string, auth_token, refreshToken);
+	console.log('House>>>>', house)
 	if (
 		house.message === "User not belongs to this house or the house doesn't exist" ||
+		house.message === "User not belongs to this house" ||
+		house.message === "House doesn't exist" ||
 		house.message === "House not found" ||
 		!house
 	) {
