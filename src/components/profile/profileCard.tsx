@@ -73,14 +73,14 @@ const ProfileCard = ({
 				</div>
 			</Stack>
 			<CardActions className="flex flex-1 justify-center items-end p-3 py-5 w-full">
-					<Button
-						onClick={openEditProfileModal}
-						className="bg-secondary-90/70 hover:bg-secondary-90/90 active:bg-secondary-80/80 rounded-2xl capitalize px-3"
-						size="small"
-						style={{ textTransform: 'none' }}
-					>
-						Editar mi información
-					</Button>
+				<Button
+					onClick={openEditProfileModal}
+					className="bg-secondary-90/70 hover:bg-secondary-90/90 active:bg-secondary-80/80 rounded-2xl capitalize px-3"
+					size="small"
+					style={{ textTransform: "none" }}
+				>
+					Editar mi información
+				</Button>
 			</CardActions>
 		</Card>
 	);

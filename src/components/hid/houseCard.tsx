@@ -45,7 +45,7 @@ const HouseCard = ({
 				<CardActions className="flex flex-col items-center p-3 w-full">
 					<Button
 						onClick={openEditHouseModal}
-						style={{ textTransform: 'none' }}
+						style={{ textTransform: "none" }}
 						className="bg-secondary-90/70 hover:bg-secondary-90/90 active:bg-secondary-80/80 rounded-2xl w-[50%]"
 						size="small"
 					>

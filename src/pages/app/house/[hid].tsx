@@ -284,7 +284,7 @@ export const getServerSideProps: GetServerSideProps<{
 	}
 	const decodedToken = jwt.decode(auth_token) as { _id: string };
 	const house = await getHouse(ctx.query.hid as string, auth_token, refreshToken);
-	console.log('House>>>>', house)
+	console.log("House>>>>", house);
 	if (
 		house.message === "User not belongs to this house or the house doesn't exist" ||
 		house.message === "User not belongs to this house" ||

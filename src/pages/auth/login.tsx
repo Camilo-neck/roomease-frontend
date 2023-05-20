@@ -22,21 +22,22 @@ const Login = () => {
 	const dispatch = useDispatch();
 
 	const [loginErrorMessage, setLoginErrorMessage] = useState<string | null>(null);
-	const [ isLoading, setIsLoading ] = useState<boolean>(false);
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	const onSubmit = async (data: any) => {
 		setIsLoading(true);
 		const res = await dispatch(loginUser(data));
-		console.log('LOGIN >>>', res);
+		console.log("LOGIN >>>", res);
 		reset();
 		// if res is an error, show error
 		if (res instanceof Error) {
 			console.log(res);
-			if (res.message.toLowerCase().includes("password") || 
-				res.message.toLowerCase().includes("email") || 
+			if (
+				res.message.toLowerCase().includes("password") ||
+				res.message.toLowerCase().includes("email") ||
 				res.message.toLowerCase().includes("contraseña") ||
 				res.message.toLowerCase().includes("correo")
-				) {
+			) {
 				setLoginErrorMessage(res.message);
 			} else {
 				setLoginErrorMessage("Ha ocurrido un error inesperado");

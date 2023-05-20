@@ -89,7 +89,7 @@ const Sidebar = ({
 								endIcon={<ExitToAppIcon />}
 								color="error"
 								size="small"
-								style={{ textTransform: 'none' }}
+								style={{ textTransform: "none" }}
 								className="bg-error-90/70 hover:bg-error-90/90 active:bg-error-80/80 border border-error-50 rounded-2xl w-[50%] py-1"
 								onClick={async () => {
 									const token = getCookie("auth-token");
