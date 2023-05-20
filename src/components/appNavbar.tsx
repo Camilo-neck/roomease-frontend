@@ -32,6 +32,7 @@ const AppNavbar = ({ sidebarWidth }: { sidebarWidth?: number }) => {
 			const token = getCookie("auth-token");
 			const refreshTokenCookie = getCookie("refresh-token");
 			const res = await getNotifications(token, refreshTokenCookie);
+			console.log(res)
 			setNotifications(res);
 		}
 		fetchNotifications();
@@ -148,8 +149,9 @@ const AppNavbar = ({ sidebarWidth }: { sidebarWidth?: number }) => {
 							<p className="text-neutral-50 text-center m-3">No hay notificaciones {onlyNotSeen ? "sin leer" : ""}</p>
 						) : (
 							currentNotifications.map((notification) => (
+								<div key={notification._id} className="flex items-center">
 								<MenuItem
-									key={notification._id}
+									
 									onClick={async () => {
 										const token = getCookie("auth-token");
 										const refreshTokenCookie = getCookie("refresh-token");
@@ -164,30 +166,32 @@ const AppNavbar = ({ sidebarWidth }: { sidebarWidth?: number }) => {
 										);
 									}}
 									className={`${notification.read ? "bg-white" : "bg-neutral-95"} text-primary-20 
-									hover:text-primary-30 focus:text-primary-30 
+									hover:text-primary-30 focus:text-primary-30 flex-grow 
 								`}
 								>
 									<div className="flex flex-row w-full min-w-max">
-										<div className="flex-grow w-[23rem] break-words">
+										{/* // w-[23rem] */}
+										<div className="flex-grow break-words">
 											<p className="font-semibold">{notification.title}</p>
 											<p>{notification.description}</p>
 											<p className={`text-neutral-40 text-xs ${!notification.read ? "" : "hidden"}`}>
 												Da clic para marcar como visto
 											</p>
 										</div>
-										<IconButton
-											onClick={async () => {
-												const token = getCookie("auth-token");
-												const refreshTokenCookie = getCookie("refresh-token");
-												await deleteNotification(token, refreshTokenCookie, notification._id);
-												setNotifications(notifications.filter((n) => n._id !== notification._id));
-											}}
-											className="h-fit"
-										>
-											<CloseIcon />
-										</IconButton>
 									</div>
 								</MenuItem>
+								<IconButton
+									onClick={async () => {
+										const token = getCookie("auth-token");
+										const refreshTokenCookie = getCookie("refresh-token");
+										await deleteNotification(token, refreshTokenCookie, notification._id);
+										setNotifications(notifications.filter((n) => n._id !== notification._id));
+									}}
+									className="h-fit"
+								>
+									<CloseIcon />
+								</IconButton>
+								</div>
 							))
 						)}
 					</Popover>
