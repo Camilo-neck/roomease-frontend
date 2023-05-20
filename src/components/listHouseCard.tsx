@@ -24,7 +24,7 @@ const ListHouseCard = ({
 				alt="house placeholder"
 				width={300}
 				height={250}
-				className="rounded-t-lg"
+				className="rounded-l-lg"
 				priority
 			/>
 			<div className="flex flex-col gap-1 p-5 min-w-[300px] md:w-[700px]">
@@ -35,6 +35,7 @@ const ListHouseCard = ({
 						<p className="font-semibold">Integrantes:</p>
 						<AvatarGroup
 							max={3}
+							spacing={2}
 							sx={{
 								"& .MuiAvatar-root": {
 									width: 35,

@@ -22,7 +22,7 @@ const GridHouseCard = ({
 			<Image
 				src={img ? img : "/house_placeholder.jpg"}
 				alt="house placeholder"
-				width={280}
+				width={300}
 				height={250}
 				className="rounded-t-lg max-h-36 object-cover min-h-[144px]"
 				priority
@@ -34,6 +34,7 @@ const GridHouseCard = ({
 				<div className="flex flex-row w-full items-center">
 					<AvatarGroup
 						max={3}
+						spacing={2}
 						sx={{
 							"& .MuiAvatar-root": {
 								width: 24,
@@ -55,8 +56,8 @@ const GridHouseCard = ({
 						<Button
 							size="small"
 							variant="outlined"
-							className="bg-tertiary-80/30 hover:bg-tertiary-80/50 active:bg-tertiary-80/70 border-tertiary-20 
-                            hover:border-tertiary-20 text-tertiary-20 rounded-full"
+							className="bg-tertiary-80/30 hover:bg-tertiary-80/50 active:bg-tertiary-80/70 border-tertiary-20
+							hover:border-tertiary-20 text-tertiary-20 rounded-full h-fit self-end"
 						>
 							Abrir
 						</Button>

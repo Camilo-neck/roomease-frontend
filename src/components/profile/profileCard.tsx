@@ -27,8 +27,8 @@ const ProfileCard = ({
 	openEditProfileModal,
 }: ProfileCardProps) => {
 	return (
-		<Card className="w-full min-h-[650px] h-full rounded-lg shadow-lg">
-			<Stack alignItems={"center"} style={{ position: "relative" }}>
+		<Card className="flex flex-col w-full min-h-[650px] h-full rounded-lg shadow-lg">
+			<Stack alignItems={"center"} style={{ position: "relative" }} className="h-full">
 				<div className="bg-gradient-to-t from-primary-50 to-secondary-60 w-full min-h-[150px]"></div>
 				<Avatar
 					alt={name}
@@ -64,7 +64,7 @@ const ProfileCard = ({
 					<Grid container spacing={2} className="justify-center">
 						{tags.map((tag, id) => (
 							<Grid item key={id}>
-								<Paper className="text-sm p-1" style={{ backgroundColor: stringToColor(tag, true) }}>
+								<Paper className="text-sm p-1 capitalize" style={{ backgroundColor: stringToColor(tag, true) }}>
 									{tag}
 								</Paper>
 							</Grid>
@@ -72,15 +72,15 @@ const ProfileCard = ({
 					</Grid>
 				</div>
 			</Stack>
-			<CardActions className="flex flex-col items-center p-3 w-full">
-				<Button
-					onClick={openEditProfileModal}
-					variant="outlined"
-					className="bg-secondary-90/70 hover:bg-secondary-90/90 active:bg-secondary-80/80 rounded-2xl"
-					size="small"
-				>
-					Editar mi información
-				</Button>
+			<CardActions className="flex flex-1 justify-center items-end p-3 py-5 w-full">
+					<Button
+						onClick={openEditProfileModal}
+						className="bg-secondary-90/70 hover:bg-secondary-90/90 active:bg-secondary-80/80 rounded-2xl capitalize px-3"
+						size="small"
+						style={{ textTransform: 'none' }}
+					>
+						Editar mi información
+					</Button>
 			</CardActions>
 		</Card>
 	);

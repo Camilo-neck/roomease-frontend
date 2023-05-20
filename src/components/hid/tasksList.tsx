@@ -60,7 +60,7 @@ const Task = ({
 		<div className="flex text-xs ml-1 pt-1">
 			<AvatarGroup
 				max={3}
-				spacing={3}
+				spacing={-1}
 				sx={{
 					"& .MuiAvatar-root": {
 						width: 16,
