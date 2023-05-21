@@ -28,7 +28,6 @@ let initialState = {
 	name: "",
 	phone: "",
 	description: "",
-	password: "",
 	birth_date: dayjs(),
 	tags: "",
 	profile_picture: "",
@@ -270,10 +269,10 @@ export default function EditProfileModal({
 				</form>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleClose} color="error">
+				<Button onClick={handleClose} color="error" disabled={imageLoading} style={imageLoading ? { opacity: 0.5 } : {}}>
 					Cancelar
 				</Button>
-				<Button onClick={() => formRef.current?.requestSubmit()}>Actualizar</Button>
+				<Button onClick={() => formRef.current?.requestSubmit()} disabled={imageLoading} style={imageLoading ? { opacity: 0.5 } : {}}>Actualizar</Button>
 			</DialogActions>
 		</Dialog>
 	);
