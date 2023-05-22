@@ -4,7 +4,7 @@ import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsT
 
 // React
 import { useState } from "react";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 
 // Material UI
 import { Stack } from "@mui/material";
@@ -20,15 +20,12 @@ import { edgeRefreshToken } from "@/helpers/auth.helpers";
 import { getCookie } from "@/utils/cookie";
 import EditProfileModal from "@/components/profile/editProfileModal";
 import dayjs from "dayjs";
-import { format } from "path";
 
 const Profile = ({ userData }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const [userInfo, setUserInfo] = useState<UserI>(userData ? userData : ({} as UserI));
 	const [editProfileModalOpen, setEditProfileModalOpen] = useState<boolean>(false);
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
 	const [notification, setNotification] = useState("");
-
-	const notify = () => toast('Here is your toast.');
 
 	// Edit Profile Modal
 	const openEditProfileModal = () => {
@@ -46,16 +43,16 @@ const Profile = ({ userData }: InferGetServerSidePropsType<typeof getServerSideP
 		if (!res.ok) {
 			if (res.status === 400) {
 				setErrorMessage(res.message);
-				toast.error('Verifica la información e intenta de nuevo.');
+				toast.error("Verifica la información e intenta de nuevo.");
 				return;
 			}
 			setErrorMessage("Ha ocurrido un error inesperado.");
-			toast.error('Error al actualizar la información');
+			toast.error("Error al actualizar la información");
 			return;
 		}
 		setErrorMessage(null);
 		setUserInfo(await fetchUserData(userInfo?._id, token as string, refreshToken));
-      	toast.success('¡Información actualizada!');
+		toast.success("¡Información actualizada!");
 	};
 
 	return (

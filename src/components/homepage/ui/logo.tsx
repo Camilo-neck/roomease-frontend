@@ -9,7 +9,7 @@ export default function Logo() {
 					<HouseIcon fontSize="large" />
 				</div>
 				<div className="flex items-center justify-center">
-					<p className="font-bold text-xl text-primary-20 flex-grow">Roomease</p>
+					<p className="font-bold text-xl text-primary-20 flex-grow">RoomEase</p>
 				</div>
 			</div>
 		</Link>

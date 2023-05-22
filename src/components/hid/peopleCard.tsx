@@ -16,7 +16,7 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import PersonIcon from "@mui/icons-material/Person";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import StarIcon from '@mui/icons-material/Star';
+import StarIcon from "@mui/icons-material/Star";
 import Avatar from "@mui/material/Avatar";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearSharpIcon from "@mui/icons-material/ClearSharp";
@@ -145,7 +145,10 @@ const NestedList = ({
 								className="flex justify-start text-xs text-left rounded-xl w-full"
 								label={user.name}
 								avatar={
-									<Badge className="text-yellow-400" badgeContent={user._id === OwnerId ? <StarIcon fontSize="small" color="warning" />: 0}>
+									<Badge
+										className="text-yellow-400"
+										badgeContent={user._id === OwnerId ? <StarIcon fontSize="small" color="warning" /> : 0}
+									>
 										<Avatar
 											style={{ color: "white", fontSize: "11px" }}
 											src={user.profile_picture}
@@ -217,7 +220,10 @@ const NestedList = ({
 													className="flex justify-start text-xs text-left rounded-xl w-[75%] overflow-hidden whitespace-nowrap"
 													label={user.name}
 													avatar={
-														<Badge className="text-yellow-400" badgeContent={user._id === OwnerId ? <StarIcon fontSize="small" color="warning" />: 0}>
+														<Badge
+															className="text-yellow-400"
+															badgeContent={user._id === OwnerId ? <StarIcon fontSize="small" color="warning" /> : 0}
+														>
 															<Avatar
 																style={{ color: "white", fontSize: "11px" }}
 																alt={user.name}

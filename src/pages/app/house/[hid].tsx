@@ -29,6 +29,7 @@ import dayjs from "dayjs";
 import EditHouseModal from "@/components/house/editHouseModal";
 import { editHouse } from "@/helpers/houses.helpers";
 import ProgressBars from "@/components/hid/progress";
+import toast, { Toaster } from "react-hot-toast";
 
 const sidebarWidth = 290;
 
@@ -90,20 +91,7 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 		task.until_date = task.repeat ? new Date(task.until_date || "") : undefined;
 		return task;
 	};
-	// Initial state format:
-	/**
-	 * const initialState = {
-	name: "",
-	description: "",
-	house_id: "",
-	users_id: [],
-	start_date: "",
-	end_date: "",
-	repeat: false,
-	days: [],
-	until_date: "",
-};
-	 */
+
 	const formatTaskToForm = (task: TaskI) => {
 		return {
 			_id: task._id,
@@ -128,19 +116,40 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 		const token = getCookie("auth-token");
 		const refreshToken = getCookie("refresh-token");
 		const task = formatFormTask(data);
-		await createTask(task, token as string, refreshToken);
+		const res = await createTask(task, token as string, refreshToken);
+		console.log(res);
+		if (!res.ok) {
+			if (res.status === 400) {
+				toast.error(res.message);
+				return;
+			}
+			toast.error("Ha ocurrido un error al crear la tarea.");
+			return;
+		}
 		setCurrentUserTasks(await getTasksByUser(house._id, user._id, token as string, refreshToken));
 		setCurrentTasks(await getTasksByHouse(house._id, token as string, refreshToken));
+		toast.success("Tarea creada.");
 	};
 	const onUpdateTask = async (data: TaskI) => {
 		const token = getCookie("auth-token");
 		const refreshToken = getCookie("refresh-token");
 		const task = formatFormTask(data);
 		console.log(task);
-		await updateTask(task._id, task, token as string, refreshToken);
+		const res = await updateTask(task._id, task, token as string, refreshToken);
+
+		if (!res.ok) {
+			if (res.status === 400) {
+				toast.error(res.message);
+				return;
+			}
+			toast.error("Ha ocurrido un error al editar la tarea.");
+			return;
+		}
+		
 		setCurrentUserTasks(await getTasksByUser(house._id, user._id, token as string, refreshToken));
 		setCurrentTasks(await getTasksByHouse(house._id, token as string, refreshToken));
 		setToEditTask(undefined);
+		toast.success("Tarea actualizada.");
 	};
 
 	// Edit House Modal
@@ -158,14 +167,14 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 		const res = await editHouse(token as string, data, house._id);
 		if (!res.ok) {
 			if (res.status === 400) {
-				setErrorMessage(res.message);
+				toast.error(res.message);
 				return;
 			}
-			setErrorMessage("Ha ocurrido un error inesperado.");
+			toast.error("Ha ocurrido un error al editar la casa.");
 			return;
 		}
-		setErrorMessage(null);
 		setCurrentHouse(await getHouse(house._id, token as string, refreshToken));
+		toast.success("Casa editada exitosamente.");
 	};
 
 	return (
@@ -176,6 +185,7 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
+			<Toaster />
 			<CreateTaskModal
 				isOpen={isCreateTaskModalOpen}
 				onClose={() => setIsCreateTaskModalOpen(false)}

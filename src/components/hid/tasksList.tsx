@@ -74,11 +74,13 @@ const Task = ({
 					<Avatar key={user._id} alt={user.name} src={user.profile_picture} {...stringAvatar(user.name)} />
 				))}
 			</AvatarGroup>
+			
 			<p className="pl-1 flex items-center">{getHours(new Date(task.start_date), new Date(task.end_date))}</p>
 			{task.repeat && task.days && (
 				<>
 					<EventRepeatIcon htmlColor="#C5533F" fontSize="inherit" className="ml-2" />
 					<p className="ml-1">{recurrenceToDays(task.days!)}</p>
+					
 				</>
 			)}
 		</div>

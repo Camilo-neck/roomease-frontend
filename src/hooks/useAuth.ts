@@ -10,12 +10,12 @@ export const useAuth = () => {
 	useEffect(() => {
 		async function f() {
 			const cookie = getCookie("auth-token");
-			console.log(cookie)
+			console.log(cookie);
 			if (cookie) {
 				const decoded: any = jwt.decode(cookie);
 				if (decoded) {
 					const { _id } = decoded;
-					console.log(_id)
+					console.log(_id);
 					addUser(_id, cookie);
 				}
 			}
