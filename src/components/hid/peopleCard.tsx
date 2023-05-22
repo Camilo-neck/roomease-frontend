@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 
 // Material UI
-import { Button, Chip, IconButton, ListItem, Popover } from "@mui/material";
+import { Badge, Button, Chip, IconButton, ListItem, Popover } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
@@ -144,11 +144,13 @@ const NestedList = ({
 								className="flex justify-start text-xs text-left rounded-xl w-full"
 								label={user.name}
 								avatar={
-									<Avatar
-										style={{ color: "white", fontSize: "11px" }}
-										src={user.profile_picture}
-										{...stringAvatar(user.name)}
-									/>
+									<Badge className="text-yellow-400" badgeContent={isOwner ? '': 0}>
+										<Avatar
+											style={{ color: "white", fontSize: "11px" }}
+											src={user.profile_picture}
+											{...stringAvatar(user.name)}
+										/>
+									</Badge>
 								}
 								onClick={async (e) => {
 									setCurrentUser(user);
@@ -214,12 +216,14 @@ const NestedList = ({
 													className="flex justify-start text-xs text-left rounded-xl w-[75%] overflow-hidden whitespace-nowrap"
 													label={user.name}
 													avatar={
-														<Avatar
-															style={{ color: "white", fontSize: "11px" }}
-															alt={user.name}
-															src={user.profile_picture}
-															{...stringAvatar(user.name)}
-														/>
+														<Badge className="text-yellow-400" badgeContent={isOwner ? '': 0}>
+															<Avatar
+																style={{ color: "white", fontSize: "11px" }}
+																alt={user.name}
+																src={user.profile_picture}
+																{...stringAvatar(user.name)}
+															/>
+														</Badge>
 													}
 													onClick={async (e) => {
 														setCurrentUser(user);
