@@ -72,8 +72,11 @@ export default function EditProfileModal({
 	};
 
 	const handleOnSubmit = async (data: any) => {
-		const tmpData = Object.assign({}, data);
+		const tmpData = Object.assign("", data);
 		tmpData.tags = tmpData.tags.split(",").map((tag: string) => tag.trim());
+		if (!image) {
+			tmpData.profile_picture = userInfo.profile_picture;
+		}
 		initialState = data;
 		onSubmit(tmpData);
 		handleClose();
