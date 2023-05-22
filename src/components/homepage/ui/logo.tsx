@@ -3,7 +3,7 @@ import HouseIcon from "@mui/icons-material/House";
 
 export default function Logo() {
 	return (
-		<Link href="/" className="block" aria-label="Cruip">
+		<Link href="/app/houses" className="block" aria-label="Cruip">
 			<div className="flex">
 				<div className="pr-1">
 					<HouseIcon fontSize="large" />
