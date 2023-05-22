@@ -17,7 +17,7 @@ import { pusherClient } from "@/utils/pusher";
 import { selectUser } from "@/redux/slices/user.slice";
 
 const AppNavbar = ({ sidebarWidth }: { sidebarWidth?: number }) => {
-	const user = useSelector(selectUser)
+	const user = useSelector(selectUser);
 	const dispatch = useDispatch();
 	const router = useRouter();
 	const [userPopoverAnchorEl, setUserPopoverAnchorEl] = useState<null | HTMLElement>(null);
@@ -43,7 +43,7 @@ const AppNavbar = ({ sidebarWidth }: { sidebarWidth?: number }) => {
 
 	useEffect(() => {
 		const channel = pusherClient.subscribe(`notifications-${user?._id}`);
-		console.log(channel)
+		console.log(channel);
 		channel.bind("inserted", (newNotification: NotificationI) => {
 			console.log(newNotification);
 			setNotifications((notifications) => [...notifications, newNotification]);
@@ -93,7 +93,11 @@ const AppNavbar = ({ sidebarWidth }: { sidebarWidth?: number }) => {
 				<div className="flex-grow mr-4"></div>
 				<div className="flex flex-row gap-3 mr-5">
 					<IconButton onClick={handleNotificationsPopoverOpen}>
-						<Badge color="error" badgeContent={currentNotifications.filter((n: NotificationI) => !n.read ).length} max={99}>
+						<Badge
+							color="error"
+							badgeContent={currentNotifications.filter((n: NotificationI) => !n.read).length}
+							max={99}
+						>
 							<NotificationsOulinedIcon className="text-primary-20" />
 						</Badge>
 					</IconButton>
