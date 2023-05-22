@@ -145,7 +145,7 @@ const NestedList = ({
 								className="flex justify-start text-xs text-left rounded-xl w-full"
 								label={user.name}
 								avatar={
-									<Badge className="text-yellow-400" badgeContent={user._id === OwnerId ? <KeyIcon />: 0}>
+									<Badge className="text-yellow-400" badgeContent={user._id === OwnerId ? <KeyIcon fontSize="small" color="warning" />: 0}>
 										<Avatar
 											style={{ color: "white", fontSize: "11px" }}
 											src={user.profile_picture}
@@ -217,7 +217,7 @@ const NestedList = ({
 													className="flex justify-start text-xs text-left rounded-xl w-[75%] overflow-hidden whitespace-nowrap"
 													label={user.name}
 													avatar={
-														<Badge className="text-yellow-400" badgeContent={user._id === OwnerId ? <KeyIcon />: 0}>
+														<Badge className="text-yellow-400" badgeContent={user._id === OwnerId ? <KeyIcon fontSize="small" color="warning" />: 0}>
 															<Avatar
 																style={{ color: "white", fontSize: "11px" }}
 																alt={user.name}
