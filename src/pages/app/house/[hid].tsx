@@ -262,6 +262,7 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 											await deleteTask(tid, token, refreshToken);
 											setCurrentUserTasks(await getTasksByUser(house._id, user._id, token, refreshToken));
 											setCurrentTasks(await getTasksByHouse(house._id, token, refreshToken));
+											toast.success("Tarea eliminada.");
 										}}
 									/>
 									<div className="overflow-y-auto w-full max-h-[70vh] min-h-[500px]">

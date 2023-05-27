@@ -73,15 +73,16 @@ export const createTask = async (task: TaskI, token: string, rft: string | undef
 			const refreshTokenCookie = rft ? rft : getCookie("refresh-token");
 			if (refreshTokenCookie) {
 				const newToken = await edgeRefreshToken(refreshTokenCookie).then((data) => data?.newToken);
-				const newTask: TaskI = await createTask(task, newToken as string, rft);
+				const newTask: any = await createTask(task, newToken as string, rft);
 				return newTask ? newTask : null;
 			}
 			console.log("Unauthorized");
 			return null;
 		}
 
-		const data = await res.json();
-		return data;
+		/* const data = await res.json();
+		return data; */
+		return res;
 	} catch (error) {
 		console.error(error);
 	}
@@ -101,15 +102,16 @@ export const checkTask = async (tid: string, token: string, rft: string | undefi
 			const refreshTokenCookie = rft ? rft : getCookie("refresh-token");
 			if (refreshTokenCookie) {
 				const newToken = await edgeRefreshToken(refreshTokenCookie).then((data) => data?.newToken);
-				const task: TaskI = await checkTask(tid, newToken as string, rft);
+				const task: any = await checkTask(tid, newToken as string, rft);
 				return task ? task : null;
 			}
 			console.log("Unauthorized");
 			return null;
 		}
 
-		const data = await res.json();
-		return data;
+		/* const data = await res.json();
+		return data; */
+		return res;
 	} catch (error) {
 		console.error(error);
 	}
@@ -130,15 +132,16 @@ export const updateTask = async (tid: string, task: TaskI, token: string, rft: s
 			const refreshTokenCookie = rft ? rft : getCookie("refresh-token");
 			if (refreshTokenCookie) {
 				const newToken = await edgeRefreshToken(refreshTokenCookie).then((data) => data?.newToken);
-				const newTask: TaskI = await updateTask(tid, task, newToken as string, rft);
+				const newTask: any = await updateTask(tid, task, newToken as string, rft);
 				return newTask ? newTask : null;
 			}
 			console.log("Unauthorized");
 			return null;
 		}
 
-		const data = await res.json();
-		return data;
+		/* const data = await res.json();
+		return data; */
+		return res;
 	} catch (error) {
 		console.error(error);
 	}
@@ -158,15 +161,16 @@ export const deleteTask = async (tid: string, token: string, rft: string | undef
 			const refreshTokenCookie = rft ? rft : getCookie("refresh-token");
 			if (refreshTokenCookie) {
 				const newToken = await edgeRefreshToken(refreshTokenCookie).then((data) => data?.newToken);
-				const task: TaskI = await deleteTask(tid, newToken as string, rft);
+				const task: any = await deleteTask(tid, newToken as string, rft);
 				return task ? task : null;
 			}
 			console.log("Unauthorized");
 			return null;
 		}
 
-		const data = await res.json();
-		return data;
+		/* const data = await res.json();
+		return data; */
+		return res;
 	} catch (error) {
 		console.error(error);
 	}
