@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import Head from "next/head";
 import { Button, TextField } from "@mui/material";
 import Link from "next/link";
@@ -22,22 +22,32 @@ const Login = () => {
 	const dispatch = useDispatch();
 
 	const [loginErrorMessage, setLoginErrorMessage] = useState<string | null>(null);
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	const onSubmit = async (data: any) => {
+		setIsLoading(true);
 		const res = await dispatch(loginUser(data));
+		console.log("LOGIN >>>", res);
 		reset();
 		// if res is an error, show error
 		if (res instanceof Error) {
 			console.log(res);
-			if (res.message.includes("password") || res.message.includes("email")) {
+			if (
+				res.message.toLowerCase().includes("password") ||
+				res.message.toLowerCase().includes("email") ||
+				res.message.toLowerCase().includes("contraseña") ||
+				res.message.toLowerCase().includes("correo")
+			) {
 				setLoginErrorMessage(res.message);
 			} else {
 				setLoginErrorMessage("Ha ocurrido un error inesperado");
 			}
+			setIsLoading(false);
 			return;
 		}
 		// if res is not an error, redirect to houses
 		setLoginErrorMessage(null);
+		setIsLoading(false);
 		router.push("/app/houses");
 	};
 
@@ -87,9 +97,9 @@ const Login = () => {
 							className="bg-tertiary-50 
 						py-2
 						hover:bg-tertiary-50/90 active:bg-tertiary-50 
-						text-tertiary-99 shadow-none hover:shadow-md rounded-lg"
+						text-tertiary-99 shadow-none hover:shadow-md rounded-xl"
 						>
-							Iniciar Sesión
+							Iniciar Sesión {isLoading && <span className="animate-spin ml-2">🌀</span>}
 						</Button>
 					</form>
 					{loginErrorMessage && <p className="text-sm text-error-60 text-center mt-1">{loginErrorMessage}</p>}

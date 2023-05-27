@@ -4,6 +4,7 @@ import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsT
 
 // React
 import { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 // Material UI
 import { Stack } from "@mui/material";
@@ -18,13 +19,13 @@ import ProfileCard from "@/components/profile/profileCard";
 import { edgeRefreshToken } from "@/helpers/auth.helpers";
 import { getCookie } from "@/utils/cookie";
 import EditProfileModal from "@/components/profile/editProfileModal";
-import { useSelector } from "react-redux";
-import { selectUser } from "@/redux/slices/user.slice";
+import dayjs from "dayjs";
 
 const Profile = ({ userData }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const [userInfo, setUserInfo] = useState<UserI>(userData ? userData : ({} as UserI));
 	const [editProfileModalOpen, setEditProfileModalOpen] = useState<boolean>(false);
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
+	const [notification, setNotification] = useState("");
 
 	// Edit Profile Modal
 	const openEditProfileModal = () => {
@@ -42,13 +43,16 @@ const Profile = ({ userData }: InferGetServerSidePropsType<typeof getServerSideP
 		if (!res.ok) {
 			if (res.status === 400) {
 				setErrorMessage(res.message);
+				toast.error("Verifica la información e intenta de nuevo.");
 				return;
 			}
 			setErrorMessage("Ha ocurrido un error inesperado.");
+			toast.error("Error al actualizar la información");
 			return;
 		}
 		setErrorMessage(null);
 		setUserInfo(await fetchUserData(userInfo?._id, token as string, refreshToken));
+		toast.success("¡Información actualizada!");
 	};
 
 	return (
@@ -65,13 +69,14 @@ const Profile = ({ userData }: InferGetServerSidePropsType<typeof getServerSideP
 				isOpen={editProfileModalOpen}
 				userInfo={{
 					name: userInfo.name,
-					email: userInfo.email,
 					phone: userInfo.phone,
 					description: userInfo.description,
+					birth_date: dayjs(userInfo.birth_date),
 					tags: userInfo.tags.join(","),
 					profile_picture: userInfo.profile_picture,
 				}}
 			/>
+			<Toaster />
 			<main>
 				<div className="bg-[#FAFDFD] min-h-screen h-full items-center">
 					<AppNavbar />
@@ -88,6 +93,7 @@ const Profile = ({ userData }: InferGetServerSidePropsType<typeof getServerSideP
 									birthDate={userInfo.birth_date}
 									phone={userInfo.phone}
 									tags={userInfo.tags}
+									profile_picture={userInfo.profile_picture}
 									openEditProfileModal={openEditProfileModal}
 								></ProfileCard>
 							</Stack>
@@ -117,7 +123,6 @@ export const getServerSideProps: GetServerSideProps<{
 			},
 		};
 	}
-	ctx.res.setHeader("Cache-Control", "public, s-maxage=30, stale-while-revalidate=59");
 	const decodedToken = jwt.decode(cookie) as { _id: string };
 	const uid = decodedToken?._id;
 	const userData = await fetchUserData(uid, cookie, refreshToken);

@@ -28,7 +28,7 @@ const Task = ({
 	onDelete: (tid: string) => void;
 }) => (
 	<div
-		className={`flex flex-col m-1 mr-2 ${
+		className={`flex flex-col m-1 w-[95%] p-2 ${
 			task.done ? "bg-primary-90/90" : "bg-neutral-95"
 		} p-2 rounded-xl shadow-sm transition-all duration-300`}
 	>
@@ -60,18 +60,22 @@ const Task = ({
 		<div className="flex text-xs ml-1 pt-1">
 			<AvatarGroup
 				max={3}
+				spacing={-1}
 				sx={{
 					"& .MuiAvatar-root": {
-						width: 14,
-						height: 14,
+						width: 16,
+						height: 16,
+						fontSize: "0.5rem",
+						border: "none",
 					},
 				}}
 			>
 				{task.users.map((user) => (
-					<Avatar key={user._id} {...stringAvatar(user.name)} />
+					<Avatar key={user._id} alt={user.name} src={user.profile_picture} {...stringAvatar(user.name)} />
 				))}
 			</AvatarGroup>
-			<p className="pl-1">{getHours(new Date(task.start_date), new Date(task.end_date))}</p>
+
+			<p className="pl-1 flex items-center">{getHours(new Date(task.start_date), new Date(task.end_date))}</p>
 			{task.repeat && task.days && (
 				<>
 					<EventRepeatIcon htmlColor="#C5533F" fontSize="inherit" className="ml-2" />
@@ -94,11 +98,11 @@ const TasksList = ({
 	onDelete: (tid: string) => void;
 }) => {
 	return (
-		<FormGroup className="flex flex-col gap-2 p-1 m-1 mt-2 rounded-lg min-h-full">
+		<div className="overflow-y-auto flex flex-col gap-2 rounded-lg h-[90%]">
 			{tasks.map((task) => (
 				<Task key={task._id} task={task} onChange={onChange} onEdit={onEdit} onDelete={onDelete} />
 			))}
-		</FormGroup>
+		</div>
 	);
 };
 

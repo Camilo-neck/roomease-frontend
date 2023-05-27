@@ -1,4 +1,9 @@
-export function stringToColor(string: string, rgba: boolean = false) {
+import { Color } from "@mui/material";
+
+export function stringToColor(string: string, rgba: boolean = false): string {
+	if (!string) {
+		return "#000";
+	}
 	let hash = 0;
 	let i;
 
@@ -25,6 +30,17 @@ export function stringToColor(string: string, rgba: boolean = false) {
 }
 
 export function stringAvatar(name: string, size: number = 24, fontSize: number = 10) {
+	if (!name) {
+		return {
+			sx: {
+				bgcolor: "#000",
+				width: size,
+				height: size,
+				fontSize: fontSize,
+			},
+			children: "NA",
+		};
+	}
 	return {
 		sx: {
 			bgcolor: stringToColor(name),

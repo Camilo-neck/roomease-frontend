@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Alert, Button, TextField, TextFieldProps } from "@mui/material";
+import { Alert, Button, TextField, TextFieldProps, Tooltip } from "@mui/material";
 import Link from "next/link";
 import { useRef } from "react";
 import { registerUser } from "@/helpers/auth.helpers";
@@ -22,6 +22,7 @@ const Register = () => {
 	const formRef = useRef<HTMLFormElement>(null);
 	const router = useRouter();
 	const [registerErrorMessage, setRegisterErrorMessage] = useState<string | null>(null);
+	const [showTooltip, setShowTooltip] = useState(false);
 
 	const onSubmit = async (data: any) => {
 		const tmp_data = Object.assign({}, data);
@@ -47,7 +48,12 @@ const Register = () => {
 				<>
 					<h2 className="text-primary-20 text-3xl font-extrabold">Bienvenido a RoomEase</h2>
 					<p className="text-sm mt-4 text-neutral-40">Crea tu cuenta fácilmente</p>
-					<form id="loginForm" ref={formRef} className="flex flex-col gap-8 md:gap-5" onSubmit={handleSubmit(onSubmit)}>
+					<form
+						id="registerForm"
+						ref={formRef}
+						className="flex flex-col gap-8 md:gap-5"
+						onSubmit={handleSubmit(onSubmit)}
+					>
 						<TextField
 							error={errors.name ? true : false}
 							helperText={errors.fullname ? `${errors.fullname?.message}` : ""}
@@ -78,23 +84,35 @@ const Register = () => {
 							variant="outlined"
 							{...register("email", { required: "Debe ingresar su correo" })}
 						/>
-						<TextField
-							error={errors.tags ? true : false}
-							helperText="Debe ingresar etiquetas separada por comas"
-							type="text"
-							className="bg-indigo-400/10 rounded-2xl"
+						<Tooltip
+							open={showTooltip}
+							title="¡Las etiquetas ayudan a que los demás miembros te conozcan mejor! Ingresa tus etiquetas separadas por comas, ej: 'amigable, ordenado, etc'"
+							arrow
+							placement="top"
 							sx={{
-								"& .MuiOutlinedInput-root": {
-									borderRadius: "16px",
-								},
+								background: "rgba(0,0,0)",
 							}}
-							label="Etiquetas"
-							variant="outlined"
-							{...register("tags", {
-								required: true,
-								pattern: /^([a-z0-9\s]+,)*([a-z0-9\s]+){1}$/i,
-							})}
-						/>
+						>
+							<TextField
+								error={errors.tags ? true : false}
+								type="text"
+								className="bg-indigo-400/10 rounded-2xl"
+								sx={{
+									"& .MuiOutlinedInput-root": {
+										borderRadius: "16px",
+									},
+								}}
+								label="Etiquetas"
+								variant="outlined"
+								{...register("tags", {
+									required: true,
+									pattern: /^([a-z0-9\s]+,)*([a-z0-9\s]+){1}$/i,
+								})}
+								onMouseEnter={() => setShowTooltip(true)}
+								onMouseLeave={() => setShowTooltip(false)}
+							></TextField>
+						</Tooltip>
+
 						<div>
 							<Controller
 								control={control}
@@ -104,6 +122,7 @@ const Register = () => {
 										{...field}
 										inputRef={ref}
 										label="Fecha de nacimiento"
+										format="DD/MM/YYYY"
 										slotProps={{
 											textField: {
 												variant: "outlined",
@@ -201,9 +220,9 @@ const Register = () => {
 							onClick={() => formRef.current?.requestSubmit()}
 							type="submit"
 							variant="contained"
-							className="w-96 bg-tertiary-50 
+							className="w-full bg-tertiary-50 
 								hover:bg-tertiary-50/90 active:bg-tertiary-50 
-								text-tertiary-99 shadow-none hover:shadow-md rounded-lg"
+								text-tertiary-99 shadow-none hover:shadow-md rounded-xl"
 						>
 							Crear Cuenta
 						</Button>

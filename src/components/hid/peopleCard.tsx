@@ -2,10 +2,9 @@
 import { useEffect, useState } from "react";
 
 // Material UI
-import { Button, Chip, IconButton, ListItem, Popover } from "@mui/material";
+import { Badge, Button, Chip, IconButton, ListItem, Popover } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import ListSubheader from "@mui/material/ListSubheader";
 import List from "@mui/material/List";
@@ -17,6 +16,7 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import PersonIcon from "@mui/icons-material/Person";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import StarIcon from "@mui/icons-material/Star";
 import Avatar from "@mui/material/Avatar";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearSharpIcon from "@mui/icons-material/ClearSharp";
@@ -34,15 +34,21 @@ const NestedList = ({
 	pending_users,
 	house_id,
 	tasks,
+	isOwner,
+	OwnerId,
 	onAcceptUser,
 	onRejectUser,
+	onKickUser,
 }: {
 	users: UserI[];
 	house_id: string;
 	pending_users?: UserI[];
 	tasks: TaskI[];
+	isOwner: boolean;
+	OwnerId: string;
 	onAcceptUser: (user: UserI) => void;
 	onRejectUser: (user: UserI) => void;
+	onKickUser: (user: UserI) => void;
 }) => {
 	const [open1, setOpen1] = useState(true);
 	const [open2, setOpen2] = useState(true);
@@ -50,6 +56,7 @@ const NestedList = ({
 	const [popoverUserTasks, setPopoverUserTasks] = useState<TaskI[]>([]);
 	const [currentUser, setCurrentUser] = useState<UserI | null>(null);
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+	const [pending, setPending] = useState<boolean>(false);
 	const { getCookie } = useCookies();
 
 	const handleClick1 = () => {
@@ -112,7 +119,16 @@ const NestedList = ({
 				}}
 				className="w-96"
 			>
-				<MiniProfileCard user={popoverUser as UserI} userTasks={popoverUserTasks} />
+				<MiniProfileCard
+					user={popoverUser as UserI}
+					userTasks={popoverUserTasks}
+					isPendingUser={pending}
+					isOwner={isOwner}
+					OwnerId={OwnerId}
+					houseId={house_id}
+					onKickUser={onKickUser}
+					onClose={handlePopoverClose}
+				/>
 			</Popover>
 			<ListItemButton className="p-1" onClick={handleClick1}>
 				<ListItemIcon>
@@ -124,14 +140,25 @@ const NestedList = ({
 			<Collapse in={open1} timeout="auto" unmountOnExit>
 				<List component="div" disablePadding>
 					{users.map((user, id) => (
-						<ListItem className="p-1 pl-5" key={id}>
+						<ListItem className="p-1 pl-2 pr-2" key={id}>
 							<Chip
-								variant="outlined"
-								className="text-xs text-left rounded-xl"
+								className="flex justify-start text-xs text-left rounded-xl w-full"
 								label={user.name}
-								avatar={<Avatar {...stringAvatar(user.name)} />}
+								avatar={
+									<Badge
+										className="text-yellow-400"
+										badgeContent={user._id === OwnerId ? <StarIcon fontSize="small" color="warning" /> : 0}
+									>
+										<Avatar
+											style={{ color: "white", fontSize: "11px" }}
+											src={user.profile_picture}
+											{...stringAvatar(user.name)}
+										/>
+									</Badge>
+								}
 								onClick={async (e) => {
 									setCurrentUser(user);
+									setPending(false);
 									handlePopoverClick(e);
 								}}
 								clickable
@@ -151,53 +178,72 @@ const NestedList = ({
 					</ListItemButton>
 					<Collapse in={open2} timeout="auto" unmountOnExit>
 						<List component="div" disablePadding>
-							{pending_users.map((user, id) => (
-								<>
-									<div className="flex flex-col">
-										<ListItem
-											className="p-1 pl-5"
-											key={user._id}
-											secondaryAction={
-												<>
-													<IconButton
-														size="small"
-														aria-label="accept"
-														onClick={async () => {
-															await acceptPendingUser(getCookie("auth-token") as string, house_id, user._id);
-															onAcceptUser(user);
-														}}
-													>
-														<CheckIcon htmlColor="green" fontSize="small" />
-													</IconButton>
-													<IconButton
-														size="small"
-														edge="end"
-														aria-label="reject"
-														onClick={async () => {
-															await rejectPendingUser(house_id, user._id);
-															onRejectUser(user);
-														}}
-													>
-														<ClearSharpIcon htmlColor="red" fontSize="small" />
-													</IconButton>
-												</>
-											}
-										>
-											<Chip
-												variant="outlined"
-												className="text-xs text-left rounded-xl"
-												label={user.name}
-												avatar={<Avatar {...stringAvatar(user.name)} />}
-												onClick={async (e) => {
-													setCurrentUser(user);
-													handlePopoverClick(e);
-												}}
-												clickable
-											/>
-										</ListItem>
-									</div>
-								</>
-							))}
+							{pending_users.length === 0 ? (
+								<div className="pl-3 pr-3">
+									<Chip label="No hay solicitudes pendientes" className="text-xs text-left rounded-xl w-full" />
+								</div>
+							) : (
+								pending_users.map((user, id) => (
+									<>
+										<div className="flex flex-col">
+											<ListItem
+												className="p-1 pl-2 pr-4"
+												key={user._id}
+												secondaryAction={
+													<>
+														<IconButton
+															size="small"
+															edge="end"
+															aria-label="accept"
+															onClick={async () => {
+																await acceptPendingUser(getCookie("auth-token") as string, house_id, user._id);
+																onAcceptUser(user);
+															}}
+														>
+															<CheckIcon className="text-primary-50 text-[1rem]" />
+														</IconButton>
+														<IconButton
+															size="small"
+															edge="end"
+															aria-label="reject"
+															onClick={async () => {
+																await rejectPendingUser(house_id, user._id);
+																onRejectUser(user);
+															}}
+														>
+															<ClearSharpIcon className="text-tertiary-50 text-[1rem]" />
+														</IconButton>
+													</>
+												}
+											>
+												<Chip
+													className="flex justify-start text-xs text-left rounded-xl w-[75%] overflow-hidden whitespace-nowrap"
+													label={user.name}
+													avatar={
+														<Badge
+															className="text-yellow-400"
+															badgeContent={user._id === OwnerId ? <StarIcon fontSize="small" color="warning" /> : 0}
+														>
+															<Avatar
+																style={{ color: "white", fontSize: "11px" }}
+																alt={user.name}
+																src={user.profile_picture}
+																{...stringAvatar(user.name)}
+															/>
+														</Badge>
+													}
+													onClick={async (e) => {
+														setCurrentUser(user);
+														setPending(true);
+														handlePopoverClick(e);
+													}}
+													clickable
+												/>
+											</ListItem>
+										</div>
+									</>
+								))
+							)}
 						</List>
 					</Collapse>
 				</>
@@ -211,15 +257,21 @@ const PeopleCard = ({
 	pending_users,
 	house_id,
 	tasks,
+	isOwner,
+	Owner,
 	onAcceptUser,
 	onRejectUser,
+	onKickUser,
 }: {
 	users: UserI[];
 	pending_users?: UserI[];
 	house_id: string;
 	tasks: TaskI[];
+	isOwner: boolean;
+	Owner: string;
 	onAcceptUser: (user: UserI) => void;
 	onRejectUser: (user: UserI) => void;
+	onKickUser: (user: UserI) => void;
 }) => {
 	const [expanded, setExpanded] = useState(false);
 
@@ -231,8 +283,11 @@ const PeopleCard = ({
 					users={expanded ? users : users.slice(0, 4)}
 					pending_users={expanded ? pending_users : pending_users?.slice(0, 4)}
 					house_id={house_id}
+					isOwner={isOwner}
+					OwnerId={Owner}
 					onAcceptUser={onAcceptUser}
 					onRejectUser={onRejectUser}
+					onKickUser={onKickUser}
 				/>
 			</CardContent>
 			<CardActions className="flex flex-col items-center pb-3 w-full">

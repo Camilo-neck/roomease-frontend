@@ -55,6 +55,7 @@ export default function EditHouseModal({
 	const [imageLoading, setImageLoading] = useState<boolean>(false);
 	const formRef = useRef<HTMLFormElement | null>(null);
 	const [open, setOpen] = useState(false);
+	initialState = house;
 
 	const handleClickOpen = () => {
 		setOpen(true);
@@ -69,7 +70,7 @@ export default function EditHouseModal({
 	const handleOnSubmit = async (data: any) => {
 		const tmpData = Object.assign({}, data);
 		tmpData.tags = tmpData.tags.split(",").map((tag: string) => tag.trim());
-
+		initialState = data;
 		onSubmit(tmpData);
 		handleClose();
 	};

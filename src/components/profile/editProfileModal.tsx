@@ -7,28 +7,28 @@ import { getDownloadURL, ref, uploadBytes, uploadBytesResumable } from "firebase
 // Material UI
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-import TextField from "@mui/material/TextField";
+import TextField, { TextFieldProps } from "@mui/material/TextField";
 import CircularProgress from "@mui/material/CircularProgress";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
 // MUI Icons
 import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
 import CloseIcon from "@mui/icons-material/Close";
 
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { selectUser } from "@/redux/slices/user.slice";
-import { UserEditI } from "@/dtos/userEdit";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs from "dayjs";
 
 let initialState = {
 	name: "",
-	email: "",
 	phone: "",
 	description: "",
+	birth_date: dayjs(),
 	tags: "",
 	profile_picture: "",
 };
@@ -42,21 +42,24 @@ export default function EditProfileModal({
 	isOpen: boolean;
 	onClose: () => void;
 	onSubmit: (data: any) => void;
-	userInfo: UserEditI;
+	userInfo: typeof initialState;
 }) {
 	const user = useSelector(selectUser);
 	const {
 		register,
 		reset,
 		handleSubmit,
+		control,
 		watch,
 		formState: { errors },
 	} = useForm({ defaultValues: userInfo });
-	initialState = userInfo;
+
 	const [image, setImage] = useState<string | null>(null);
 	const [imageLoading, setImageLoading] = useState<boolean>(false);
 	const formRef = useRef<HTMLFormElement | null>(null);
 	const [open, setOpen] = useState(false);
+
+	initialState = userInfo;
 
 	const handleClickOpen = () => {
 		setOpen(true);
@@ -69,9 +72,12 @@ export default function EditProfileModal({
 	};
 
 	const handleOnSubmit = async (data: any) => {
-		const tmpData = Object.assign({}, data);
+		const tmpData = Object.assign("", data);
 		tmpData.tags = tmpData.tags.split(",").map((tag: string) => tag.trim());
-
+		if (!image) {
+			tmpData.profile_picture = userInfo.profile_picture;
+		}
+		initialState = data;
 		onSubmit(tmpData);
 		handleClose();
 	};
@@ -111,7 +117,7 @@ export default function EditProfileModal({
 						setImage(file.name);
 						reset((formValues) => ({
 							...formValues,
-							house_picture: downloadURL,
+							profile_picture: downloadURL,
 						}));
 						setImageLoading(false);
 					});
@@ -121,7 +127,7 @@ export default function EditProfileModal({
 
 	return (
 		<Dialog open={isOpen} onClose={handleClose} className="rounded-2xl">
-			<DialogTitle>Editar mi información</DialogTitle>
+			<DialogTitle className="flex justify-center">Editar mi información</DialogTitle>
 			<DialogContent>
 				<form ref={formRef} onSubmit={handleSubmit(handleOnSubmit)}>
 					<TextField
@@ -138,20 +144,6 @@ export default function EditProfileModal({
 						type="text"
 						fullWidth
 						{...register("name")}
-					/>
-					<TextField
-						className="rounded-xl"
-						sx={{
-							"& .MuiOutlinedInput-root": {
-								borderRadius: "1rem",
-							},
-						}}
-						margin="dense"
-						id="email"
-						label="Correo electrónico"
-						type="text"
-						fullWidth
-						{...register("email")}
 					/>
 					<TextField
 						className="rounded-xl"
@@ -183,6 +175,46 @@ export default function EditProfileModal({
 						rows={4}
 						{...register("description")}
 					/>
+					<div>
+						<Controller
+							control={control}
+							name="birth_date"
+							render={({ field: { ref, onBlur, name, ...field }, fieldState }) => (
+								<DatePicker
+									{...field}
+									inputRef={ref}
+									label="Fecha de nacimiento"
+									format="DD/MM/YYYY"
+									slotProps={{
+										textField: {
+											variant: "outlined",
+										},
+									}}
+									slots={{
+										textField: (inputProps: JSX.IntrinsicAttributes & TextFieldProps) => (
+											<TextField
+												{...inputProps}
+												onBlur={onBlur}
+												name={name}
+												className="bg-primary-100 rounded-2xl w-full"
+												sx={{
+													"& .MuiOutlinedInput-root": {
+														borderRadius: "1rem",
+													},
+												}}
+												margin="dense"
+												type="text"
+												fullWidth
+												rows={4}
+												error={!!fieldState.error}
+												helperText={fieldState.error?.message}
+											/>
+										),
+									}}
+								/>
+							)}
+						/>
+					</div>
 					<TextField
 						className="rounded-xl"
 						sx={{
@@ -240,10 +272,21 @@ export default function EditProfileModal({
 				</form>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleClose} color="error">
+				<Button
+					onClick={handleClose}
+					color="error"
+					disabled={imageLoading}
+					style={imageLoading ? { opacity: 0.5 } : {}}
+				>
 					Cancelar
 				</Button>
-				<Button onClick={() => formRef.current?.requestSubmit()}>Actualizar</Button>
+				<Button
+					onClick={() => formRef.current?.requestSubmit()}
+					disabled={imageLoading}
+					style={imageLoading ? { opacity: 0.5 } : {}}
+				>
+					Actualizar
+				</Button>
 			</DialogActions>
 		</Dialog>
 	);
