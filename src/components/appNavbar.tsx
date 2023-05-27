@@ -35,7 +35,6 @@ const AppNavbar = ({ sidebarWidth }: { sidebarWidth?: number }) => {
 			const token = getCookie("auth-token");
 			const refreshTokenCookie = getCookie("refresh-token");
 			const res = await getNotifications(token, refreshTokenCookie);
-			console.log(res);
 			setNotifications(res);
 		}
 		fetchNotifications();
@@ -46,7 +45,7 @@ const AppNavbar = ({ sidebarWidth }: { sidebarWidth?: number }) => {
 		const channel = pusherClient.subscribe(`notifications-${user?._id}`);
 		console.log(channel);
 
-		channel.bind("pusher:subscription_succeeded", function() {
+		channel.bind("pusher:subscription_succeeded", function () {
 			console.log("Pusher client successfully subscribed to channel");
 		});
 
