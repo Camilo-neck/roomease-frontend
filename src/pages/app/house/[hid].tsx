@@ -145,7 +145,7 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 			toast.error("Ha ocurrido un error al editar la tarea.");
 			return;
 		}
-		
+
 		setCurrentUserTasks(await getTasksByUser(house._id, user._id, token as string, refreshToken));
 		setCurrentTasks(await getTasksByHouse(house._id, token as string, refreshToken));
 		setToEditTask(undefined);
