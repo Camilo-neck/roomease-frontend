@@ -29,7 +29,6 @@ const Register = () => {
 		tmp_data.birth_date = new Date(data.birth_date);
 		tmp_data.tags = tmp_data.tags.split(",").map((tag: string) => tag.trim());
 		const res = await registerUser({ ...tmp_data, passConfirm: undefined });
-		console.log(res.body);
 		if (!res.ok) {
 			setRegisterErrorMessage("Ha ocurrido un error. Intente nuevamente");
 			return;

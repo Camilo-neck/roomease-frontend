@@ -27,11 +27,9 @@ const Login = () => {
 	const onSubmit = async (data: any) => {
 		setIsLoading(true);
 		const res = await dispatch(loginUser(data));
-		console.log("LOGIN >>>", res);
 		reset();
 		// if res is an error, show error
 		if (res instanceof Error) {
-			console.log(res);
 			if (
 				res.message.toLowerCase().includes("password") ||
 				res.message.toLowerCase().includes("email") ||

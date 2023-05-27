@@ -37,7 +37,6 @@ export const loginUser =
 				setCookie("auth-token", token, new Date(), null, unEncryptedToken.exp * 1000 - Date.now());
 			}
 			if (refreshToken) {
-				console.log("refreshToken", refreshToken);
 				const unEncryptedRefreshToken: any = jwt.decode(refreshToken);
 				setCookie("refresh-token", refreshToken, new Date(), null, unEncryptedRefreshToken.exp * 1000 - Date.now());
 			}
@@ -99,7 +98,6 @@ export const refreshToken = async (refreshToken: string | undefined): Promise<an
 };
 
 export async function edgeRefreshToken(refreshTokenCookie: string | undefined) {
-	console.log("refreshTokenCookie", refreshTokenCookie);
 	try {
 		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/refreshToken`, {
 			method: "POST",

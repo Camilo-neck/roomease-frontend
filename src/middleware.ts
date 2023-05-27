@@ -6,7 +6,6 @@ import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
 async function edgeRefreshToken(refreshTokenCookie: string | undefined) {
 	if (!refreshTokenCookie) return;
-	console.log("refreshTokenCookie", refreshTokenCookie);
 	try {
 		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/refreshToken`, {
 			method: "POST",
@@ -20,11 +19,8 @@ async function edgeRefreshToken(refreshTokenCookie: string | undefined) {
 		const token = response.headers.get("auth-token");
 		let unEncryptedToken: any;
 		if (token) {
-			console.log("token>>>", token);
 			unEncryptedToken = decodeJwt(token);
-			console.log("unEncryptedToken>>>", unEncryptedToken);
 		}
-		console.log("data", unEncryptedToken);
 		return { newToken: token, unEncryptedToken };
 	} catch (error) {
 		console.log(error);
@@ -39,7 +35,6 @@ export async function middleware(req: NextRequest) {
 		const refreshTokenCookie = req.cookies.get("refresh-token")?.value;
 		if (refreshTokenCookie) {
 			const { newToken, unEncryptedToken } = (await edgeRefreshToken(refreshTokenCookie)) as any;
-			console.log("newToken", unEncryptedToken);
 			if (newToken) {
 				token = newToken;
 				unEnCryptedToken = unEncryptedToken;

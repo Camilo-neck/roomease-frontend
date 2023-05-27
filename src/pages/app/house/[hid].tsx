@@ -117,7 +117,6 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 		const refreshToken = getCookie("refresh-token");
 		const task = formatFormTask(data);
 		const res = await createTask(task, token as string, refreshToken);
-		console.log(res);
 		if (!res.ok) {
 			if (res.status === 400) {
 				toast.error(res.message);
@@ -134,7 +133,6 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 		const token = getCookie("auth-token");
 		const refreshToken = getCookie("refresh-token");
 		const task = formatFormTask(data);
-		console.log(task);
 		const res = await updateTask(task._id, task, token as string, refreshToken);
 
 		if (!res.ok) {
@@ -295,7 +293,6 @@ export const getServerSideProps: GetServerSideProps<{
 	}
 	const decodedToken = jwt.decode(auth_token) as { _id: string };
 	const house = await getHouse(ctx.query.hid as string, auth_token, refreshToken);
-	console.log("House>>>>", house);
 	if (
 		house.message === "User not belongs to this house or the house doesn't exist" ||
 		house.message === "User not belongs to this house" ||

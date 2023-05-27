@@ -43,17 +43,7 @@ const AppNavbar = ({ sidebarWidth }: { sidebarWidth?: number }) => {
 	useEffect(() => {
 		if (!user?._id) return;
 		const channel = pusherClient.subscribe(`notifications-${user?._id}`);
-		console.log(channel);
-
-		channel.bind("pusher:subscription_succeeded", function () {
-			console.log("Pusher client successfully subscribed to channel");
-		});
-
-		channel.bind("pusher:subscription_error", (status: any) => {
-			console.log("Pusher subscription failed with status", status);
-		});
 		channel.bind("inserted", (newNotification: NotificationI) => {
-			console.log(newNotification);
 			setNotifications((notifications) => [...notifications, newNotification]);
 		});
 		return () => {
@@ -171,7 +161,6 @@ const AppNavbar = ({ sidebarWidth }: { sidebarWidth?: number }) => {
 										setCurrentNotifications(
 											notifications.filter((notification) => (onlyNotSeen ? notification.read === !onlyNotSeen : true)),
 										);
-										console.log(notifications);
 									}}
 								/>
 							</div>
