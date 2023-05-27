@@ -42,6 +42,7 @@ const AppNavbar = ({ sidebarWidth }: { sidebarWidth?: number }) => {
 	}, []);
 
 	useEffect(() => {
+		if (!user?._id) return;
 		const channel = pusherClient.subscribe(`notifications-${user?._id}`);
 		console.log(channel);
 		channel.bind("inserted", (newNotification: NotificationI) => {
