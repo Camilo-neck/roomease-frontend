@@ -8,6 +8,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 const HouseCard = ({
 	name,
@@ -35,8 +36,11 @@ const HouseCard = ({
 				<Typography className="text-center leading-5 font-semibold text-lg" gutterBottom component="div">
 					{name}
 				</Typography>
-				<Typography className="text-xs text-center line-clamp-1 text-primary-40 font-mono" gutterBottom component="div">
-					{code}
+				<Typography
+				onClick={async () =>  await navigator.clipboard.writeText(code)}
+				className="text-xs text-center line-clamp-1 text-primary-40 font-mono cursor-pointer hover:text-primary-50 active:text-primary-30" 
+				gutterBottom component="div">
+					<ContentCopyIcon fontSize="small" />{code}
 				</Typography>
 				<Typography className="text-sm text-center line-clamp-1" gutterBottom component="div" color="text.secondary">
 					{address}
