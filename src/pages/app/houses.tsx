@@ -25,6 +25,7 @@ import { HouseI } from "@/dtos";
 import jwt from "jsonwebtoken";
 import EmptyHouses from "@/components/emptyHouses";
 import { Toaster, toast } from "react-hot-toast";
+import { edgeRefreshToken } from "@/helpers/auth.helpers";
 
 const Houses = ({ startHouses }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const user = useSelector(selectUser);
@@ -148,7 +149,12 @@ export const getServerSideProps: GetServerSideProps<{
 	startHouses: HouseI[];
 	message?: string;
 }> = async (ctx: GetServerSidePropsContext) => {
-	const cookie = ctx.req.cookies["auth-token"];
+	let cookie = ctx.req.cookies["auth-token"];
+	const refreshToken = ctx.req.cookies["refresh-token"];
+	if (refreshToken && !cookie) {
+		const res = await edgeRefreshToken(refreshToken);
+		cookie = res ? (res.newToken as string) : "null";
+	}
 	if (!cookie) {
 		return {
 			redirect: {
@@ -159,7 +165,6 @@ export const getServerSideProps: GetServerSideProps<{
 	}
 	const decodedToken = jwt.decode(cookie) as { _id: string };
 	const uid = decodedToken?._id;
-	const refreshToken = ctx.req.cookies["refresh-token"];
 	const startHouses = await fetchHouses(uid, cookie, refreshToken);
 	if (startHouses.message) {
 		return {

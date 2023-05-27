@@ -119,6 +119,31 @@ export const editHouse = async (token: string, house: HouseI, house_id: string):
 	return response;
 };
 
+export const deleteHouse = async (token: string, house_id: string): Promise<any> => {
+	const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/houses/${house_id}`, {
+		method: "DELETE",
+		headers: {
+			Accept: "*/*",
+			"Content-Type": "application/json",
+			"auth-token": token,
+		},
+	});
+
+	if (response.status !== 200) {
+		if (response.status === 401) {
+			const refreshTokenCookie = getCookie("refresh-token");
+			if (refreshTokenCookie) {
+				const newToken = await refreshToken(refreshTokenCookie);
+				const res = await deleteHouse(newToken, house_id);
+				return res;
+			}
+			console.log("Unauthorized");
+		}
+	}
+
+	return response;
+};
+
 export const joinHouse = async (token: string, house_code: string): Promise<any> => {
 	const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/houses/join/${house_code.replace("#", "_")}`, {
 		method: "PUT",

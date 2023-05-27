@@ -16,6 +16,7 @@ const Sidebar = ({
 	tasks,
 	onMobileSidebarClose,
 	openEditHouseModal,
+	openDeleteHouseConfirmationDialog,
 	isOwner,
 }: {
 	house: HouseI;
@@ -25,6 +26,7 @@ const Sidebar = ({
 	tasks: TaskI[];
 	onMobileSidebarClose: (new_value: boolean) => void;
 	openEditHouseModal: () => void;
+	openDeleteHouseConfirmationDialog: () => void;
 	isOwner: boolean;
 }) => {
 	const [currentUsers, setCurrentUsers] = useState<UserI[]>(house.users);
@@ -72,6 +74,7 @@ const Sidebar = ({
 									picture={house.house_picture}
 									code={house.house_code}
 									openEditHouseModal={openEditHouseModal}
+									openDeleteHouseConfirmationDialog={openDeleteHouseConfirmationDialog}
 									isOwner={isOwner}
 								/>
 							</div>
@@ -142,6 +145,7 @@ const Sidebar = ({
 									picture={house.house_picture}
 									code={house.house_code}
 									openEditHouseModal={openEditHouseModal}
+									openDeleteHouseConfirmationDialog={openDeleteHouseConfirmationDialog}
 									isOwner={isOwner}
 								/>
 							</div>
@@ -158,6 +162,28 @@ const Sidebar = ({
 									onRejectUser={onRejectUser}
 									onKickUser={onKickUser}
 								/>
+							</div>
+							<div className="w-full flex flex-col items-center">
+								<Button
+									endIcon={<ExitToAppIcon />}
+									color="error"
+									size="small"
+									style={{ textTransform: "none" }}
+									className="bg-error-90/70 hover:bg-error-90/90 active:bg-error-80/80 border border-error-50 rounded-2xl w-[50%] py-1"
+									onClick={async () => {
+										const token = getCookie("auth-token");
+										await fetch(`${process.env.NEXT_PUBLIC_API_URL}/houses/leave/${house._id}`, {
+											method: "PUT",
+											headers: {
+												"Content-Type": "application/json",
+												"auth-token": token,
+											},
+										});
+										router.push("/app/houses");
+									}}
+								>
+									Salir de la casa
+								</Button>
 							</div>
 						</div>
 					</Drawer>

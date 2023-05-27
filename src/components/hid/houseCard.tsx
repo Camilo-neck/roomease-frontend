@@ -16,6 +16,7 @@ const HouseCard = ({
 	picture,
 	code,
 	openEditHouseModal,
+	openDeleteHouseConfirmationDialog,
 	isOwner,
 }: {
 	name: string;
@@ -24,6 +25,7 @@ const HouseCard = ({
 	picture: string;
 	code: string;
 	openEditHouseModal: () => void;
+	openDeleteHouseConfirmationDialog: () => void;
 	isOwner: boolean;
 }) => {
 	return (
@@ -42,14 +44,23 @@ const HouseCard = ({
 				<Typography className="line-clamp-3 leading-5 text-sm">{description}</Typography>
 			</CardContent>
 			{isOwner ? (
-				<CardActions className="flex flex-col items-center p-3 w-full">
+				<CardActions className="flex flex-col md:flex-row items-center p-3 w-full">
 					<Button
 						onClick={openEditHouseModal}
 						style={{ textTransform: "none" }}
-						className="bg-secondary-90/70 hover:bg-secondary-90/90 active:bg-secondary-80/80 rounded-2xl w-[50%]"
+						className="bg-secondary-90/70 hover:bg-secondary-90/90 active:bg-secondary-80/80 rounded-2xl w-full"
 						size="small"
 					>
 						Editar
+					</Button>
+					<Button
+						onClick={openDeleteHouseConfirmationDialog}
+						style={{ textTransform: "none" }}
+						className="bg-error-90/70 hover:bg-error-90/90 active:bg-error-80/80 rounded-2xl w-full mt-2 md:mt-0 md:ml-2"
+						size="small"
+						color="error"
+					>
+						Eliminar
 					</Button>
 				</CardActions>
 			) : (

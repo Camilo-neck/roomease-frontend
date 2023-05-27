@@ -12,7 +12,7 @@ import { Button, Box, useMediaQuery } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "@/redux/slices/user.slice";
 import { useEffect } from "react";
-import { getHouse } from "@/helpers/houses.helpers";
+import { deleteHouse, getHouse } from "@/helpers/houses.helpers";
 import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import AppNavbar from "@/components/appNavbar";
 import { HouseI, TaskI } from "@/dtos";
@@ -24,12 +24,14 @@ import CreateTaskModal from "@/components/hid/createTaskModal";
 import { useCookies } from "@/hooks/useCookie";
 import Sidebar from "@/components/hid/sidebar";
 import TasksBar from "@/components/hid/tasksBar";
+import DeleteHouseConfirmDialog from "@/components/hid/deleteHouseConfirmDialog";
 import { edgeRefreshToken, refreshToken } from "@/helpers/auth.helpers";
 import dayjs from "dayjs";
 import EditHouseModal from "@/components/house/editHouseModal";
 import { editHouse } from "@/helpers/houses.helpers";
 import ProgressBars from "@/components/hid/progress";
 import toast, { Toaster } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const sidebarWidth = 290;
 
@@ -37,7 +39,7 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 	const user = useSelector(selectUser);
 	const { getCookie } = useCookies();
 	const isMobile = useMediaQuery("(max-width: 768px)");
-	const dispatch = useDispatch();
+	const router = useRouter();
 	const [currentUserTasks, setCurrentUserTasks] = useState<TaskI[]>(userTasks);
 	const [currentTasks, setCurrentTasks] = useState<TaskI[]>(tasks);
 	const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
@@ -47,8 +49,7 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 	const [toEditTask, setToEditTask] = useState<any | undefined>(undefined);
 	const [currentHouse, setCurrentHouse] = useState<HouseI>(house);
 	const [editHouseModalOpen, setEditHouseModalOpen] = useState<boolean>(false);
-	const [successMessage, setSuccessMessage] = useState<string | null>(null);
-	const [errorMessage, setErrorMessage] = useState<string | null>(null);
+	const [ isDeleteHouseConfirmationDialogOpen, setIsDeleteHouseConfirmationDialogOpen ] = useState<boolean>(false);
 
 	useEffect(() => {
 		setContainer(window ? () => document.body : undefined);
@@ -159,6 +160,10 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 		setEditHouseModalOpen(false);
 	};
 
+	const openDeleteHouseConfirmationDialog = () => {
+		setIsDeleteHouseConfirmationDialogOpen(true);
+	};
+
 	const onEditHouseModalSubmit = async (data: HouseI) => {
 		const token = getCookie("auth-token");
 		const refreshToken = getCookie("refresh-token");
@@ -174,6 +179,20 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 		setCurrentHouse(await getHouse(house._id, token as string, refreshToken));
 		toast.success("Casa editada exitosamente.");
 	};
+
+	const onDeleteHouse = async () => {
+		const token = getCookie("auth-token");
+		const res = await deleteHouse(token as string, house._id);
+		if (!res.ok) {
+			if (res.status === 400) {
+				toast.error(res.message);
+				return;
+			}
+			toast.error("Ha ocurrido un error al eliminar la casa.");
+			return;
+		}
+		router.push("/app/houses");
+	}
 
 	return (
 		<>
@@ -214,6 +233,11 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 					house_picture: house.house_picture,
 				}}
 			/>
+			<DeleteHouseConfirmDialog
+				open={isDeleteHouseConfirmationDialogOpen}
+				handleClose={() => setIsDeleteHouseConfirmationDialogOpen(false)}
+				onConfirm={onDeleteHouse}
+			/>
 			<main className="bg-[#FAFDFD] h-full">
 				<div className="bg-primary-40/5 min-h-screen h-full flex flex-col items-center">
 					{/* Upper bar*/}
@@ -229,6 +253,7 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 							container={container}
 							onMobileSidebarClose={setMobileSidebarOpen}
 							openEditHouseModal={openEditHouseModal}
+							openDeleteHouseConfirmationDialog={openDeleteHouseConfirmationDialog}
 							isOwner={house.owner === user._id}
 						/>
 						{/* Content */}
@@ -290,6 +315,14 @@ export const getServerSideProps: GetServerSideProps<{
 	if (refreshToken && !auth_token) {
 		const res = await edgeRefreshToken(refreshToken);
 		auth_token = res ? (res.newToken as string) : "null";
+	}
+	if (!auth_token) {
+		return {
+			redirect: {
+				destination: "/auth/login",
+				permanent: false,
+			},
+		};
 	}
 	const decodedToken = jwt.decode(auth_token) as { _id: string };
 	const house = await getHouse(ctx.query.hid as string, auth_token, refreshToken);
