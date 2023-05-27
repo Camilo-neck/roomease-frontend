@@ -1,7 +1,6 @@
-import Pusher from "pusher-js";
+import PusherClient from "pusher-js";
 
-Pusher.logToConsole = true;
-export const pusherClient = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY!, {
+export const pusherClient = new PusherClient(process.env.NEXT_PUBLIC_PUSHER_APP_KEY!, {
 	cluster: "us2",
 	forceTLS: true,
 	channelAuthorization: {
