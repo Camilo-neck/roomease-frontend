@@ -57,7 +57,8 @@ const Houses = ({ startHouses }: InferGetServerSidePropsType<typeof getServerSid
 			toast.error("Error al crear la casa");
 			return;
 		}
-		setHouses((prev) => [...prev, data]);
+		const resData = await res.json();
+		setHouses((prev) => [...prev, {...data, _id: resData._id, house_code: resData.house_code}]);
 		toast.success("Casa creada satisfactoriamente!");
 	};
 

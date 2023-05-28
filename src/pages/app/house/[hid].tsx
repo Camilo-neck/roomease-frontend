@@ -49,7 +49,7 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 	const [toEditTask, setToEditTask] = useState<any | undefined>(undefined);
 	const [currentHouse, setCurrentHouse] = useState<HouseI>(house);
 	const [editHouseModalOpen, setEditHouseModalOpen] = useState<boolean>(false);
-	const [ isDeleteHouseConfirmationDialogOpen, setIsDeleteHouseConfirmationDialogOpen ] = useState<boolean>(false);
+	const [isDeleteHouseConfirmationDialogOpen, setIsDeleteHouseConfirmationDialogOpen] = useState<boolean>(false);
 
 	useEffect(() => {
 		setContainer(window ? () => document.body : undefined);
@@ -192,7 +192,7 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 			return;
 		}
 		router.push("/app/houses");
-	}
+	};
 
 	return (
 		<>
