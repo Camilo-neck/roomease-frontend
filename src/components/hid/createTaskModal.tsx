@@ -115,7 +115,6 @@ const CreateTaskModal = ({
 									{...field}
 									inputRef={ref}
 									label="Fecha de inicio"
-									minDateTime={dayjs()}
 									slotProps={{
 										textField: {
 											variant: "outlined",
