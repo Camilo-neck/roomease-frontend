@@ -30,7 +30,7 @@ export function stringToColor(string: string, rgba: boolean = false): string {
 }
 
 export function stringAvatar(name: string, size: number = 24, fontSize: number = 10) {
-	if (!name || name.length >= 1) {
+	if (!name || name.length < 1) {
 		return {
 			sx: {
 				bgcolor: "#000",
