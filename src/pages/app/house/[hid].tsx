@@ -269,7 +269,7 @@ const House = ({ house, userTasks, tasks, token }: InferGetServerSidePropsType<t
 								Toggle
 							</Button>
 							<div className="flex flex-col h-full pr-3">
-								<div className="flex flex-row min-h-[500px] max-h-[70vh] h-full">
+								<div className="flex flex-col md:flex-row min-h-[500px] max-h-[70vh] h-full">
 									<TasksBar
 										currentUserTasks={currentUserTasks}
 										onCreateTask={() => setIsCreateTaskModalOpen(true)}
