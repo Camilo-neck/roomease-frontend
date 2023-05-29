@@ -34,7 +34,7 @@ const ListHouseCard = ({
 					<div className="flex flex-col gap-1 flex-grow">
 						<p className="font-semibold">Integrantes:</p>
 						<AvatarGroup
-							max={3}
+							max={4}
 							spacing={2}
 							sx={{
 								"& .MuiAvatar-root": {
