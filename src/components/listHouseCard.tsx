@@ -29,7 +29,7 @@ const ListHouseCard = ({
 			/>
 			<div className="flex flex-col gap-1 p-5 min-w-[300px] md:w-[700px]">
 				<p className="font-semibold text-2xl">{name}</p>
-				<p className="max-h-24 line-clamp-3 hover:line-clamp-none flex-grow">{description}</p>
+				<p className="max-h-24 line-clamp-3 hover:line-clamp-none transition-all duration-300 flex-grow">{description}</p>
 				<div className="flex flex-row w-full self-end">
 					<div className="flex flex-col gap-1 flex-grow">
 						<p className="font-semibold">Integrantes:</p>

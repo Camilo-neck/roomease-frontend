@@ -57,7 +57,7 @@ const ProfileCard = ({
 				</Stack>
 				<Divider className="w-[80%] pt-5" />
 				<div className="w-[75%] pt-5 pb-5">
-					<Typography className="line-clamp-5 leading-5 text-sm text-center">{description}</Typography>
+					<Typography className="line-clamp-5 hover:line-clamp-none transition-all duration-300 leading-5 text-sm text-center">{description}</Typography>
 				</div>
 				<Divider className="w-[80%] pt-3" />
 				<div className="w-[80%] pt-5 pb-5">

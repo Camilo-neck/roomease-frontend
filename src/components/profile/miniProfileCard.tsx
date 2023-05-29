@@ -67,7 +67,7 @@ const MiniProfileCard = ({
 				</div>
 				<Divider className="w-[90%] pt-3" />
 				<div className="w-[90%] pt-2">
-					<Typography className="line-clamp-2 leading-5 text-sm text-center">{user?.description}</Typography>
+					<Typography className="line-clamp-2 hover:line-clamp-none transition-all duration-300 leading-5 text-sm text-center">{user?.description}</Typography>
 				</div>
 				<Divider className="w-[90%] pt-3" />
 				<div className="w-[90%] pt-2">
