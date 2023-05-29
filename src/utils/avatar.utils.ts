@@ -30,7 +30,7 @@ export function stringToColor(string: string, rgba: boolean = false): string {
 }
 
 export function stringAvatar(name: string, size: number = 24, fontSize: number = 10) {
-	if (!name) {
+	if (!name || name.length >= 1) {
 		return {
 			sx: {
 				bgcolor: "#000",
@@ -48,6 +48,6 @@ export function stringAvatar(name: string, size: number = 24, fontSize: number =
 			height: size,
 			fontSize: fontSize,
 		},
-		children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
+		children: name.split(" ").length > 1 ? `${name.split(" ")[0][0]}${name.split(" ")[1][0]}` : `${name.split(" ")[0][0]}`,
 	};
 }
