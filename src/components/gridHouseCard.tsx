@@ -33,7 +33,7 @@ const GridHouseCard = ({
 				</div>
 				<div className="flex flex-row w-full items-center">
 					<AvatarGroup
-						max={3}
+						max={4}
 						spacing={2}
 						sx={{
 							"& .MuiAvatar-root": {
