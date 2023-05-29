@@ -38,17 +38,17 @@ const HouseCard = ({
 				</Typography>
 				<Typography
 					onClick={async () => await navigator.clipboard.writeText(code)}
-					className="text-xs text-center line-clamp-1 text-primary-40 font-mono cursor-pointer hover:text-primary-50 active:text-primary-30"
+					className="text-xs text-center line-clamp-1 hover:line-clamp-none text-primary-40 font-mono cursor-pointer hover:text-primary-50 active:text-primary-30"
 					gutterBottom
 					component="div"
 				>
 					<ContentCopyIcon fontSize="small" />
 					{code}
 				</Typography>
-				<Typography className="text-sm text-center line-clamp-1" gutterBottom component="div" color="text.secondary">
+				<Typography className="text-sm text-center line-clamp-1 hove:line-clamp-none" gutterBottom component="div" color="text.secondary">
 					{address}
 				</Typography>
-				<Typography className="line-clamp-3 leading-5 text-sm">{description}</Typography>
+				<Typography className="line-clamp-3 hover:line-clamp-none leading-5 text-sm">{description}</Typography>
 			</CardContent>
 			{isOwner ? (
 				<CardActions className="flex flex-col md:flex-row items-center p-3 w-full">
